@@ -15,6 +15,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Mettre à jour les sous-modules
+        run: git submodule update --init --recursive
+
+      - name: Debug - Vérifier les fichiers et dossiers
+        run: ls -la packages/
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -36,19 +44,16 @@ jobs:
       - name: Build `Recursive`
         run: pnpm -r run build
 
-#      - name: Build packages
-#        run: |
-#          cd packages/!${{ matrix.package }}
-#          cd packages/${{ matrix.package }}
-#          pnpm run build
+      #      - name: Build packages
+      #        run: |
+      #          cd packages/!${{ matrix.package }}
+      #          cd packages/${{ matrix.package }}
+      #          pnpm run build
 
       - name: Configure npm
         run: |
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
-
-      - name: Debug - Vérifier les fichiers et dossiers
-        run: ls -la packages/
 
       - name: Publish to NPM
         run: |
