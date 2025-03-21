@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Install `ts-add-js-extension`
-        run: pnpm add ts-add-js-extension -g
+        run: pnpm add ts-add-js-extension
 
       - name: Build packages
         run: |
