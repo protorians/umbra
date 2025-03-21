@@ -30,6 +30,14 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
+      - name: Build dependencies first
+        run: |
+          pnpm run build --filter "!${{ matrix.package }}"   # Ignore le package en cours pour ne pas le reconstruire deux fois
+          pnpm run build --filter "${{ matrix.package }}"      # Construire le package en cours
+
+      - name: Run tests
+        run: pnpm test --filter "${{ matrix.package }}"
+
       - name: Build packages
         run: |
           cd packages/${{ matrix.package }}
