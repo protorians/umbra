@@ -1,0 +1,16 @@
+packages:
+  - "packages/*"
+
+dependenciesMeta:
+  "@types/node":
+    version: "18.7.13"
+  "@types/jest":
+    version: "29.5.14"
+  typescript:
+    version: "5.8.2"
+  ts-node:
+    version: "10.9.1"
+  jest:
+    version: "29.7.0"
+  ts-jest:
+    version: "29.2.5"
