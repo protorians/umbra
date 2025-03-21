@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [animetric, arcane, arcane-core, colorimetric, core, theme-katon, shortcuts, widgets, widget-ui]
+        package: [ animetric, arcane, arcane-core, colorimetric, core, theme-katon, shortcuts, widgets, widget-ui ]
 
     steps:
       - name: Checkout repository
@@ -21,8 +21,16 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install PNPM
-        run: npm i pnpm@latest -g
+      - name: Setup Node.js and pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18  # Ou 20 selon ton projet
+          cache: 'pnpm'      # Cache `pnpm` pour accélérer les builds
+
+      - name: Enable Corepack and install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
       - name: Install dependencies
         run: pnpm install
