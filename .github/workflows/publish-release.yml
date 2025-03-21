@@ -20,12 +20,11 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Mettre à jour les sous-modules
-        run: git submodule update --init --recursive
+        with:
+          submodules: recursive
 
       - name: Debug - Vérifier les fichiers et dossiers
-        run: ls -la packages/
+        run: ls -la packages/colorimetric
 
       - name: Install pnpm globally
         run: npm install -g pnpm
