@@ -16,22 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: '22'
-
-      - name: Setup Node.js and pnpm
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'pnpm'
+          node-version: '22'
 
-      - name: Enable Corepack and install pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm --version
+      - name: Install pnpm globally
+        run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm install
