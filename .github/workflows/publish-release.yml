@@ -35,11 +35,11 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
-      - name: Build packages
-        run: |
-            cd packages/!${{ matrix.package }}
-            cd packages/${{ matrix.package }}
-            pnpm run build
+      - name: Vérifier le clonage du repo
+        run: git status && git submodule update --init --recursive
+
+      - name: Build `Recursive`
+        run: pnpm -r run build
 
       - name: Configure npm
         run: |
