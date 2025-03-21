@@ -3,7 +3,7 @@ name: Publish Release to npm
 on:
   push:
     branches:
-      - beta
+      - lts
 
 jobs:
   build:
@@ -47,7 +47,7 @@ jobs:
       - name: Publish to NPM
         run: |
           cd packages/${{ matrix.package }}
-          npm publish --access=public --tag beta
+          npm publish --access=public --tag lts
 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

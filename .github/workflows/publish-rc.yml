@@ -1,4 +1,4 @@
-name: Publish Release-Candidate to npm
+name: Publish Release to npm
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widget-ui ]
+        package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widgets-ui ]
 
     steps:
       - name: Checkout repository
@@ -30,10 +30,14 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
-      - name: Build packages
-        run: |
-          cd ./packages/${{ matrix.package }}
-          pnpm run build
+      - name: Build `Recursive`
+        run: pnpm -r run build
+
+#      - name: Build packages
+#        run: |
+#          cd packages/!${{ matrix.package }}
+#          cd packages/${{ matrix.package }}
+#          pnpm run build
 
       - name: Configure npm
         run: |
@@ -42,8 +46,8 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          cd ./packages/${{ matrix.package }}
-          npm publish --access=public
+          cd packages/${{ matrix.package }}
+          npm publish --access=public --tag rc
 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
