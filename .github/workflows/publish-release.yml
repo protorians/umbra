@@ -32,7 +32,7 @@ jobs:
 
       - name: Build packages
         run: |
-          cd packages/${{ matrix.package }}
+          cd ./packages/${{ matrix.package }}
           pnpm run build
 
       - name: Configure npm
@@ -42,7 +42,7 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          cd packages/${{ matrix.package }}
+          cd ./packages/${{ matrix.package }}
           npm publish --access=public
 
         env:
