@@ -30,9 +30,25 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
+      - name: Build `core`
+        run: pnpm --filter core run build
+
+      - name: Build `animetric`
+        run: pnpm --filter animetric run build
+
+      - name: Build `colorimetric`
+        run: pnpm --filter colorimetric run build
+
+      - name: Build `arcane-core`
+        run: pnpm --filter arcane-core run build
+
+      - name: Build `arcane`
+        run: pnpm --filter arcane run build
+
       - name: Build packages
         run: |
-          cd packages/${{ matrix.package }} && pnpm run build
+          cd packages/${{ matrix.package }}
+          pnpm run build
 
       - name: Configure npm
         run: |
