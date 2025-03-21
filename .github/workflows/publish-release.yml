@@ -30,13 +30,9 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
-      - name: Prebuild `all-packages`
-        run: pnpm -r run build
-
       - name: Build packages
         run: |
-          cd packages/${{ matrix.package }}
-          pnpm run build
+          cd packages/${{ matrix.package }} && pnpm run build
 
       - name: Configure npm
         run: |
