@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ animetric, arcane, arcane-core, colorimetric, core, theme-katon, shortcuts, widgets, widgets-ui ]
+        package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widgets-ui ]
 
     steps:
       - name: Checkout repository
