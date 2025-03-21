@@ -17,8 +17,11 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install PNPM
-        run: pnpm i pnpm@latest -g
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Install dependencies
         run: pnpm install

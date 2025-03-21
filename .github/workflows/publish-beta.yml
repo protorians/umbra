@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish Beta to npm
 
 on:
   push:
@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [ animetric, arcane, arcane-core, colorimetric, core, theme-katon, shortcuts, widgets, widget-ui ]
 
     steps:
       - name: Checkout repository
@@ -18,21 +21,29 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Install pnpm globally
+        run: npm install -g pnpm
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Install `ts-add-js-extension`
-        run: npm install ts-add-js-extension -g
+        run: pnpm add ts-add-js-extension
 
-      - name: Build project
-        run: npm run build
+      - name: Build packages
+        run: |
+          cd ./packages/${{ matrix.package }}
+          pnpm run build
 
       - name: Configure npm
         run: |
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
 
-      - name: Publish to npm
-        run: npm publish --access=public --tag beta
+      - name: Publish to NPM
+        run: |
+          cd ./packages/${{ matrix.package }}
+          npm publish --access=public
+
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
