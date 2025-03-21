@@ -30,6 +30,9 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
 
+      - name: Vérifier le clonage du repo
+        run: git status && git submodule update --init --recursive
+
       - name: Build `Recursive`
         run: pnpm -r run build
 
