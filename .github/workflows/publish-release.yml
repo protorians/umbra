@@ -13,21 +13,19 @@ jobs:
         package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widgets-ui ]
 
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Mettre à jour les sous-modules
         run: git submodule update --init --recursive
 
       - name: Debug - Vérifier les fichiers et dossiers
         run: ls -la packages/
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
 
       - name: Install pnpm globally
         run: npm install -g pnpm
