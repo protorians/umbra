@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "es6",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    
+    "noImplicitAny": false,
+    "allowJs": false,
+    "removeComments": true,
+    "declaration": true,
+    "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "rootDir": "./source"
+  },
+  "exclude": [
+    "node_modules",
+    "~cjs",
+    "~esm",
+  ],
+  "include": [
+    "./source"
+  ]
+}

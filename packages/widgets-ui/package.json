@@ -1,0 +1,46 @@
+{
+  "name": "@widgetui/core",
+  "version": "0.0.2",
+  "description": "",
+  "type": "module",
+  "main": "./build/index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc && ts-add-js-extension --dir=build",
+    "fix:extension": "ts-add-js-extension --dir=build"
+  },
+  "exports": {
+    ".": "./build/index.js",
+    "./appearances": "./appearances/index.css",
+    "./appearances/*": "./appearances/*",
+    "./kits": "./build/kits/index.js",
+    "./kits/*": "./build/kits/*",
+    "./types": "./build/types/index.js",
+    "./types/*": "./build/types/*"
+  },
+  "keywords": [
+    "protorians",
+    "widget",
+    "ui",
+    "library"
+  ],
+  "author": "Y. Yannick GOBOU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/protorians/widgets-ui.git",
+    "directory": "source"
+  },
+  "license": "ISC",
+  "peerDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.8.2",
+    "@types/node": "^18.7.13"
+  },
+  "dependencies": {
+    "@protorians/animetric": "workspace:",
+    "@protorians/colorimetric": "workspace:",
+    "@protorians/core": "workspace:",
+    "@protorians/shortcuts": "workspace:",
+    "@protorians/widgets": "workspace:"
+  }
+}

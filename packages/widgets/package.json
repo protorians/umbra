@@ -1,0 +1,38 @@
+{
+  "name": "@protorians/widgets",
+  "version": "0.3.1",
+  "description": "Create your web user interfaces with widgets",
+  "main": "./~esm/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch -p esm.tsconfig.json",
+    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=~esm",
+    "fix:esm": "ts-add-js-extension --dir=~esm",
+    "fix:cjs": "ts-add-js-extension --dir=~cjs"
+  },
+  "keywords": [
+    "protorians",
+    "widget",
+    "element",
+    "html",
+    "frontend",
+    "library"
+  ],
+  "author": "Y. Yannick GOBOU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/protorians/widgets.git",
+    "directory": "source"
+  },
+  "license": "ISC",
+  "peerDependencies": {
+    "@types/node": "^18.7.13",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@protorians/animetric": "workspace:*",
+    "@protorians/colorimetric": "workspace:*",
+    "@protorians/core": "workspace:*"
+  }
+}

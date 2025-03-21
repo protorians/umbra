@@ -1,0 +1,40 @@
+{
+  "name": "@protorians/katon-theme",
+  "version": "0.0.1",
+  "description": "Widgets Theme",
+  "type": "module",
+  "main": "./build/index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc && ts-add-js-extension --dir=build",
+    "fix:extension": "ts-add-js-extension --dir=build"
+  },
+  "exports": {
+    ".": "./build/index.js",
+    "./stylesheet": "./build/stylesheet.js"
+  },
+  "keywords": [],
+  "author": "Y. Yannick GOBOU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/protorians/katon-theme.git",
+    "directory": "source"
+  },
+  "license": "ISC",
+  "peerDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.8.2",
+    "@types/node": "^18.7.13",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
+  },
+  "dependencies": {
+    "@protorians/animetric": "workspace:",
+    "@protorians/colorimetric": "workspace:",
+    "@protorians/core": "workspace:",
+    "@protorians/shortcuts": "workspace:",
+    "@protorians/widgets": "workspace:",
+    "@widgetui/core": "workspace:"
+  }
+}

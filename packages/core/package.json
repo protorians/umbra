@@ -1,0 +1,56 @@
+{
+  "name": "@protorians/core",
+  "displayName": "Protorians Core",
+  "version": "0.2.1",
+  "description": "Protorians Core",
+  "main": "./~esm/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=~esm && tsc -p cjs.tsconfig.json && ts-add-js-extension --dir=~cjs"
+  },
+  "exports": {
+    ".": {
+      "require": "./~cjs/index.js",
+      "import": "./~esm/index.js"
+    },
+    "./facades/*": {
+      "require": "./~cjs/facades/*",
+      "import": "./~esm/facades/*"
+    },
+    "./foundation/*": {
+      "require": "./~cjs/foundation/*",
+      "import": "./~esm/foundation/*"
+    },
+    "./supports/*": {
+      "require": "./~cjs/supports/*",
+      "import": "./~esm/supports/*"
+    },
+    "./types/*": {
+      "require": "./~cjs/types/*",
+      "import": "./~esm/types/*"
+    },
+    "./utilities/*": {
+      "require": "./~cjs/utilities/*",
+      "import": "./~esm/utilities/*"
+    }
+  },
+  "keywords": [
+    "protorians",
+    "core"
+  ],
+  "author": "Y. Yannick GOBOU<protorian.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/protorians/core.git"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}

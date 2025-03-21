@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "module": "NodeNext",
+
+//    "module": "ESNext",
+//    "target": "es6",
+//    "moduleResolution": "node",
+    "noEmit": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "allowJs": false,
+    "removeComments": true,
+    "declaration": true,
+    "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "./build",
+    "rootDir": "./source"
+  },
+  "exclude": [
+    "node_modules",
+    "~cjs",
+    "~esm",
+    "build",
+    "./tests"
+  ],
+  "include": [
+    "./source"
+  ]
+}
