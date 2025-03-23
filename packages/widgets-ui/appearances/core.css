@@ -1,0 +1,26 @@
+@import "variables.css";
+
+:root, :host {
+    color-scheme: var(--widget-color-scheme);
+}
+html, body {
+    height: 100%;
+}
+
+* {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    font-family: var(--widget-font-family);
+}
+
+body {
+    min-height: 100%;
+    font-size: var(--widget-font-size);
+    font-weight: var(--widget-font-weight);
+    line-height: var(--widget-font-line);
+    letter-spacing: var(--widget-font-spacing);
+    text-align: var(--widget-font-align);
+}

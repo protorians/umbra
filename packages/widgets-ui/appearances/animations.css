@@ -1,0 +1,5 @@
+@keyframes widget-ui-pulse-opacity {
+    50% {
+        opacity: 1;
+    }
+}

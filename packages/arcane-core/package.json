@@ -6,7 +6,7 @@
   "type": "module",
   "main": "build/index.js",
   "scripts": {
-    "dev": "tsc --watch",
+    "cli-dev": "tsc --watch",
     "build": "tsc && ts-add-js-extension --dir=build",
     "fix:cjs": "ts-add-js-extension --dir=build"
   },

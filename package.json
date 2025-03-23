@@ -1,9 +1,11 @@
 {
-  "name": "@protorians/kuamka",
+  "name": "@protorians/umbra",
   "version": "0.0.0",
   "description": "Frontend global project",
   "main": "index.js",
   "scripts": {
+    "umbra:dev": "pnpm -r --parallel dev",
+    "umbra:build": "pnpm -r build",
     "add:changesets": "pnpm add -D @changesets/cli@latest && pnpx changesets init",
     "up:ts": "pnpm up -r typescript",
     "version:add": "pnpm changeset add",
@@ -11,6 +13,9 @@
     "version:pub": "pnpm changeset publish",
     "demo:all": "pnpm -r --filter labs/* run dev",
     "demo:animetric": "pnpm --filter demo-animetric run start"
+  },
+  "exports": {
+    "./*": "./packages/*"
   },
   "keywords": [],
   "author": "",
