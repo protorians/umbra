@@ -13,3 +13,4 @@ fi
 
 echo "🚀 Pushing..."
 git push
+exit(0)
