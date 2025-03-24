@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo "Protorians Automate!"
+echo "Update workspace:* refs before pushing..."
+
+node bin/ws build prod
+
+if [[ `git status --porcelain` ]]; then
+    echo "Update detected..."
+    git add .
+    git commit -m "Update internal dependencies"
+fi
+
+echo "🚀 Pushing..."
+git push

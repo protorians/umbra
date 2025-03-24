@@ -29,11 +29,11 @@ jobs:
       - name: Install pnpm globally
         run: npm install -g pnpm
 
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Install `ts-add-js-extension`
         run: pnpm add ts-add-js-extension
+
+      - name: Install dependencies
+        run: pnpm -w i
 
       - name: Vérifier le clonage du repo
         run: git status && git submodule update --init --recursive
