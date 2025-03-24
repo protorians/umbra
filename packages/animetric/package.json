@@ -31,6 +31,6 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@protorians/core": "0.2.2"
+    "@protorians/core": "workspace:"
   }
 }
