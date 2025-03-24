@@ -10,10 +10,11 @@ import {
     IRuneScheme,
     IRuneDumperSignalMap
 } from "../types/index.js";
-import {type ISignalStack, Signal} from "@protorians/core";
+import {type ISignalStack} from "@protorians/core";
 import {readFileSync} from "node:fs";
 import {Command} from "commander";
 import {ArcaneEnum} from "./enums.js";
+import { Signal } from "@protorians/core/supports/signal.js";
 
 
 export namespace ArcaneRunes {

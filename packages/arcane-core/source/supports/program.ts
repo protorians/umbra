@@ -2,7 +2,7 @@ import {Command} from "commander";
 import {ArcaneManager} from "./manager.js";
 import {IConfigLoader, IPackage, IProgram, IProgramBus, IProgramConfig, IRuneManager} from "../types/index.js";
 import {Terminal} from "./terminal.js";
-import {ISignalStack, Signal} from "@protorians/core";
+import {ISignalStack} from "@protorians/core";
 import * as fs from "node:fs";
 import {ArcaneConfig} from "./configurator.js";
 import {ArcaneProgramRunes} from "./program.runes.js";
@@ -11,6 +11,7 @@ import {ArcaneRune} from "./rune.js";
 import * as os from "node:os";
 import {ArcaneDirectory} from "./fs.manager.js";
 import {execSync} from "node:child_process";
+import { Signal } from "@protorians/core/supports/signal.js";
 
 
 export namespace ArcaneProgram {
