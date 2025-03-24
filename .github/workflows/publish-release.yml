@@ -35,35 +35,55 @@ jobs:
       - name: Install dependencies
         run: pnpm -w i
 
-      - name: — Build Required `Core`
-        run: cd ./packages/core && pnpm i && pnpm build && cd ../../
+      - name: — Build Required Core
+        run: |
+          cd ./packages/core 
+          pnpm i 
+          pnpm build 
+          npm publish --access=public 
 
-      - name: — Build Required `Colorimetric`
-        run: cd ./packages/colorimetric && pnpm i && pnpm build && cd ../../
+      - name: — Build Required Colorimetric
+        run: |
+          cd ./packages/colorimetric
+          pnpm i
+          pnpm build
+          npm publish --access=public 
 
-      - name: — Build Required `Animetric`
-        run: cd ./packages/animetric && pnpm i && pnpm build && cd ../../
+      - name: — Build Required Animetric
+        run: |
+          cd ./packages/animetric
+          pnpm i
+          pnpm build
+          npm publish --access=public 
 
-      - name: — Build Required `ArcaneCore`
-        run: cd ./packages/arcane-core && pnpm i && pnpm build && cd ../../
+      - name: — Build Required ArcaneCore
+        run: |
+          cd ./packages/arcane-core
+          pnpm i
+          pnpm build
+          npm publish --access=public 
 
-      - name: — Build Required `Arcane`
-        run: cd ./packages/arcane && pnpm i && pnpm build && cd ../../
+      - name: — Build Required Arcane
+        run: |
+          cd ./packages/arcane
+          pnpm i
+          pnpm build
+          npm publish --access=public
 
       - name: Build `Matrix`
         run: pnpm -r build
 
-#      - name: Build `Matrix`
-#        run: |
-#          cd ./packages/${{ matrix.package }}
-#          pnpm i
-#          pnpm build
+      #      - name: Build `Matrix`
+      #        run: |
+      #          cd ./packages/${{ matrix.package }}
+      #          pnpm i
+      #          pnpm build
 
       - name: Remove workspace dependency version
         run: node bin/ws build prod
 
-#      - name: Vérifier le clonage du repo
-#        run: git status && git submodule update --init --recursive
+      #      - name: Vérifier le clonage du repo
+      #        run: git status && git submodule update --init --recursive
 
       - name: Configure npm
         run: |
@@ -73,7 +93,7 @@ jobs:
       - name: Publish to NPM
         run: |
           cd ./packages/${{ matrix.package }}
-          npm publish --access=public 
+          npm publish --access=public
 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
