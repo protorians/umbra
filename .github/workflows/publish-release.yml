@@ -53,7 +53,8 @@ jobs:
       - name: Build `Matrix`
         run: |
           cd ./packages/${{ matrix.package }}
-          pnpm i && pnpm build
+          pnpm i
+          pnpm build
 
       - name: Remove workspace dependency version
         run: node bin/ws build prod
