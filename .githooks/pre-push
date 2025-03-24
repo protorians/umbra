@@ -12,5 +12,4 @@ if [[ `git status --porcelain` ]]; then
 fi
 
 echo "🚀 Pushing..."
-git push
-exit(0)
+#git push
