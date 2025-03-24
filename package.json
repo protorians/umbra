@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "description": "Frontend global project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "umbra-mode:dev": "node bin/ws mode dev",
+    "umbra-mode:publish": "node bin/ws mode publish",
     "umbra:dev": "pnpm -r --parallel dev",
-    "umbra:build": "pnpm -r build",
+    "umbra:install": "pnpm i -w",
+    "umbra:build": "pnpm -r run build",
     "add:changesets": "pnpm add -D @changesets/cli@latest && pnpx changesets init",
     "up:ts": "pnpm up -r typescript",
     "version:add": "pnpm changeset add",
@@ -27,7 +31,8 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "tsx": "latest"
   },
   "packageManager": "pnpm@10.6.5",
   "pnpm": {

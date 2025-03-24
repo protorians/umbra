@@ -1,6 +1,6 @@
 {
   "name": "@widgetui/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "type": "module",
   "main": "./build/index.js",

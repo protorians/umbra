@@ -1,8 +1,8 @@
 {
   "displayName": "Protorians:ArcaneCore",
   "name": "@protorians/arcane-core",
-  "version": "0.0.6",
-  "description": "Protorians Thread Core",
+  "version": "0.0.7",
+  "description": "Protorians Arcane Core",
   "type": "module",
   "main": "build/index.js",
   "scripts": {
