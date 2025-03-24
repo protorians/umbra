@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "umbra-mode:dev": "node bin/ws mode dev",
-    "umbra-mode:prod": "node bin/ws mode prod",
+    "umbra:mode": "node bin/ws mode",
     "umbra-build:dev": "node bin/ws build dev",
     "umbra-build:prod": "node bin/ws build prod",
     "umbra:dev": "pnpm -r --parallel dev",

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widgets-ui ]
+        package: [ widgets, shortcuts, widgets-ui, katon-theme ]
 
     steps:
       - name: Set up Node.js
@@ -26,20 +26,40 @@ jobs:
       - name: Debug - Vérifier les fichiers et dossiers
         run: ls -la packages/
 
+      - name: Install `ts-add-js-extension`
+        run: npm i -g ts-add-js-extension
+
       - name: Install pnpm globally
         run: npm install -g pnpm
-
-      - name: Install `ts-add-js-extension`
-        run: pnpm add ts-add-js-extension
 
       - name: Install dependencies
         run: pnpm -w i
 
-      - name: Vérifier le clonage du repo
-        run: git status && git submodule update --init --recursive
+      - name: — Build Required `Core`
+        run: cd ./packages/core && pnpm i && pnpm build && cd ../../
 
-      - name: Build `Recursive`
-        run: pnpm -r run build
+      - name: — Build Required `Colorimetric`
+        run: cd ./packages/colorimetric && pnpm i && pnpm build && cd ../../
+
+      - name: — Build Required `Animetric`
+        run: cd ./packages/animetric && pnpm i && pnpm build && cd ../../
+
+      - name: — Build Required `ArcaneCore`
+        run: cd ./packages/arcane-core && pnpm i && pnpm build && cd ../../
+
+      - name: — Build Required `Arcane`
+        run: cd ./packages/arcane && pnpm i && pnpm build && cd ../../
+
+      - name: Build `Matrix`
+        run: |
+          cd ./packages/${{ matrix.package }}
+          pnpm i && pnpm build
+
+      - name: Remove workspace dependency version
+        run: node bin/ws build prod
+
+#      - name: Vérifier le clonage du repo
+#        run: git status && git submodule update --init --recursive
 
       - name: Configure npm
         run: |
