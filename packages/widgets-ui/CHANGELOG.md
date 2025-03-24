@@ -1,5 +1,17 @@
 # @widgetui/core
 
+## 0.0.6
+
+### Patch Changes
+
+- Patching
+- Updated dependencies
+  - @protorians/animetric@0.0.12
+  - @protorians/colorimetric@0.0.12
+  - @protorians/core@0.2.5
+  - @protorians/shortcuts@0.0.8
+  - @protorians/widgets@0.3.5
+
 ## 0.0.5
 
 ### Patch Changes

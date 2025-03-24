@@ -1,6 +1,6 @@
 {
   "name": "@protorians/shortcuts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Keyboard shortcuts",
   "type": "module",
   "main": "./build/index.js",
@@ -29,6 +29,6 @@
     "@types/node": "^18.7.13"
   },
   "dependencies": {
-    "@protorians/core": "0.2.4"
+    "@protorians/core": "workspace:"
   }
 }

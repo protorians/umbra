@@ -1,6 +1,6 @@
 {
   "name": "@widgetui/katon-theme",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Widgets Theme",
   "type": "module",
   "main": "./build/index.js",
@@ -30,11 +30,11 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "@protorians/animetric": "0.0.11",
-    "@protorians/colorimetric": "0.0.11",
-    "@protorians/core": "0.2.4",
-    "@protorians/shortcuts": "0.0.7",
-    "@protorians/widgets": "0.3.4",
-    "@widgetui/core": "0.0.5"
+    "@protorians/animetric": "workspace:",
+    "@protorians/colorimetric": "workspace:",
+    "@protorians/core": "workspace:",
+    "@protorians/shortcuts": "workspace:",
+    "@protorians/widgets": "workspace:",
+    "@widgetui/core": "workspace:"
   }
 }
