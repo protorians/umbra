@@ -1,6 +1,6 @@
 {
   "name": "@protorians/shortcuts",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Keyboard shortcuts",
   "type": "module",
   "main": "./build/index.js",

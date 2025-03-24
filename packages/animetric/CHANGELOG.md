@@ -1,5 +1,13 @@
 # @protorians/animetric
 
+## 0.0.14
+
+### Patch Changes
+
+- Fix workflow
+- Updated dependencies
+  - @protorians/core@0.2.7
+
 ## 0.0.13
 
 ### Patch Changes
