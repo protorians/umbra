@@ -1,12 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "NodeNext",
-    "target": "ESNext",
-    "module": "NodeNext",
+//    "moduleResolution": "NodeNext",
+//    "target": "ESNext",
+//    "module": "NodeNext",
     "noEmit": false,
     "outDir": "./build",
     "noImplicitAny": false,

@@ -20,7 +20,6 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "./source"
   },
   "exclude": [
     "node_modules",
@@ -30,6 +29,8 @@
     "./tests"
   ],
   "include": [
-    "./source"
+    "./source",
+    "./bin",
+    "./library",
   ]
 }
