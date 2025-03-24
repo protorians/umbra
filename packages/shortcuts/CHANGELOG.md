@@ -1,5 +1,26 @@
 # @protorians/shortcuts
 
+## 0.0.6
+
+### Patch Changes
+
+- patching
+- Updated dependencies
+  - @protorians/core@0.2.3
+
+## 0.1.0
+
+### Minor Changes
+
+- Patch version
+
+### Patch Changes
+
+- Patch version
+- Updated dependencies
+- Updated dependencies
+  - @protorians/core@0.3.0
+
 ## 1.0.0
 
 ### Major Changes

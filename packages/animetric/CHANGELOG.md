@@ -1,5 +1,27 @@
 # @protorians/animetric
 
+## 0.0.10
+
+### Patch Changes
+
+- patching
+- Updated dependencies
+  - @protorians/core@0.2.3
+
+## 0.1.0
+
+### Minor Changes
+
+- Patch version
+- 0d0a854: Fix bugs
+
+### Patch Changes
+
+- Patch version
+- Updated dependencies
+- Updated dependencies
+  - @protorians/core@0.3.0
+
 ## 1.0.0
 
 ### Major Changes

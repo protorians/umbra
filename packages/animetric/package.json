@@ -1,6 +1,6 @@
 {
   "name": "@protorians/animetric",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Create your web user interfaces with widgets",
   "main": "./~esm/index.js",
   "type": "module",

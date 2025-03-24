@@ -13,9 +13,10 @@
     "umbra-build": "pnpm -r run build",
     "add:changesets": "pnpm add -D @changesets/cli@latest && pnpx changesets init",
     "up:ts": "pnpm up -r typescript",
+    "version:up": "pnpm changeset",
     "version:add": "pnpm changeset add",
-    "version:push": "pnpm changeset version",
-    "version:pub": "pnpm changeset publish",
+    "version:set": "pnpm changeset version",
+    "version:push": "pnpm changeset && pnpm changeset version",
     "demo:all": "pnpm -r --filter labs/* run dev",
     "demo:animetric": "pnpm --filter demo-animetric run start"
   },
