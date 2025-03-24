@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.2.4
+
+### Patch Changes
+
+- Stabilize version
+
 ## 0.2.3
 
 ### Patch Changes
