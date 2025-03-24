@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        prime-package: [ core, colorimetric, animetric, arcane-core, arcane ]
         package: [ widgets, shortcuts, widgets-ui, katon-theme ]
 
     steps:
@@ -35,40 +36,35 @@ jobs:
       - name: Install dependencies
         run: pnpm -w i
 
-      - name: — Build Required Core
+      - name: — Build Prime Package Core
         run: |
           cd ./packages/core 
           pnpm i 
           pnpm build 
-          npm publish --access=public 
 
-      - name: — Build Required Colorimetric
+      - name: — Build Prime Package Colorimetric
         run: |
           cd ./packages/colorimetric
           pnpm i
           pnpm build
-          npm publish --access=public 
 
-      - name: — Build Required Animetric
+      - name: — Build Prime Package Animetric
         run: |
           cd ./packages/animetric
           pnpm i
           pnpm build
-          npm publish --access=public 
 
-      - name: — Build Required ArcaneCore
+      - name: — Build Prime Package ArcaneCore
         run: |
           cd ./packages/arcane-core
           pnpm i
           pnpm build
-          npm publish --access=public 
 
-      - name: — Build Required Arcane
+      - name: — Build Prime Package Arcane
         run: |
           cd ./packages/arcane
           pnpm i
           pnpm build
-          npm publish --access=public
 
       - name: Build `Matrix`
         run: pnpm -r build
@@ -90,7 +86,12 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
 
-      - name: Publish to NPM
+      - name: Publish Prime Package to NPM
+        run: |
+          cd ./packages/${{ matrix.prime-package }}
+          npm publish --access=public
+
+      - name: Publish Other package to NPM
         run: |
           cd ./packages/${{ matrix.package }}
           npm publish --access=public

@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.2.8
+
+### Patch Changes
+
+- Fixing workflow
+
 ## 0.2.7
 
 ### Patch Changes
