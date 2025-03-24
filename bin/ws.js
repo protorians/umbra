@@ -16,11 +16,11 @@ ws.name('mode-manager')
             execSync("chmod +x .githooks/pre-push")
             setGitHooksPath()
         }
-        if (mode === 'prod') {
+        else if (mode === 'prod') {
             console.log('TASK', 'Active PROD workspace mode...')
             unsetGitHooksPath()
         } else
-            console.log('TASK', 'Mode not available')
+            console.log('TASK', 'Mode not available <', mode, '>')
     })
 
 
