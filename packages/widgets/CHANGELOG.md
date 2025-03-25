@@ -1,5 +1,15 @@
 # @protorians/widgets
 
+## 0.3.9
+
+### Patch Changes
+
+- Patching
+- Updated dependencies
+  - @protorians/animetric@0.0.16
+  - @protorians/colorimetric@0.0.16
+  - @protorians/core@0.2.9
+
 ## 0.3.8
 
 ### Patch Changes

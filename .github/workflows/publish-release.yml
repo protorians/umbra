@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        prime-package: [ core, colorimetric, animetric, arcane-core, arcane ]
-        package: [ widgets, shortcuts, widgets-ui, katon-theme ]
+        package: [ core, colorimetric, animetric, arcane-core, arcane, shortcuts, widgets, widgets-ui, katon-theme ]
 
     steps:
       - name: Set up Node.js
@@ -69,27 +68,13 @@ jobs:
       - name: Build `Matrix`
         run: pnpm -r build
 
-      #      - name: Build `Matrix`
-      #        run: |
-      #          cd ./packages/${{ matrix.package }}
-      #          pnpm i
-      #          pnpm build
-
       - name: Remove workspace dependency version
         run: node bin/ws build prod
-
-      #      - name: Vérifier le clonage du repo
-      #        run: git status && git submodule update --init --recursive
 
       - name: Configure npm
         run: |
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
-
-      - name: Publish Prime Package to NPM
-        run: |
-          cd ./packages/${{ matrix.prime-package }}
-          npm publish --access=public
 
       - name: Publish Other package to NPM
         run: |
