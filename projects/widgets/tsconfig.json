@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "es6",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "allowJs": false,
+    "removeComments": true,
+    "declaration": true,
+    "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "rootDir": "./source",
+    "paths": {
+      "@/helpers/*": [
+        "./source/helpers/*"
+      ],
+      "@/components/*": [
+        "./source/components/*"
+      ],
+      "@/assets/*": [
+        "./source/assets/*"
+      ],
+      "@/router/*": [
+        "./source/router/*"
+      ],
+      "@/theme/*": [
+        "./source/theme/*"
+      ],
+      "@/types/*": [
+        "./source/types/*"
+      ],
+      "@/views/*": [
+        "./source/views/*"
+      ],
+      "@/*": [
+        "./source/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./source"
+  ]
+}
