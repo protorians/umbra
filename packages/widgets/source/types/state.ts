@@ -18,7 +18,15 @@ export interface IState<T> {
 
     effect(callable: IStateCallable<T | undefined>): this;
 
+    watch(callable: IStateCallable<T>): IStateWatcher<T>;
+
     bind<E extends HTMLElement, A extends IAttributes>(widget: IWidgetNode<E, A>): this;
 
     reset(): this;
+}
+
+
+export interface IStateWatcher<T>{
+    readonly state: IState<T>;
+    readonly callable: IStateCallable<T>;
 }
