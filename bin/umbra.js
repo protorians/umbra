@@ -3,10 +3,10 @@ import {setGitHooksPath, unsetGitHooksPath} from "../library/git.hooks.path.js";
 import {execSync} from "node:child_process";
 import {rollbackWorkspaceVersion, removeWorkspaceVersion} from "../library/pkg.version.js";
 
-const ws = new Command()
+const umbra = new Command()
 const directory = process.cwd();
 
-ws.name('mode-manager')
+umbra.name('mode-manager')
     .command('mode')
     .description('Project mode manager')
     // .argument("<string>", "Set mode (dev, prod)",)
@@ -24,7 +24,7 @@ ws.name('mode-manager')
     })
 
 
-ws.name('build-manager')
+umbra.name('build-manager')
     .command('build')
     .description('Project build manager')
     .argument("<string>", "Set mode (dev, prod)",)
@@ -40,4 +40,4 @@ ws.name('build-manager')
     })
 
 
-ws.parse(process.argv);
+umbra.parse(process.argv);

@@ -7,36 +7,36 @@ export function removeWorkspaceVersion(rootDir) {
 
     const versions = {};
     fs.readdirSync(packagesDir).forEach((pkg) => {
-        const packageJsonPath = path.join(packagesDir, pkg, "package.json");
-        if (fs.existsSync(packageJsonPath)) {
-            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-            versions[packageJson.name] = packageJson.version;
+        const json = path.join(packagesDir, pkg, "package.json");
+        if (fs.existsSync(json)) {
+            const config = JSON.parse(fs.readFileSync(json, "utf-8"));
+            versions[config.name] = config.version;
         }
     });
 
     fs.readdirSync(packagesDir).forEach((pkg) => {
-        const packageJsonPath = path.join(packagesDir, pkg, "package.json");
-        if (fs.existsSync(packageJsonPath)) {
-            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-            let modified = false;
+        const json = path.join(packagesDir, pkg, "package.json");
+        if (fs.existsSync(json)) {
+            const config = JSON.parse(fs.readFileSync(json, "utf-8"));
+            let updated = false;
 
             ["dependencies", "devDependencies", "peerDependencies"].forEach((depType) => {
-                if (packageJson[depType]) {
-                    Object.keys(packageJson[depType]).forEach((dep) => {
-                        if (packageJson[depType][dep].startsWith("workspace:")) {
+                if (config[depType]) {
+                    Object.keys(config[depType]).forEach((dep) => {
+                        if (config[depType][dep].startsWith("workspace:")) {
                             const newVersion = versions[dep];
                             if (newVersion) {
-                                packageJson[depType][dep] = newVersion;
-                                modified = true;
+                                config[depType][dep] = newVersion;
+                                updated = true;
                             }
                         }
                     });
                 }
             });
 
-            if (modified) {
-                fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + "\n");
-                console.info(`Update : ${packageJsonPath}`);
+            if (updated) {
+                fs.writeFileSync(json, JSON.stringify(config, null, 2) + "\n");
+                console.info(`Update : ${path.relative(rootDir, json)}`);
             }
         }
     });

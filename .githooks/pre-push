@@ -3,7 +3,7 @@
 #echo "Protorians Automate!"
 #echo "Update workspace:* refs before pushing..."
 #
-#node bin/ws build prod
+#node bin/umbra build prod
 #
 #if [[ `git status --porcelain` ]]; then
 #    echo "Update detected..."

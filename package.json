@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "umbra:mode": "node bin/ws mode",
-    "umbra-build:dev": "node bin/ws build dev",
-    "umbra-build:prod": "node bin/ws build prod",
+    "umbra:mode": "node bin/umbra mode",
+    "umbra-build:dev": "node bin/umbra build dev",
+    "umbra-build:prod": "node bin/umbra build prod",
     "umbra-dev": "pnpm -r --parallel dev",
     "umbra-install": "pnpm i -w",
     "umbra-build": "pnpm -r run build",
@@ -34,7 +34,8 @@
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "tsx": "latest",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3"
   },
   "packageManager": "pnpm@10.6.5",
   "pnpm": {
@@ -44,7 +45,8 @@
       "jest": "^29.7.0",
       "ts-jest": "^29.2.6",
       "ts-node": "^10.9.2",
-      "typescript": "^5.8.2"
+      "typescript": "^5.8.2",
+      "vite": "^6.2.3"
     }
   },
   "dependencies": {

@@ -29,37 +29,37 @@ jobs:
       - name: Install `ts-add-js-extension`
         run: npm i -g ts-add-js-extension
 
-      - name: Install pnpm globally
+      - name: Install `pnpm` globally
         run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm -w i
 
-      - name: — Build Prime Package Core
+      - name: — @Protorians/Core
         run: |
           cd ./packages/core 
           pnpm i 
           pnpm build 
 
-      - name: — Build Prime Package Colorimetric
+      - name: — @Protorians/Colorimetric
         run: |
           cd ./packages/colorimetric
           pnpm i
           pnpm build
 
-      - name: — Build Prime Package Animetric
+      - name: — @Protorians/Animetric
         run: |
           cd ./packages/animetric
           pnpm i
           pnpm build
 
-      - name: — Build Prime Package ArcaneCore
+      - name: — @Protorians/ArcaneCore
         run: |
           cd ./packages/arcane-core
           pnpm i
           pnpm build
 
-      - name: — Build Prime Package Arcane
+      - name: — @Protorians/Arcane
         run: |
           cd ./packages/arcane
           pnpm i
@@ -68,15 +68,15 @@ jobs:
       - name: Build `Matrix`
         run: pnpm -r build
 
-      - name: Remove workspace dependency version
-        run: node bin/ws build prod
+      - name: Stabilize "build version" to prod
+        run: node bin/umbra build prod
 
       - name: Configure npm
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
 
-      - name: Publish Other package to NPM
+      - name: Publish Package to NPM
         run: |
           cd ./packages/${{ matrix.package }}
           npm publish --access=public
