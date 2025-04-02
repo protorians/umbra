@@ -11,7 +11,7 @@ import type {
     IUndefined,
     IYesNo
 } from "./value.js";
-import {ICallable} from "./widget.js";
+import {ICallable, IGlobalEventPayload} from "./widget.js";
 
 export type IAttributes = Partial<
     ICommonAttributes
@@ -239,9 +239,9 @@ export interface IButtonAttributes extends IInputableAttributes {
 }
 
 export interface IButtonAttributesBase extends IInputableAttributes {
-    onPress: ICallable<HTMLButtonElement, IButtonAttributes, MouseEvent | Event | UIEvent>;
-    onPressStart?: ICallable<HTMLButtonElement, IButtonAttributes, MouseEvent | Event | UIEvent>;
-    onPressEnd?: ICallable<HTMLButtonElement, IButtonAttributes, MouseEvent | Event | UIEvent>;
+    onPress: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'click'>>;
+    onPressStart?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mousedown'>>;
+    onPressEnd?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mouseup'>>;
 }
 
 export interface IInputAttributes extends IInputableAttributes {

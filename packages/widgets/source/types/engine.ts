@@ -2,7 +2,7 @@ import type {IAttributes} from "./attributes.js";
 import type {
   ICallable,
   IChildrenSupported,
-  IContext, IEventListeners,
+  IContext,
   IGlobalAttributes, IGlobalEventCallableMap,
   IGlobalEventMap, IGlobalEventPayload,
   IPropStack, ISignalableCallbackMap,
@@ -77,7 +77,7 @@ export interface IEngine<E extends HTMLElement, A extends IAttributes> {
 
   html(widget: IWidgetNode<E, A>, data: string): this;
 
-  listens(widget: IWidgetNode<E, A>, listeners: Partial<IEventListeners<E, A>>): this;
+  listens(widget: IWidgetNode<E, A>, listeners: Partial<IGlobalEventCallableMap<E, A>>): this;
 
   listen<T extends keyof IGlobalEventMap>(
     widget: IWidgetNode<E, A>,
