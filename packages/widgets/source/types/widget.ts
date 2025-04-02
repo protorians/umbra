@@ -88,7 +88,7 @@ export type INativeEventMap = {
 export type IGlobalEventMap = INativeEventMap;
 
 export type IGlobalEventCallableMap<E extends HTMLElement, A extends IAttributes> = {
-    [K in keyof IGlobalEventMap]: ICallable<E, A, IGlobalEventMap[K]>
+    [K in keyof IGlobalEventMap]: ICallable<E, A, IGlobalEventPayload<any>>
 };
 
 export type IGlobalEventPayload<T extends keyof IGlobalEventMap> = {
@@ -224,7 +224,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
 
 export type IEventListeners<E extends HTMLElement, A extends IAttributes> = {
-    [K in keyof IGlobalEventMap]: ICallable<E, A, IGlobalEventMap[K]>;
+    [K in keyof IGlobalEventMap]: ICallable<E, A, IGlobalEventPayload<K>>;
 }
 
 
@@ -350,12 +350,12 @@ export type INativeProperties<E extends HTMLElement, A extends IAttributes> = {
     /**
      * Element Events
      */
-    on?: Partial<IEventListeners<E, A>>;
+    on?: Partial<IGlobalEventCallableMap<E, A>>;
 
     /**
      * Events listeners
      */
-    listen?: Partial<IEventListeners<E, A>>;
+    listen?: Partial<IGlobalEventCallableMap<E, A>>;
 
 }
 

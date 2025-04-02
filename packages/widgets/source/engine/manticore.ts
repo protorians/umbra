@@ -8,20 +8,18 @@ import type {
     IChildrenSupported,
     IChildren,
     IGlobalEventMap,
-    IEventListeners,
     ICallable,
     IGlobalAttributes,
     IStyleDeclaration,
     IGlobalEventPayload,
-    IGlobalEventCallableMap,
     IStringToken,
     IPrimitive,
     ISignalableCallbackMap,
     IWidgetSignalMap,
-    IStyleSheetDeclarations
+    IStyleSheetDeclarations, IGlobalEventCallableMap
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
-import {StateWidget} from "../hooks/index.js";
+import {StateWidget, StateWidgetWatcher} from "../hooks/index.js";
 import {Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
 import {ToggleOption, WidgetElevation} from "../enums.js";
 import {Mockup} from "../mockup.js";
@@ -295,7 +293,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 children instanceof Text
             ) {
                 widget.mockup?.append(children);
-            } else if (children instanceof StateWidget) {
+            } else if (children instanceof StateWidget || children instanceof StateWidgetWatcher) {
                 children.bind(widget)
             } else if (typeof children === 'string' || typeof children === 'number') {
                 widget.mockup?.append(document.createTextNode(`${children}`))
@@ -345,15 +343,12 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     listens(
         widget: IWidgetNode<E, A>,
-        listeners: Partial<IEventListeners<E, A>>
+        listeners: Partial<IGlobalEventCallableMap<E, A>>
     ): this {
         if (widget.locked) return this;
         Object.entries(listeners)
-            .forEach(([type, callable]) => {
-                this.listen(widget, type as keyof IGlobalEventMap, ({payload}) =>
-                    callable({root: this.widget, widget, payload: payload as any}))
-            })
-
+            .forEach(([type, callable]) =>
+                this.listen<keyof IGlobalEventMap>(widget, type as keyof IGlobalEventMap, callable))
         return this;
     }
 
@@ -367,11 +362,12 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (Environment.Client) {
             (widget.element as HTMLElement)?.addEventListener(type, ev => {
                 if (widget.locked) return;
-                const payload = {type, event: ev}
+                const payload: IGlobalEventPayload<T> = {type, event: ev}
                 const r = callback({root: this.widget, widget: widget, payload})
                 widget.signal.dispatch('listen', {root: this.widget, widget, payload}, widget.signal);
-                if (r === TreatmentQueueStatus.Cancel) ev.stopPropagation()
-                if (r === TreatmentQueueStatus.Exit) ev.stopImmediatePropagation()
+                if (r === TreatmentQueueStatus.Cancel) ev.preventDefault()
+                if (r === TreatmentQueueStatus.Exit) ev.stopPropagation()
+                if (r === TreatmentQueueStatus.SnapOut) ev.stopImmediatePropagation()
             }, options)
         }
         return this;
@@ -385,7 +381,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (widget.locked) return this;
         Object.entries(listeners)
             .forEach(([type, callable]) =>
-                this.on(widget, type as keyof IGlobalEventMap, callable as any))
+                this.on(widget, type as keyof IGlobalEventMap, callable))
 
         return this;
     }
