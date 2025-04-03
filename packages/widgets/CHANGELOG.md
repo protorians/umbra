@@ -1,5 +1,21 @@
 # @protorians/widgets
 
+## 0.3.10
+
+### Patch Changes
+
+- 59c12b3: Fixing
+- 59c12b3: Initiate Widget Project Example
+- 3b864db: Patch
+- 85c0453: Fix State Manager
+- cd1813c: Fix Widget Project Example
+- 59c12b3: Fix typing
+- 59c12b3: Fix event listen payload
+- Updated dependencies [3b864db]
+  - @protorians/animetric@0.0.17
+  - @protorians/colorimetric@0.0.17
+  - @protorians/core@0.2.10
+
 ## 0.3.9
 
 ### Patch Changes
