@@ -1,5 +1,13 @@
 # @protorians/animetric
 
+## 0.0.18
+
+### Patch Changes
+
+- Umbra Patch
+- Updated dependencies
+  - @protorians/core@0.2.11
+
 ## 0.0.17
 
 ### Patch Changes

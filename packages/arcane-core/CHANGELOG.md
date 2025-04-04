@@ -1,5 +1,13 @@
 # @protorians/arcane-core
 
+## 0.0.16
+
+### Patch Changes
+
+- Umbra Patch
+- Updated dependencies
+  - @protorians/core@0.2.11
+
 ## 0.0.15
 
 ### Patch Changes

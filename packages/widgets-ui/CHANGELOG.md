@@ -1,5 +1,17 @@
 # @widgetui/core
 
+## 0.0.12
+
+### Patch Changes
+
+- Umbra Patch
+- Updated dependencies
+  - @protorians/animetric@0.0.18
+  - @protorians/colorimetric@0.0.18
+  - @protorians/core@0.2.11
+  - @protorians/shortcuts@0.0.14
+  - @protorians/widgets@0.3.11
+
 ## 0.0.11
 
 ### Patch Changes

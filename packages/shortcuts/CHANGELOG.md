@@ -1,5 +1,13 @@
 # @protorians/shortcuts
 
+## 0.0.14
+
+### Patch Changes
+
+- Umbra Patch
+- Updated dependencies
+  - @protorians/core@0.2.11
+
 ## 0.0.13
 
 ### Patch Changes

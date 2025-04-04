@@ -13,9 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@protorians/core": "^0.2.9",
-    "@protorians/widgets": "latest",
+    "@protorians/widgets": "link:/Users/iancarter/Works/Projects/Protorians/kuamka/packages/widgets",
     "@widgetui/core": "^0.0.10",
-    "@widgetui/katon-theme": "latest"
+    "@widgetui/katon-theme": "link:/Users/iancarter/Works/Projects/Protorians/kuamka/packages/katon-theme"
   },
   "peerDependencies": {
     "typescript": "5.8.2",

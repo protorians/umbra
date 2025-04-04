@@ -1,5 +1,15 @@
 # @protorians/widgets
 
+## 0.3.11
+
+### Patch Changes
+
+- Umbra Patch
+- Updated dependencies
+  - @protorians/animetric@0.0.18
+  - @protorians/colorimetric@0.0.18
+  - @protorians/core@0.2.11
+
 ## 0.3.10
 
 ### Patch Changes
