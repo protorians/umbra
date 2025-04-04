@@ -12,7 +12,7 @@
     "umbra-install": "pnpm i -w",
     "umbra-build": "pnpm -r run build",
     "umbra-prepare": "pnpm changeset && pnpm changeset version",
-    "umbra-push": "sync-push",
+    "umbra-sync-packages": "node ./bin/git-push-packages",
     "add:changesets": "pnpm add -D @changesets/cli@latest && pnpx changesets init",
     "up:ts": "pnpm up -r typescript",
     "version:up": "pnpm changeset",

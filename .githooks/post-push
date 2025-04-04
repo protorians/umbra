@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Protorians Automate!"
+echo "Sync packages repositories..."
+node ./bin/git-push-packages

@@ -10,43 +10,75 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ animetric, arcane, arcane-core, colorimetric, core, katon-theme, shortcuts, widgets, widgets-ui ]
+        package: [ core, colorimetric, animetric, arcane-core, arcane, shortcuts, widgets, widgets-ui, katon-theme ]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Install pnpm globally
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Debug - Vérifier les fichiers et dossiers
+        run: ls -la packages/
+
+      - name: Install `ts-add-js-extension`
+        run: npm i -g ts-add-js-extension
+
+      - name: Install `pnpm` globally
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm -w i
 
-      - name: Install `ts-add-js-extension`
-        run: pnpm add ts-add-js-extension
+      - name: — @Protorians/Core
+        run: |
+          cd ./packages/core 
+          pnpm i 
+          pnpm build 
 
-      - name: Build `Recursive`
-        run: pnpm -r run build
+      - name: — @Protorians/Colorimetric
+        run: |
+          cd ./packages/colorimetric
+          pnpm i
+          pnpm build
 
-#      - name: Build packages
-#        run: |
-#          cd packages/!${{ matrix.package }}
-#          cd packages/${{ matrix.package }}
-#          pnpm run build
+      - name: — @Protorians/Animetric
+        run: |
+          cd ./packages/animetric
+          pnpm i
+          pnpm build
+
+      - name: — @Protorians/ArcaneCore
+        run: |
+          cd ./packages/arcane-core
+          pnpm i
+          pnpm build
+
+      - name: — @Protorians/Arcane
+        run: |
+          cd ./packages/arcane
+          pnpm i
+          pnpm build
+
+      - name: Build `Matrix`
+        run: pnpm -r build
+
+      - name: Stabilize "build version" to prod
+        run: node bin/umbra build prod
 
       - name: Configure npm
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
 
-      - name: Publish to NPM
+      - name: Publish Package to NPM
         run: |
-          cd packages/${{ matrix.package }}
+          cd ./packages/${{ matrix.package }}
           npm publish --access=public --tag rc
 
         env:

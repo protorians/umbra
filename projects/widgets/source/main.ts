@@ -48,8 +48,8 @@ Mount('AppMain', () => {
         },
         children: [
 
-            stateWidget,
-            stateNumber,
+            // stateWidget,
+            // stateNumber,
 
             Column({
                 style: {
@@ -125,6 +125,7 @@ Mount('AppMain', () => {
                         Form({
                             listen: {
                                 submit: ({widget, payload}) => {
+
                                     if (widget.element) {
                                         payload.event.preventDefault()
                                         const form = widget.element as HTMLFormElement
@@ -133,7 +134,9 @@ Mount('AppMain', () => {
                                         for (const [name, value] of target.entries()) {
                                             console.log('->', name, value,)
                                         }
+
                                     }
+
                                 }
                             },
                             children: [
