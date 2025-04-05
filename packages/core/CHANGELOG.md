@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.2.14
+
+### Patch Changes
+
+- Clear
+
 ## 0.2.13
 
 ### Patch Changes
