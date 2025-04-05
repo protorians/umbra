@@ -1,3 +1,10 @@
+pnpm-lock.yaml
+node_modules
+.idea
+.DS_store
+build
+~esm
+~cjs
 ### Node template
 # Logs
 logs
@@ -7,6 +14,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
+pnpm-lock.yaml
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
