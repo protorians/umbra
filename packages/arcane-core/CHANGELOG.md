@@ -1,5 +1,13 @@
 # @protorians/arcane-core
 
+## 0.0.18
+
+### Patch Changes
+
+- Fix Spectra dependencies version
+- Updated dependencies
+  - @protorians/core@0.2.13
+
 ## 0.0.17
 
 ### Patch Changes

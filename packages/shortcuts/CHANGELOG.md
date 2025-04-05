@@ -1,5 +1,13 @@
 # @protorians/shortcuts
 
+## 0.0.16
+
+### Patch Changes
+
+- Fix Spectra dependencies version
+- Updated dependencies
+  - @protorians/core@0.2.13
+
 ## 0.0.15
 
 ### Patch Changes

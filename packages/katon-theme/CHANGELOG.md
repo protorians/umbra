@@ -1,5 +1,18 @@
 # @widgetui/katon-theme
 
+## 0.0.13
+
+### Patch Changes
+
+- Fix Spectra dependencies version
+- Updated dependencies
+  - @protorians/animetric@0.0.20
+  - @protorians/colorimetric@0.0.20
+  - @protorians/core@0.2.13
+  - @protorians/shortcuts@0.0.16
+  - @protorians/widgets@0.3.13
+  - @widgetui/core@0.0.14
+
 ## 0.0.12
 
 ### Patch Changes

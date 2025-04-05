@@ -1,5 +1,13 @@
 # @protorians/animetric
 
+## 0.0.20
+
+### Patch Changes
+
+- Fix Spectra dependencies version
+- Updated dependencies
+  - @protorians/core@0.2.13
+
 ## 0.0.19
 
 ### Patch Changes
