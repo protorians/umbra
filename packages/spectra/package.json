@@ -24,6 +24,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@protorians/core": "^0.2.12"
+    "@protorians/core": "workspace:"
   }
 }

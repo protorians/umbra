@@ -30,8 +30,8 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@protorians/animetric": "workspace:*",
-    "@protorians/colorimetric": "workspace:*",
-    "@protorians/core": "workspace:*"
+    "@protorians/animetric": "workspace:",
+    "@protorians/colorimetric": "workspace:",
+    "@protorians/core": "workspace:"
   }
 }
