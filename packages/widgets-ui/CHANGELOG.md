@@ -1,5 +1,19 @@
 # @widgetui/core
 
+## 0.0.13
+
+### Patch Changes
+
+- Add Spectra to workflow
+- f9fe44d: Prepare next version
+- Updated dependencies
+- Updated dependencies [f9fe44d]
+  - @protorians/animetric@0.0.19
+  - @protorians/colorimetric@0.0.19
+  - @protorians/core@0.2.12
+  - @protorians/shortcuts@0.0.15
+  - @protorians/widgets@0.3.12
+
 ## 0.0.12
 
 ### Patch Changes

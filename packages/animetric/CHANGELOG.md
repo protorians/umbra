@@ -1,5 +1,15 @@
 # @protorians/animetric
 
+## 0.0.19
+
+### Patch Changes
+
+- Add Spectra to workflow
+- f9fe44d: Prepare next version
+- Updated dependencies
+- Updated dependencies [f9fe44d]
+  - @protorians/core@0.2.12
+
 ## 0.0.18
 
 ### Patch Changes

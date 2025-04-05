@@ -1,5 +1,12 @@
 # @protorians/core
 
+## 0.2.12
+
+### Patch Changes
+
+- Add Spectra to workflow
+- f9fe44d: Prepare next version
+
 ## 0.2.11
 
 ### Patch Changes
