@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ core, colorimetric, animetric, arcane-core, arcane, shortcuts, widgets, widgets-ui, katon-theme ]
+        package: [ core, colorimetric, animetric, arcane-core, arcane, shortcuts, spectra, widgets, widgets-ui, katon-theme ]
 
     steps:
       - name: Set up Node.js
