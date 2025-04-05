@@ -13,9 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@protorians/core": "^0.2.9",
-    "@protorians/widgets": "link:/Users/iancarter/Works/Projects/Protorians/umbra/packages/widgets",
+    "@protorians/widgets": "workspace:",
     "@widgetui/core": "^0.0.10",
-    "@widgetui/katon-theme": "link:/Users/iancarter/Works/Projects/Protorians/umbra/packages/katon-theme"
+    "@widgetui/katon-theme": "workspace:"
   },
   "peerDependencies": {
     "typescript": "5.8.2",
