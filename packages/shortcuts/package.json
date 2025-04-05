@@ -12,7 +12,7 @@
   "exports": "./build/index.js",
   "keywords": [
     "protorians",
-    "keeyboard",
+    "keyboard",
     "shortcuts",
     "library"
   ],

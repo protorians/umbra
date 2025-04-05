@@ -1,15 +1,15 @@
-import type {IFormControllerWidget} from "../types/index.js";
+import type {IFormAttributes, IFormControllerWidget} from "../types/index.js";
 import {WidgetException} from "../errors/index.js";
 
-export class FormController {
-    protected _widget: IFormControllerWidget | undefined
+export class FormController<A extends IFormAttributes> {
+    protected _widget: IFormControllerWidget<A> | undefined
 
-    get widget(): IFormControllerWidget {
+    get widget(): IFormControllerWidget<A> {
         if (!this._widget) throw (new WidgetException(`No widget bond`)).show()
-        return this._widget as IFormControllerWidget
+        return this._widget as IFormControllerWidget<A>
     }
 
-    bind(widget: IFormControllerWidget): this {
+    bind(widget: IFormControllerWidget<A>): this {
         this._widget = widget;
         return this;
     }

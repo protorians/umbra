@@ -20,7 +20,7 @@ import type {
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
 import {StateWidget, StateWidgetWatcher} from "../hooks/index.js";
-import {Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
+import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
 import {ToggleOption, WidgetElevation} from "../enums.js";
 import {Mockup} from "../mockup.js";
 
@@ -272,13 +272,14 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 this.render(children, this.widget.context || new ContextWidget(widget))
                 widget.mockup?.append(children.element);
                 children.useContext(this.widget.context || widget.context);
-                requestAnimationFrame(() => {
+                Callable.safe(()=>{
                     children.signal.dispatch('mount', {
                         root: this.widget,
                         widget: children,
                         payload: widget
                     }, children.signal);
                 })
+
             } else if (children instanceof Promise) {
                 children.then(child => this.content(widget, child));
             } else if (typeof children === 'function') {
@@ -288,15 +289,21 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                     payload: undefined,
                 }))
             } else if (
-                children instanceof HTMLElement ||
+                Environment.Client &&
+                (children instanceof HTMLElement ||
                 children instanceof DocumentFragment ||
-                children instanceof Text
+                children instanceof Text)
             ) {
                 widget.mockup?.append(children);
             } else if (children instanceof StateWidget || children instanceof StateWidgetWatcher) {
                 children.bind(widget)
             } else if (typeof children === 'string' || typeof children === 'number') {
-                widget.mockup?.append(document.createTextNode(`${children}`))
+                if(Environment.Client) {
+                    widget.mockup?.append(document.createTextNode(`${children}`))
+                }
+                else{
+                    widget.mockup?.append(children)
+                }
             }
         }
 

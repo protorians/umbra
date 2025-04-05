@@ -1,0 +1,21 @@
+{
+  "name": "paladin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node build/main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@protorians/paladin": "workspace:",
+    "@protorians/widgets": "workspace:",
+    "paladin": "link:",
+    "typescript": "5.8.3"
+  }
+}

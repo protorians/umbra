@@ -23,13 +23,13 @@
     "experimentalDecorators": true,
     "strict": true,
     "outDir": "./build",
-    "rootDir": "./source"
+    "rootDir": "./"
   },
   "exclude": [
     "node_modules",
     "build"
   ],
   "include": [
-    "./source"
+    "./"
   ]
 }

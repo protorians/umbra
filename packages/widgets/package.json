@@ -2,14 +2,13 @@
   "name": "@protorians/widgets",
   "version": "0.3.11",
   "description": "Create your web user interfaces with widgets",
-  "main": "./~esm/index.js",
+  "main": "./build/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch -p esm.tsconfig.json",
-    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=~esm",
-    "fix:esm": "ts-add-js-extension --dir=~esm",
-    "fix:cjs": "ts-add-js-extension --dir=~cjs"
+    "dev": "tsc --watch",
+    "build": "tsc"
   },
+  "exports": "./build/index.js",
   "keywords": [
     "protorians",
     "widget",

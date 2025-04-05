@@ -329,13 +329,12 @@ export namespace Mockup {
         }
 
         append(mockup: IMockupElement<any, any> | string): this {
-            if (!this._instance) {
-            } else if (Environment.Client) {
+            if (Environment.Client) {
                 (this._instance as HTMLElement).append(mockup)
             } else {
                 if (mockup.instance instanceof Sheet) {
-                    mockup.parent = this;
-                    (this._instance as IMockupSheet<A>).nodesTree.push(mockup)
+                    if (typeof mockup == 'object') mockup.parent = this;
+                    (this._instance as IMockupSheet<A>).nodesTree.push(mockup);
                 }
             }
             return this;
