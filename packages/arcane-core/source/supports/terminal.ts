@@ -138,7 +138,7 @@ export namespace Terminal {
                     // this.BRIGHT +
                     this.BACK_BLACK +
                     this.FORE_WHITE
-                } ${label} ${this.RESET}`,
+                } ${label.toUpperCase()} ${this.RESET}`,
                 '',
                 ...data
             )
@@ -167,7 +167,7 @@ export namespace Terminal {
                     // this.BRIGHT +
                     this.BACK_BLUE +
                     this.FORE_WHITE
-                } ${label} ${this.RESET}`,
+                } ${label.toUpperCase()} ${this.RESET}`,
 
                 this.FORE_BLUE,
                 ...data,
@@ -183,7 +183,7 @@ export namespace Terminal {
                     // this.BRIGHT +
                     this.BACK_RED +
                     this.FORE_BLACK
-                } ${label} ${this.RESET}`,
+                } ${label.toUpperCase()} ${this.RESET}`,
 
                 this.FORE_RED,
                 ...data,
@@ -199,7 +199,7 @@ export namespace Terminal {
                     // this.BRIGHT +
                     this.BACK_YELLOW +
                     this.FORE_BLACK
-                } ${label} ${this.RESET}`,
+                } ${label.toUpperCase()} ${this.RESET}`,
 
                 this.FORE_YELLOW,
                 ...data,
@@ -215,7 +215,7 @@ export namespace Terminal {
                     // this.BRIGHT +
                     this.BACK_GREEN +
                     this.FORE_BLACK
-                } ${label} ${this.RESET}`,
+                } ${label.toUpperCase()} ${this.RESET}`,
 
                 this.FORE_GREEN,
                 ...data,
