@@ -15,6 +15,9 @@ import {camelCase, type ITokenList, TokenList, Signal, Environment, stripHTMLTag
 import {InsertionPosition, InsertionSiblingPosition} from "./enums.js";
 import {WidgetException} from "./errors/index.js";
 
+/**
+ * @deprecated
+ */
 export namespace Mockup {
 
     export const Create = <T extends HTMLElement, A extends IAttributes>(
