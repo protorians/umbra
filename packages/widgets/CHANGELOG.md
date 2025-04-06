@@ -1,5 +1,11 @@
 # @protorians/widgets
 
+## 0.4.0
+
+### Minor Changes
+
+- db470c8: Use Protorians/Spectra
+
 ## 0.3.14
 
 ### Patch Changes
