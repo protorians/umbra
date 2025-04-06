@@ -1,5 +1,12 @@
 # @protorians/spectra
 
+## 0.0.4
+
+### Patch Changes
+
+- Add attribute, data, prepend, append, appendChild methods
+- Rename Spectra SpectraElement
+
 ## 0.0.3
 
 ### Patch Changes

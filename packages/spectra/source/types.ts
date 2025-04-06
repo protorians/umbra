@@ -1,6 +1,6 @@
 export type ISpectraClassListBlueprint = Set<string>;
 
-export type ISpectraChild = string | number | ISpectra | ISpectraAsyncChild | null | undefined;
+export type ISpectraChild = string | number | ISpectraElement | ISpectraAsyncChild | null | undefined;
 
 export type ISpectraAsyncChild = Promise<ISpectraChild[]> | Promise<ISpectraChild>;
 
@@ -19,7 +19,7 @@ export type ISpectraStyleValues = Partial<{
 export type ISpectraStyleBlueprint = Map<ISpectraStyleKeys, ISpectraStyleValue>;
 
 export type ISpectraAttributes = {
-    [K: string]: string | null;
+    [K: string]: string | number | boolean | null;
 }
 
 export type ISpectraAttributesBlueprint = Map<string, string | null | undefined>;
@@ -31,22 +31,44 @@ export interface ISpectraBlueprint {
     children: ISpectraChildren;
 }
 
-export interface ISpectra {
-    get tagName(): string;
+export interface ISpectraElement {
+    readonly tagName: string;
 
     get blueprint(): ISpectraBlueprint;
 
     get tree(): ISpectraRawChildren[];
 
+    get attributes(): ISpectraAttributes;
+
+    get dataset(): ISpectraAttributes;
+
+    get textContent(): string;
+
+    set textContent(value: string | null | undefined);
+
+    get value(): string;
+
+    set value(value: string | null | undefined);
+
+    get removed(): boolean;
+
     classname(classname: string | string[]): this;
 
     style(styles: ISpectraStyleValues): this;
 
-    attributes(attributes: ISpectraAttributes): this;
+    attribute(attributes: ISpectraAttributes): this;
 
-    text(children: ISpectraChildren): this;
+    data(attributes: ISpectraAttributes): this;
+
+    prepend(children: ISpectraChildren): this;
+
+    append(children: ISpectraChildren): this;
+
+    appendChild(child: ISpectraElement): this;
 
     children(children: ISpectraChildren): this;
+
+    remove(): void;
 
     render(): Promise<string>;
 }
