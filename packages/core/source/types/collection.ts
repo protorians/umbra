@@ -33,6 +33,10 @@ export interface ICollection<T extends ICollectionScheme> {
 
   get keys(): IterableIterator<keyof T>;
 
+  get array(): ([keyof T, T[keyof T]])[];
+
+  get string(): string;
+
   state: T
 
   effect<P extends keyof T>(key: P, callback: ICollectionCallback<T, P>): this;
