@@ -8,8 +8,6 @@ import type {
     IGlobalAttributes,
     IGlobalEventMap,
     IGlobalEventPayload,
-    IMockup,
-    IMockupElement,
     IMockupMeasure,
     INativeProperties,
     IPrimitive,
@@ -21,14 +19,23 @@ import type {
     IStyleSheet,
     IStyleSheetDeclarations,
     IWidgetDeclaration,
+    IWidgetElement,
     IWidgetNode,
     IWidgetSignalMap,
 } from "./types/index.js";
-import {Environment, type ISignalStack, IUiTarget, MetricRandom, Signal, TreatmentQueueStatus} from "@protorians/core";
-import {Mockup} from "./mockup.js";
+import {
+    Environment,
+    type ISignalStack,
+    IUiTarget,
+    MetricRandom,
+    Signal,
+    TreatmentQueueStatus,
+    camelCase
+} from "@protorians/core";
 import {ToggleOption, WidgetElevation, WidgetsNativeProperty} from "./enums.js";
 import {Widgets} from "./widgets.js";
 import {StyleWidget} from "./style.js";
+import {ISpectraElement, SpectraElement} from "@protorians/spectra";
 
 
 export const WidgetNativeProperties = Object.values(WidgetsNativeProperty)
@@ -53,8 +60,10 @@ export class ContextWidget<P extends IPropStack, S extends IStateStack> implemen
 
 export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements IWidgetNode<E, A> {
 
+    readonly element: IWidgetElement<E>;
     protected _fingerprint: string;
-    protected _mockup: IMockup<E, A>;
+
+    // protected _mockup: IMockup<E, A>;
     protected _reference: IRef<E, A> | undefined;
     protected _tag: string = 'div';
     protected _attributes: A = {} as A;
@@ -67,11 +76,9 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
 
     constructor(declaration: IWidgetDeclaration<E, A>) {
         this.extractProperties(declaration);
-        this._mockup = new Mockup.Morphic(
-            this.tag,
-            this._props.children,
-            this._attributes,
-        )
+        this.element = Environment.Client
+            ? document.createElement(this.tag) as E
+            : new SpectraElement(this.tag)
         this._fingerprint = `${MetricRandom.CreateAlpha(6).join('')}-${MetricRandom.Create(10).join('')}`;
         this._signal = new Signal.Stack;
     }
@@ -108,12 +115,12 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this._fingerprint;
     }
 
-    get mockup(): IMockup<E, A> | undefined {
-        return this._mockup;
+    get clientElement(): E | undefined {
+        return Environment.Client ? this.element as E || undefined : undefined;
     }
 
-    get element(): IMockupElement<E, A> | undefined {
-        return this._mockup.instance;
+    get serverElement(): ISpectraElement | undefined {
+        return Environment.Client ? undefined : (this.element as ISpectraElement) || undefined;
     }
 
     get children(): IChildren<IChildrenSupported> {
@@ -129,7 +136,15 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     get datasets(): IGlobalAttributes {
-        return this._mockup.dataset;
+        const dataset = {}
+        const entries = Environment.Client
+            ? Object.entries(this.clientElement?.dataset || {})
+            : [...this.serverElement?.blueprint.attributes.entries() || []]
+                .filter(x => x.toString().startsWith('data-'))
+
+        for (const [key, value] of entries) dataset[camelCase(key)] = value;
+
+        return dataset;
     }
 
     get reference(): IRef<E, A> | undefined {
@@ -151,7 +166,17 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     get measure(): IMockupMeasure {
-        return this._mockup.measure;
+        return {
+            x: 0,
+            y: 0,
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: 0,
+            height: 0,
+            ...Environment.Client ? this.clientElement?.getBoundingClientRect() : {},
+        }
     }
 
     get stylesheet(): IStyleSheet {
@@ -423,16 +448,15 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this {
-        if (Array.isArray(children))
-            children.forEach(child => this.element?.append(child))
+        if(Environment.Client) {
+            if (Array.isArray(children))
+                children.forEach(child => this.clientElement?.append(child))
 
-        else if (children instanceof WidgetNode) {
-            this.element?.append(children.element)
-            children.useContext(this._context)
+            else if (children instanceof WidgetNode) {
+                this.clientElement?.append(children.element)
+                children.useContext(this._context)
+            }
         }
-
-        console.log('Append', children, 'to', this)
-
         return this;
     }
 

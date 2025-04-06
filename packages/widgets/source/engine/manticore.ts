@@ -22,7 +22,6 @@ import {ContextWidget, WidgetNode} from "../widget-node.js";
 import {StateWidget, StateWidgetWatcher} from "../hooks/index.js";
 import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
 import {ToggleOption, WidgetElevation} from "../enums.js";
-import {Mockup} from "../mockup.js";
 
 export class Manticore<E extends HTMLElement, A extends IAttributes> implements IEngine<E, A> {
     get element(): E | undefined {
@@ -60,25 +59,14 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     // }
 
     clear(widget: IWidgetNode<E, A>,): this {
-        if (widget.element) {
-            Mockup.Context(
-                widget.element, {
-                    client: (element) => element.innerHTML = '',
-                    server: (sheet) => sheet.html = '',
-                })
-        }
+        if (widget.clientElement) widget.clientElement.innerHTML = ''
+        else if (widget.serverElement) widget.serverElement.children('')
         widget.signal.dispatch('clear', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     remove(widget: IWidgetNode<E, A>,): this {
-        if (widget.element)
-            Mockup.Context(
-                widget.element, {
-                    client: (element) => element.remove(),
-                    server: (sheet) => sheet.remove(),
-                })
-
+        widget.element.remove();
         widget.signal.dispatch('remove', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
@@ -111,74 +99,39 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     trigger(widget: IWidgetNode<E, A>, type: keyof IGlobalEventMap): this {
         if (widget.locked) return this;
-
-        if (widget.element)
-            Mockup.Context(
-                widget.element, {
-                    client: (element) => {
-                        if (typeof element['on' + type] == 'function') {
-                            const ev = new Event(type);
-                            element['on' + type].call(this, ev);
-                            widget.signal.dispatch('trigger', {
-                                root: this.widget,
-                                widget,
-                                payload: {type, event: ev}
-                            }, widget.signal);
-                        }
-                    },
-                    server: () => void (0),
-                })
-
+        if (widget.clientElement)
+            if (typeof widget.clientElement['on' + type] == 'function') {
+                const ev = new Event(type);
+                widget.clientElement['on' + type].call(this, ev);
+                widget.signal.dispatch('trigger', {
+                    root: this.widget,
+                    widget,
+                    payload: {type, event: ev}
+                }, widget.signal);
+            }
         return this;
     }
 
     computedStyle(widget: IWidgetNode<E, A>, token: keyof IStyleDeclaration): string | undefined {
-
-        if (widget.element)
-            return Mockup.Context(
-                widget.element, {
-                    client: (element) =>
-                        element.style[token] ||
-                        getComputedStyle(element).getPropertyValue(token as string)
-                        || undefined,
-                    server: () => undefined,
-                }
-            )
-
-        return undefined
+        return widget.clientElement ?
+            (widget.clientElement.style[token] ||
+                getComputedStyle(widget.clientElement).getPropertyValue(token as string)
+                || undefined)
+            : undefined
     }
 
     hide(widget: IWidgetNode<E, A>,): this {
         if (widget.locked) return this;
-
-        if (widget.element) {
-            Mockup.Context(
-                widget.element, {
-                    client: (element) =>
-                        element.style.display = 'none',
-                    server: () => void (0),
-                }
-            )
-            this.attributeLess(widget, {ariaDisabled: "true",})
-        }
-
+        widget.style({display: 'none',})
+        this.attributeLess(widget, {ariaHidden: "true",})
         widget.signal.dispatch('hide', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     show(widget: IWidgetNode<E, A>,): this {
         if (widget.locked) return this;
-
-        if (widget.element) {
-            Mockup.Context(
-                widget.element, {
-                    client: (element) =>
-                        element.style.removeProperty('display'),
-                    server: () => void (0),
-                }
-            )
-            this.attributeLess(widget, {ariaDisabled: undefined,})
-        }
+        widget.style({display: 'none',})
+        this.attributeLess(widget, {ariaHidden: undefined,})
         widget.signal.dispatch('show', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
@@ -221,13 +174,13 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     data(widget: IWidgetNode<E, A>, dataset: IGlobalAttributes): this {
         if (widget.locked) return this;
         if (widget.element)
-            Mockup.Context(
-                widget.element, {
-                    any: (element) =>
-                        Object.keys(dataset || {})
-                            .forEach(key => element.dataset ? element.dataset[key] = `${dataset[key]}` : void (0)),
-                }
-            );
+            Object.keys(dataset || {})
+                .forEach(key => {
+                    widget.element.dataset
+                        ? (widget.element.dataset[key] = typeof dataset[key] !== 'object' ? `${dataset[key]}`
+                            : undefined)
+                        : void (0)
+                })
 
         widget.signal.dispatch('data', {root: this.widget, widget, payload: dataset}, widget);
         return this;
@@ -241,23 +194,23 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     attributeLess(widget: IWidgetNode<E, A>, attributes: IGlobalAttributes): this {
         if (widget.locked) return this;
-        if (widget.element)
-            Mockup.Context(
-                widget.element, {
-                    client: (element) => {
-                        Object.keys(attributes || {}).forEach(
-                            key =>
-                                (typeof attributes[key] !== "undefined")
-                                    ? element.setAttribute(unCamelCase(key), `${attributes[key]?.toString()}`)
-                                    : element.removeAttribute(unCamelCase(key))
-                        )
-                    },
-                    server: (sheet) => {
-                        Object.keys(attributes || {}).forEach(key =>
-                            (typeof attributes[key] !== "undefined") ? sheet.attributes[unCamelCase(key)] = `${attributes[key]?.toString()}` : void (0))
-                    }
-                }
-            );
+
+        if (widget.clientElement) {
+            Object.keys(attributes || {}).forEach(
+                key =>
+                    (typeof attributes[key] !== "undefined")
+                        ? widget.clientElement?.setAttribute(unCamelCase(key), `${attributes[key]?.toString()}`)
+                        : widget.clientElement?.removeAttribute(unCamelCase(key))
+            )
+        }
+
+        if (widget.serverElement) {
+            Object.keys(attributes || {}).forEach(key => {
+                const attrib = {};
+                attrib[unCamelCase(key)] = attributes[key];
+                widget.serverElement?.attribute(attrib)
+            })
+        }
 
         widget.signal.dispatch('attribute', {root: this.widget, widget, payload: attributes}, widget.signal);
         return this;
@@ -270,9 +223,9 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 children.forEach(child => this.content(widget, child));
             } else if (children instanceof WidgetNode) {
                 this.render(children, this.widget.context || new ContextWidget(widget))
-                widget.mockup?.append(children.element);
+                widget.element.append(children.element);
                 children.useContext(this.widget.context || widget.context);
-                Callable.safe(()=>{
+                Callable.safe(() => {
                     children.signal.dispatch('mount', {
                         root: this.widget,
                         widget: children,
@@ -291,18 +244,17 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             } else if (
                 Environment.Client &&
                 (children instanceof HTMLElement ||
-                children instanceof DocumentFragment ||
-                children instanceof Text)
+                    children instanceof DocumentFragment ||
+                    children instanceof Text)
             ) {
-                widget.mockup?.append(children);
+                widget.clientElement?.append(children);
             } else if (children instanceof StateWidget || children instanceof StateWidgetWatcher) {
                 children.bind(widget)
             } else if (typeof children === 'string' || typeof children === 'number') {
-                if(Environment.Client) {
-                    widget.mockup?.append(document.createTextNode(`${children}`))
-                }
-                else{
-                    widget.mockup?.append(children)
+                if (Environment.Client) {
+                    widget.clientElement?.append(document.createTextNode(`${children}`))
+                } else {
+                    widget.serverElement?.append(children)
                 }
             }
         }
@@ -322,8 +274,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         (Array.isArray(token) ? token : token.split(' '))
             .forEach((t) => {
                 if (t.trim().length > 0) {
-                    if (Environment.Client) widget.element?.classList.add(t);
-                    else widget.mockup?.className.add(t);
+                    if (Environment.Client) widget.clientElement?.classList.add(t);
+                    else widget.serverElement?.blueprint.classList.add(t);
                 }
             });
         widget.signal.dispatch('className', {root: this.widget, widget, payload: token}, widget.signal);
@@ -332,8 +284,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     value(widget: IWidgetNode<E, A>, data: IPrimitive): this {
         if (widget.locked) return this;
-        if (widget.mockup) {
-            widget.mockup.value = data;
+        if ('value' in widget.element) {
+            widget.element.value = `${data || ''}`;
             widget.signal.dispatch('value', {root: this.widget, widget, payload: data}, widget.signal);
         }
         return this;
@@ -341,10 +293,9 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     html(widget: IWidgetNode<E, A>, data: string): this {
         if (widget.locked) return this;
-        if (widget.mockup) {
-            widget.mockup.html = data;
-            widget.signal.dispatch('html', {root: this.widget, widget, payload: data}, widget);
-        }
+        if (widget.clientElement) widget.clientElement.innerHTML = data;
+        if (widget.serverElement) widget.serverElement.children(data)
+        widget.signal.dispatch('html', {root: this.widget, widget, payload: data}, widget);
         return this;
     }
 

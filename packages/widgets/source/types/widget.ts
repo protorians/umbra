@@ -1,12 +1,15 @@
 import type {IChildren} from "./children.js";
 import type {IPrimitives, IPrimitive, IStringToken, IFunctioningPrimitives} from "./value.js";
 import type {IAttributes} from "./attributes.js";
-import type {IMockup, IMockupElement, IMockupMeasure} from "./mockup.js";
+import type { IMockupMeasure} from "./mockup.js";
 import {ToggleOption, WidgetElevation} from "../enums.js";
 import {ISignalStack, IUiTarget, TreatmentQueueStatus} from "@protorians/core";
 import {IStateStack} from "./state.js";
 import {IEngine} from "./engine.js";
 import {IStyleDeclaration, IStyleSheet, IStyleSheetDeclarations} from "./style.js";
+import {ISpectraElement} from "@protorians/spectra";
+
+export type IWidgetElement<E extends HTMLElement> = ISpectraElement | E
 
 export interface IGlobalAttributes {
     [K: string]: IPrimitives;
@@ -117,13 +120,18 @@ export interface IWidgetCollection {
 }
 
 export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
+
+    readonly element: IWidgetElement<E>;
+
     get fingerprint(): string;
 
     get tag(): string;
 
-    get mockup(): IMockup<E, A> | undefined;
+    // get mockup(): IMockup<E, A> | undefined;
 
-    get element(): IMockupElement<E, A> | undefined;
+    get clientElement(): E | undefined;
+
+    get serverElement(): ISpectraElement | undefined;
 
     get children(): IChildren<IChildrenSupported>;
 

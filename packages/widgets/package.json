@@ -30,6 +30,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@protorians/spectra": "workspace:",
     "@protorians/animetric": "workspace:",
     "@protorians/colorimetric": "workspace:",
     "@protorians/core": "workspace:"
