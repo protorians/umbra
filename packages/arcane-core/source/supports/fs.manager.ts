@@ -1,7 +1,7 @@
 import {statSync, mkdirSync, existsSync, readdirSync, copyFileSync} from "node:fs";
 import {ArcaneProgress} from "./progress.js";
 import * as path from "node:path";
-import * as AdmZip from "adm-zip";
+import AdmZip from "adm-zip";
 import {SingleBar} from "cli-progress";
 import * as fs from "node:fs";
 import extractZip from "extract-zip";

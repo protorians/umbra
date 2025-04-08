@@ -22,14 +22,14 @@
     "noImplicitReturns": true,
     "experimentalDecorators": true,
     "strict": true,
-    "outDir": "./build",
-    "rootDir": "./source"
+    "outDir": "./.vauban/caches",
+    "rootDir": "./"
   },
   "exclude": [
     "node_modules",
-    "build"
+    ".vauban"
   ],
   "include": [
-    "./source"
+    "./"
   ]
 }

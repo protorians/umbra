@@ -2,6 +2,10 @@
   <dictionary name="project">
     <words>
       <w>akwaba</w>
+      <w>builddir</w>
+      <w>cachedir</w>
+      <w>outdir</w>
+      <w>sourcedir</w>
     </words>
   </dictionary>
 </component>
