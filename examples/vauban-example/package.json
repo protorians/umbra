@@ -1,21 +1,19 @@
 {
   "name": "vauban-demo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "start": "node build/main"
+    "dev": "vauban dev",
+    "build": "vauban build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@protorians/paladin": "workspace:",
+    "@protorians/vauban": "workspace:",
     "@protorians/widgets": "workspace:",
-    "paladin": "link:",
     "typescript": "5.8.3"
   }
 }

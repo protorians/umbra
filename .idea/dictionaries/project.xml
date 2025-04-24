@@ -5,6 +5,7 @@
       <w>builddir</w>
       <w>cachedir</w>
       <w>outdir</w>
+      <w>pipelinedir</w>
       <w>sourcedir</w>
     </words>
   </dictionary>

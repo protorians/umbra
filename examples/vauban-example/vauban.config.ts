@@ -1,8 +1,9 @@
-import {IServerConfig} from "@protorians/paladin";
+import {IServerConfig, ServerRuntimeMode} from "@protorians/vauban";
 
 export default function VaubanConfig(): IServerConfig {
     return {
-        port: process.env.PORT || 3000,
+        mode: ServerRuntimeMode.Development,
+        port: 3000,
         directories: {
             source: "./source",
             actions: "./source/actions",
