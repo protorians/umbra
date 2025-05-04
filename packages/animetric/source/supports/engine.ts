@@ -153,7 +153,7 @@ export class AnimetricEngine implements IAnimetric {
             frames: this._options.ease
                 ? this._options.from.map((value, index) =>
                     round(
-                         (value - ((value - this._options.to[index]) * computeAnimetricEase(this._percent, this))),
+                        (value - ((value - this._options.to[index]) * computeAnimetricEase(this._percent, this))),
                         // computeAnimetricEase(this._percent, this) * (value + (this.options.to[index] - value)),
                         this._options.decimal
                     )
@@ -234,12 +234,14 @@ export class AnimetricEngine implements IAnimetric {
 export class AnimetricGroup implements IAnimetricGroup {
 
     protected _index: number | undefined;
+    signal: ISignalStack<IAnimetricSignalMap>
 
     constructor(
         readonly timelines: IAnimetric[],
         readonly options?: Partial<IAnimetricBaseOptions> & IAnimetricGroupOptions,
     ) {
 
+        this.signal = new Signal.Stack<IAnimetricSignalMap>();
         this.options = options || {} as IAnimetricBaseOptions & IAnimetricGroupOptions;
         this.timelines = timelines.map(animetric =>
             animetric
@@ -249,6 +251,39 @@ export class AnimetricGroup implements IAnimetricGroup {
                 .decimal(this.options?.decimal || 3)
                 .delay(this.options?.delay || 0)
         );
+        this.initialize()
+    }
+
+    protected initialize() {
+        const frame = this.timelines[0]
+        if (frame) {
+            frame.signal
+                .listen('play', (d) => {
+                    this.signal.dispatch('play', d)
+                })
+                .listen('initialize', (d) => {
+                    this.signal.dispatch('initialize', d)
+                })
+                .listen('stop', (d) => {
+                    this.signal.dispatch('stop', d)
+                })
+                .listen('pause', (d) => {
+                    this.signal.dispatch('pause', d)
+                })
+                .listen('resume', (d) => {
+                    this.signal.dispatch('resume', d)
+                })
+                .listen('complete', (d) => {
+                    this.signal.dispatch('complete', d)
+                })
+                .listen('loop', (d) => {
+                    this.signal.dispatch('loop', d)
+                })
+                .listen('update', (d) => {
+                    this.signal.dispatch('update', d)
+                })
+        }
+        return this;
     }
 
     play(): this {
