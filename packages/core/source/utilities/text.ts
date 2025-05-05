@@ -29,7 +29,10 @@ export function stripHTMLTags(text: string): string {
 }
 
 export function unCamelCase(value: string, separator = '-'): string {
-  return value.replace(/[A-Z]/g, letter => `${separator}${letter.toLowerCase()}`);
+  let t =  value.replace(/[A-Z]/g, letter => `${separator}${letter.toLowerCase()}`);
+  t = t.startsWith('-') && !t.startsWith('--')
+      ? t.slice(1) : t;
+  return t
 }
 
 export function camelCase(value: string): string {
