@@ -12,7 +12,7 @@ export function KatonModal(
         // declaration,
         extended
     } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, Partial<IModalOptions> & ICommonAttributes>, 'children'>, IModalOptions>(
-        declarations, ['scope', 'trigger', 'fore', 'back', 'locked', 'blurred', 'animate', 'ariaTitle', 'ariaDescription', 'position', 'type']
+        declarations, ['scope', 'trigger', 'fore', 'back', 'locked', 'blurred', 'animate', 'animateOut', 'ariaTitle', 'ariaDescription', 'position', 'type']
     )
 
     return ModalKit
@@ -24,6 +24,7 @@ export function KatonModal(
         .locked(extended.locked)
         .blurred(extended.blurred)
         .animate(extended.animate)
+        .animateOut(extended.animateOut)
         .ariaTitle(extended.ariaTitle)
         .ariaDescription(extended.ariaDescription)
         .position(extended.position)

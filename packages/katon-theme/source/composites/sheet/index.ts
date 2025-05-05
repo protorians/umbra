@@ -20,7 +20,7 @@ export function KatonSheet(
         // declaration,
         extended
     } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, Partial<KatonSheetProps> & ICommonAttributes>, 'children'>, KatonSheetProps>(
-        declarations, ['scope', 'trigger', 'fore', 'back', 'locked', 'blurred', 'animate', 'ariaTitle', 'ariaDescription', 'position', 'alignment', 'type']
+        declarations, ['scope', 'trigger', 'fore', 'back', 'locked', 'blurred', 'animate', 'animateOut', 'ariaTitle', 'ariaDescription', 'position', 'alignment', 'type']
     )
 
     return ModalKit
@@ -32,6 +32,7 @@ export function KatonSheet(
         .locked(extended.locked)
         .blurred(extended.blurred)
         .animate(extended.animate)
+        .animateOut(extended.animateOut)
         .ariaTitle(extended.ariaTitle)
         .ariaDescription(extended.ariaDescription)
         .position(

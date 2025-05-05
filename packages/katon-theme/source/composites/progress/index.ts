@@ -10,7 +10,7 @@ import {KatonProgressProps} from "./type.js";
 import {TextureStylesheet} from "../../stylesheet.js";
 import {resolveColoringLayer, resolveColoringLayerOutlined} from "../../common/index.js";
 import {LayerVariant} from "@widgetui/core";
-import {createState} from "@protorians/widgets/~esm/index.js";
+import {createState} from "@protorians/widgets";
 
 export function KatonProgress(
     declarations: Omit<IWidgetDeclaration<HTMLElement, KatonProgressProps & ICommonAttributes>, 'children'>

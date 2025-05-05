@@ -22,7 +22,7 @@ import {KatonScrollAreaProps} from "./composites/scroll-area/type.js";
 import { KatonModal } from "./composites/modal/index.js";
 import { KatonSheet } from "./composites/sheet/index.js";
 import { KatonSheetProps } from "./composites/sheet/type.js";
-import {Color, IWidgetNode} from "@protorians/widgets/~esm/index.js";
+import {Color, IWidgetNode} from "@protorians/widgets";
 import { KatonProgress } from "./composites/progress/index.js";
 import { KatonProgressProps } from "./composites/progress/type.js";
 
