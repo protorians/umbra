@@ -14,6 +14,7 @@
   "dependencies": {
     "@protorians/vauban": "workspace:",
     "@protorians/widgets": "workspace:",
+    "@widgetui/katon-theme": "workspace:",
     "typescript": "5.8.3"
   }
 }

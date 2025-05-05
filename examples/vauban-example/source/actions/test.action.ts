@@ -6,14 +6,15 @@ import * as fs from "node:fs";
 
 const __dirname = (path.dirname(import.meta.url))
 
-export async function testAction() {
-
+export async function testAction(id: number) {
     const dir = url.fileURLToPath(__dirname);
     if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) {
-        return fs.readdirSync(dir, {recursive: true})
+        return {
+            file : fs.readdirSync(dir, {recursive: true}),
+            id,
+        }
     }
-
-    return 'No data';
+    return undefined;
 }
 
 export async function testActionDouble() {
