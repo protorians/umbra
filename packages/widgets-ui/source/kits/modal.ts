@@ -17,6 +17,8 @@ import {createShortcut, IShortcut} from "@protorians/shortcuts";
 export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLayout> {
     protected _status: IState<boolean> = createState<boolean>(false);
     protected _options: Partial<IModalOptions> = {};
+    protected _wrapper: IWidgetNode<any, any> | undefined;
+    protected _foreground: IWidgetNode<any, any> | undefined;
 
     protected playAnimation(
         widget: IWidgetNode<any, any>,
@@ -60,6 +62,7 @@ export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLa
             },
             signal: {
                 mount: ({widget}) => {
+                    this._foreground = widget;
                     if (this._options.animate) this.playAnimation(widget, this._options.animate)
                 }
             },
@@ -103,22 +106,36 @@ export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLa
     bootstrapper(context: ICallablePayload<any, any, any>) {
         let scope: IWidgetNode<any, any> | undefined;
         let wrapper: IWidgetNode<any, any> | undefined;
-        let short: IShortcut<HTMLElement> | undefined;
+        let shortcut: IShortcut<HTMLElement> | undefined;
 
         this._status.effect((state) => {
             if (!state) {
-                const scopedElement = scope?.element || document.documentElement;
-                scopedElement.style.removeProperty('overflow');
-                wrapper?.remove()
-                wrapper = undefined;
-                short?.destroy()
+
+                const wipe = () => {
+                    this._wrapper?.trigger('blur')
+                    const scopedElement = scope?.element || document.documentElement;
+                    scopedElement.style.removeProperty('overflow');
+                    wrapper?.remove()
+                    wrapper = undefined;
+                    shortcut?.destroy()
+                }
+
+                if (this._options.animateOut && this._foreground) {
+                    this.playAnimation(
+                        this._foreground,
+                        this._options.animateOut
+                    )?.signal.listen('complete', () => wipe())
+                    return;
+                }
+
+                wipe()
                 return;
             }
 
             const position = this._options.position || [PositionX.Center, PositionY.Center];
 
             scope = (this._options.scope?.context?.root || context.root);
-            short = createShortcut(["Escape"], {trigger: () => this.close()})
+            shortcut = createShortcut(["Escape"], {trigger: () => this.close()})
             wrapper = this.wrapper()
             wrapper
                 .elevate(this.elevation)
@@ -135,6 +152,7 @@ export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLa
                 });
             scope.content(wrapper);
             (scope.element || document.documentElement).style.overflow = 'hidden';
+            this._wrapper = wrapper;
         })
 
         return this._options.trigger?.listen('click', () => this.open())
@@ -147,6 +165,15 @@ export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLa
 
     close(): this {
         this._status.set(false);
+        return this;
+    }
+
+    hide(): this {
+        if (this._wrapper) {
+            this._wrapper.attributeLess({'aria-hidden': "false"})
+            this._wrapper.trigger('blur')
+            this._wrapper.hide();
+        }
         return this;
     }
 
@@ -197,6 +224,11 @@ export class ModalKit extends Kit<IModalLayout> implements IModal, IKit<IModalLa
 
     animate(value?: IAnimetricSlimOptions): this {
         this._options.animate = value || this._options.animate || undefined;
+        return this;
+    }
+
+    animateOut(value?: IAnimetricSlimOptions): this {
+        this._options.animateOut = value || this._options.animateOut || undefined;
         return this;
     }
 

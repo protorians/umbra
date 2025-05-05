@@ -28,6 +28,7 @@ export interface IModalOptions {
     locked?: boolean;
     blurred?: boolean;
     animate?: IAnimetricSlimOptions;
+    animateOut?: IAnimetricSlimOptions;
     position?: [PositionX, PositionY];
 }
 
@@ -51,6 +52,8 @@ export interface IModalActionable {
     blurred(value?: boolean): this;
 
     animate(value?: IAnimetricSlimOptions): this;
+
+    animateOut(value?: IAnimetricSlimOptions): this;
 
     position(value?: [PositionX, PositionY]): this;
 
@@ -79,4 +82,5 @@ export interface IModal extends IKit<IModalLayout>, IModalActionable {
     get options(): Partial<IModalOptions>;
     open(): this;
     close(): this;
+    hide(): this;
 }
