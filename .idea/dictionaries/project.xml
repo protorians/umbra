@@ -4,8 +4,10 @@
       <w>akwaba</w>
       <w>builddir</w>
       <w>cachedir</w>
+      <w>fnames</w>
       <w>outdir</w>
       <w>pipelinedir</w>
+      <w>protorians</w>
       <w>sourcedir</w>
     </words>
   </dictionary>
