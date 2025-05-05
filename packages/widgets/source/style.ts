@@ -80,11 +80,11 @@ export class StyleWidget implements IStyleSheet {
         if (aliases) {
             aliases
                 .map(alias =>
-                    accumulate.push(
-                        `${unCamelCase(alias.toString())}:${value}`
-                    )
+                    accumulate.push(`${unCamelCase(alias.toString())}:${value}`)
                 )
-        } else accumulate.push(`${unCamelCase(key)}:${value}`);
+        } else {
+            accumulate.push(`${key.startsWith('--') ? key : unCamelCase(key)}:${value}`);
+        }
 
         return accumulate.join(';');
     }
@@ -122,7 +122,6 @@ export class StyleWidget implements IStyleSheet {
                 (declarations instanceof StyleWidget)
                     ? declarations.declarations
                     : declarations || {}
-
             )
         }
         return this;

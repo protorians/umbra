@@ -187,6 +187,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     unmount(callback: ICallable<E, A, undefined>): this;
 
+    ready(callback: ICallable<E, A, IWidgetNode<E, A>>): this;
+
     before(callback: ICallable<E, A, undefined>): this;
 
     after(callback: ICallable<E, A, undefined>): this;
@@ -208,6 +210,12 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
     // style(declaration: Partial<IStyleDeclaration>): this;
 
     className(token: IStringToken): this;
+
+    removeClassName(token: IStringToken): this;
+
+    replaceClassName(oldToken: IStringToken, token: IStringToken): this;
+
+    clearClassName(): this;
 
     value(data: IPrimitive): this;
 

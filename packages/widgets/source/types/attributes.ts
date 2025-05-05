@@ -295,6 +295,7 @@ export interface IInputableAttributes extends ICommonAttributes, IInputableCommo
     // src?: string; // Input image type
     step?: number;
     value?: string;
+    accept?: string;
 }
 
 export interface IFormAttributes extends ICommonAttributes {

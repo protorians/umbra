@@ -73,6 +73,12 @@ export interface IEngine<E extends HTMLElement, A extends IAttributes> {
 
   className(widget: IWidgetNode<E, A>, token: IStringToken): this;
 
+  removeClassName(widget: IWidgetNode<E, A>, token: IStringToken): this;
+
+  clearClassName(widget: IWidgetNode<E, A>): this;
+
+  replaceClassName(widget: IWidgetNode<E, A>, oldToken: IStringToken, token: IStringToken): this;
+
   value(widget: IWidgetNode<E, A>, data: IPrimitive): this;
 
   html(widget: IWidgetNode<E, A>, data: string): this;

@@ -20,6 +20,8 @@ export class ClientRouter<Scheme extends IRouterBaseScheme> implements IRouter<S
 
     protected _error_status: boolean = false;
 
+    protected _history: string[] = [];
+
     signal: ISignalStack<IRouterSignalMap<Scheme>>;
 
     constructor(
@@ -122,7 +124,7 @@ export class ClientRouter<Scheme extends IRouterBaseScheme> implements IRouter<S
                     route: route as IRouterRoute<Scheme, keyof Scheme> & IRouterBaseRoute,
                     params: params as Scheme[keyof Scheme],
                     props,
-                })
+                });
 
                 return route as IRouterRoute<Scheme, keyof Scheme> & IRouterBaseRoute;
             }

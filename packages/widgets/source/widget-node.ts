@@ -62,6 +62,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
 
     readonly element: IWidgetElement<E>;
     protected _fingerprint: string;
+    protected _isReady: boolean = false;
 
     // protected _mockup: IMockup<E, A>;
     protected _reference: IRef<E, A> | undefined;
@@ -81,6 +82,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : new SpectraElement(this.tag)
         this._fingerprint = `${MetricRandom.CreateAlpha(6).join('')}-${MetricRandom.Create(10).join('')}`;
         this._signal = new Signal.Stack;
+        this.mount(() => this._isReady = true)
     }
 
     static get style(): IStyleSheetDeclarations | undefined {
@@ -206,6 +208,20 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
                 return callback(payload);
             }
         });
+        return this;
+    }
+
+    ready(callback: ICallable<E, A, IWidgetNode<E, A>>): this {
+        if (!this._isReady && this.context?.root) {
+            callback({
+                root: this.context?.root,
+                widget: this,
+                payload: this,
+            })
+        } else this.mount((payload) => {
+            callback(payload)
+            return TreatmentQueueStatus.SnapOut
+        })
         return this;
     }
 
@@ -398,6 +414,33 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this;
     }
 
+    removeClassName(token: IStringToken): this {
+        if (this._context) this._context.engine?.removeClassName(this, token);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.removeClassName(this, token);
+            return TreatmentQueueStatus.SnapOut;
+        })
+        return this;
+    }
+
+    replaceClassName(oldToken: IStringToken, token: IStringToken): this {
+        if (this._context) this._context.engine?.replaceClassName(this, oldToken, token);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.replaceClassName(this, oldToken, token);
+            return TreatmentQueueStatus.SnapOut;
+        })
+        return this;
+    }
+
+    clearClassName(): this {
+        if (this._context) this._context.engine?.clearClassName(this);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.clearClassName(this);
+            return TreatmentQueueStatus.SnapOut;
+        })
+        return this;
+    }
+
     value(data: IPrimitive): this {
         if (this._context) this._context.engine?.value(this, data);
         else if (!this._context) this._signal.listen('mount', () => {
@@ -448,7 +491,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this {
-        if(Environment.Client) {
+        if (Environment.Client) {
             if (Array.isArray(children))
                 children.forEach(child => this.clientElement?.append(child))
 

@@ -22,6 +22,8 @@ export interface IState<T> {
 
     bind<E extends HTMLElement, A extends IAttributes>(widget: IWidgetNode<E, A>): this;
 
+    prune(data?: T): this;
+
     reset(): this;
 }
 
