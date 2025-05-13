@@ -19,9 +19,9 @@ import type {
     IStyleSheetDeclarations, IGlobalEventCallableMap
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
-import {StateWidget, StateWidgetWatcher} from "../hooks/index.js";
 import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
 import {ToggleOption, WidgetElevation} from "../enums.js";
+import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
 export class Manticore<E extends HTMLElement, A extends IAttributes> implements IEngine<E, A> {
     get element(): E | undefined {
@@ -29,7 +29,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     constructor(
-        protected widget: IWidgetNode<E, A>
+        readonly widget: IWidgetNode<E, A>
     ) {
     }
 
@@ -100,15 +100,17 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     trigger(widget: IWidgetNode<E, A>, type: keyof IGlobalEventMap): this {
         if (widget.locked) return this;
         if (widget.clientElement) {
-            if (typeof widget.clientElement[type] === 'function') {
-                const ev = new Event(type);
-                widget.clientElement[type]();
-                widget.signal.dispatch('trigger', {
-                    root: this.widget,
-                    widget,
-                    payload: {type, event: ev}
-                }, widget.signal);
-            }
+            requestAnimationFrame(() => {
+                if (widget.clientElement && typeof widget.clientElement[type] === 'function') {
+                    widget.clientElement[type]();
+                    widget.signal.dispatch('trigger', {
+                        root: this.widget,
+                        widget,
+                        payload: {type, event: new Event(type)}
+                    }, widget.signal);
+                }
+            })
+
         }
         return this;
     }
@@ -218,7 +220,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     content(widget: IWidgetNode<E, A>, children: IChildren<IChildrenSupported>): this {
-        if (widget.locked) return this;
         if (typeof children !== 'undefined') {
             if (Array.isArray(children)) {
                 children.forEach(child => this.content(widget, child));
@@ -234,32 +235,16 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                     }, children.signal);
                 })
 
-            } else if (children instanceof Promise) {
-                children.then(child => this.content(widget, child));
-            } else if (typeof children === 'function') {
-                this.content(widget, children({
-                    root: this.widget,
-                    widget: widget,
-                    payload: undefined,
-                }))
-            } else if (
-                Environment.Client &&
-                (children instanceof HTMLElement ||
-                    children instanceof DocumentFragment ||
-                    children instanceof Text)
-            ) {
-                widget.clientElement?.append(children);
-            } else if (children instanceof StateWidget || children instanceof StateWidgetWatcher) {
-                children.bind(widget)
             } else if (typeof children === 'string' || typeof children === 'number') {
                 if (Environment.Client) {
                     widget.clientElement?.append(document.createTextNode(`${children}`))
                 } else {
                     widget.serverElement?.append(children)
                 }
+            } else {
+                WidgetDirectives.process(children, WidgetDirectivesType.EngineContent, {engine: this, widget,})
             }
         }
-
         return this;
     }
 
@@ -437,8 +422,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             .listen('unmount', () => {
                 (widget.constructor as typeof WidgetNode<E, A>).unmount(widget);
             })
-
-        if (widget.clientElement) widget.clientElement.style.visibility = 'hidden';
 
         if (widget.props.signal) this.signals(widget, widget.props.signal)
 

@@ -17,13 +17,30 @@ function createMarker<T>(widget: IWidgetNode<any, any>, data: IPrimitive | IWidg
         return data.element;
     } else if (typeof data === "object" && Array.isArray(data)) {
         data.forEach((w) => {
-            if (w instanceof WidgetNode && widget.context && !w.context)
-                WidgetBuilder(w, widget.context)
+            if (w instanceof WidgetNode && widget.context) WidgetBuilder(w, widget.context)
         })
         return document.createTextNode('');
     }
 
     return document.createTextNode(`${typeof data === 'undefined' ? '' : data?.toString()}`);
+}
+
+
+function mountWidgetState<T>(
+    widget: IWidgetNode<any, any>,
+    state: T,
+) {
+
+    if (state instanceof WidgetNode) {
+        state.signal.dispatch('mount', {
+            root: widget,
+            widget: state,
+            payload: state
+        })
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -36,21 +53,11 @@ function updateMarkerFromArray<T>(
     if (marker) marker.replaceWith(newMarker)
 
     if (Array.isArray(state)) {
-        newMarker.before(
-            ...state.map(item => item instanceof WidgetNode ? item.element : item)
-        );
+        newMarker.before(...state.map(item => item instanceof WidgetNode ? item.element : item));
+        for (const item of state) mountWidgetState(widget, item)
+    } else if (state instanceof WidgetNode) mountWidgetState(widget, state)
 
-        for (const item of state) {
-            if (item instanceof WidgetNode) {
-                item.signal.dispatch('mount', {
-                    root: widget,
-                    widget: item,
-                    payload: item
-                })
-            }
-        }
-    }
-    return newMarker
+    return newMarker;
 }
 
 export class StateWidget<T> implements IState<T> {
@@ -92,13 +99,12 @@ export class StateWidget<T> implements IState<T> {
     bind<E extends HTMLElement, A extends IAttributes>(widget: IWidgetNode<E, A>): this {
         let marker = updateMarkerFromArray<T>(widget, this.value);
         let old: T | undefined;
-
         this.effect((state) => {
             StateWidget.prune(old)
             marker = updateMarkerFromArray<T>(widget, state, marker,)
             old = state;
         })
-        widget.content(marker)
+        widget.content(marker);
         return this;
     }
 

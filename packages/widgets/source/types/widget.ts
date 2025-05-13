@@ -1,7 +1,7 @@
 import type {IChildren} from "./children.js";
 import type {IPrimitives, IPrimitive, IStringToken, IFunctioningPrimitives} from "./value.js";
 import type {IAttributes} from "./attributes.js";
-import type { IMockupMeasure} from "./mockup.js";
+import type { IMeasure} from "./measure.js";
 import {ToggleOption, WidgetElevation} from "../enums.js";
 import {ISignalStack, IUiTarget, TreatmentQueueStatus} from "@protorians/core";
 import {IStateStack} from "./state.js";
@@ -149,7 +149,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     get signal(): ISignalStack<IWidgetSignalMap<E, A>>;
 
-    get measure(): IMockupMeasure;
+    get measure(): IMeasure;
 
     get stylesheet(): IStyleSheet;
 

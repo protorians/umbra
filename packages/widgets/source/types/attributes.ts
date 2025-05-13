@@ -239,7 +239,7 @@ export interface IButtonAttributes extends IInputableAttributes {
 }
 
 export interface IButtonAttributesBase extends IInputableAttributes {
-    onPress: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'click'>>;
+    onPress?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'click'>>;
     onPressStart?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mousedown'>>;
     onPressEnd?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mouseup'>>;
 }

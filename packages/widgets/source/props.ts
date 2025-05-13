@@ -1,6 +1,7 @@
-import type {IAttributes, IMockupElement, IPropStack, IWidgetNode} from "./types/index.js";
+import type {IAttributes, IPropStack, IWidgetNode} from "./types/index.js";
 import {WidgetNode} from "./widget-node.js";
 import {Environment} from "@protorians/core";
+import {ISpectraElement} from "@protorians/spectra";
 
 
 export function propsValue(data: any) {
@@ -15,7 +16,7 @@ export function propsValue(data: any) {
 
 export function extractProps<P extends IPropStack>(provider: IWidgetNode<any, any> | HTMLElement): P {
     const props: P = {} as P
-    const element: IMockupElement<HTMLElement, IAttributes> = provider instanceof WidgetNode ? (provider.element) : provider
+    const element: HTMLElement | ISpectraElement = provider instanceof WidgetNode ? (provider.element) : provider
 
     if (Environment.Client) {
         Object.values(element?.attributes as NamedNodeMap).forEach(attrib => {

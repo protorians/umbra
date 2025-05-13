@@ -1,4 +1,9 @@
 import type {IChildren, IChildrenSupported} from "./types/index.js";
-import {Directive} from "@protorians/core"
+import {Directives, IDirectives} from "@protorians/core"
 
-export const WidgetDirectives = new Directive<IChildren<IChildrenSupported>>();
+
+export enum WidgetDirectivesType {
+    EngineContent = 'widget.engine.content',
+}
+
+export const WidgetDirectives: IDirectives<IChildren<IChildrenSupported>> = new Directives<IChildren<IChildrenSupported>>();
