@@ -4,7 +4,8 @@ import path from 'path';
 
 const SUBTREE_ROOT = './packages';
 const REMOTE_BASE_URL = 'https://github.com/protorians/';
-const REMOTE_BRANCH = 'main';
+const REMOTE_BRANCH = process.argv[2] || 'main';
+
 
 function exec(command) {
   return execSync(command, { encoding: 'utf8' }).trim();
