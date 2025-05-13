@@ -1,4 +1,4 @@
-import {type KatonScrollAreaProps} from "./type.js";
+import {type ThemeScrollAreaProps} from "./type.js";
 import {
     AligningDirection,
     Column,
@@ -10,14 +10,14 @@ import {
 } from "@protorians/widgets";
 
 
-export function KatonScrollArea(
-    declarations: IWidgetDeclaration<HTMLElement, KatonScrollAreaProps & ICommonAttributes>
+export function ThemeScrollArea(
+    declarations: IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonScrollAreaProps & ICommonAttributes>, KatonScrollAreaProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>, ThemeScrollAreaProps>(
         declarations, ['direction', 'children', 'hideScroll', 'size']
     )
     const hideScroll = typeof extended.hideScroll === 'undefined' ? true : extended.hideScroll;

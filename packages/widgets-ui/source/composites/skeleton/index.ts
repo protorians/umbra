@@ -6,22 +6,23 @@ import {
     Layer,
     Style
 } from "@protorians/widgets";
-import {KatonSkeletonProps} from "./type.js";
-import {TextureStylesheet} from "../../stylesheet.js";
+import {ThemeSkeletonProps} from "./type.js";
+import {ITheme} from "../../types/index.js";
 
-export function KatonSkeleton(
-    declarations: IWidgetDeclaration<HTMLElement, KatonSkeletonProps & ICommonAttributes>
+export function ThemeSkeleton(
+    theme: ITheme,
+    declarations: IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonSkeletonProps & ICommonAttributes>, KatonSkeletonProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>, ThemeSkeletonProps>(
         declarations, ['duration', 'delay']
     )
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge(declaration.style)
         .merge({

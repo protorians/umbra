@@ -6,18 +6,18 @@ import {
     MainFrame, Section,
     Style
 } from "@protorians/widgets";
-import {KatonViewProps} from "./type.js";
+import {ThemeViewProps} from "./type.js";
 import {$ui} from "@protorians/core";
 
 
-export function KatonView(
-    declarations: IWidgetDeclaration<HTMLElement, KatonViewProps & ICommonAttributes>
+export function ThemeView(
+    declarations: IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>
 ) {
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonViewProps & ICommonAttributes>, KatonViewProps>(declarations,
-        ['direction', 'helmet', 'navbar', 'bottomNavbar', 'footer', 'scrollable']
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>, ThemeViewProps>(declarations,
+        ['direction', 'helmet', 'navbar', 'bottomNavbar', 'footer', 'scrollable', 'title']
     )
     const scrollable = (typeof extended.scrollable == 'undefined')
         ? 'auto' : (extended.scrollable ? 'auto' : 'hidden')
@@ -70,13 +70,17 @@ export function KatonView(
             flexDirection: 'row',
             justifyContent: 'flex-start'
         }).construct(({widget}) => {
-            widget.attributeLess({
+            widget.attribute({
                 'role': 'contentinfo',
             })
         }),
     ];
 
-    return Section(declaration)
+    return Section({
+        role: 'region',
+        ariaLabel: extended.title || 'View page section',
+        ...declaration
+    })
         .mount(({widget}) => {
             $ui('body').forEach((e) =>
                 e.style.backgroundColor = `${widget.stylesheet.declarations.backgroundColor?.toString() || Color.tint}`

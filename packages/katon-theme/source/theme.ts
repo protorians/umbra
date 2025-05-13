@@ -1,33 +1,18 @@
-import {CommonTheme, IModalOptions, type IThemeSettings} from "@widgetui/core";
-import {KatonButton} from "./composites/button/index.js";
+import {WidgetTheme, type IThemeSettings, LayerVariant, type IColoringLayer} from "@widgetui/core";
 import {
-    type IButtonAttributes,
-    type IButtonAttributesBase,
+    type IChildren,
     type ICommonAttributes,
     type IWidgetDeclaration,
 } from "@protorians/widgets";
-import {KatonButtonProps} from "./composites/button/type.js";
-import {KatonHelmet} from "./composites/helmet/index.js";
-import {KatonHelmetProps} from "./composites/helmet/type.js";
-import {KatonViewProps} from "./composites/view/type.js";
-import {KatonView} from "./composites/view/index.js";
-import {KatonSkeleton} from "./composites/skeleton/index.js";
-import {KatonSkeletonProps} from "./composites/skeleton/type.js";
-import {KatonLayer} from "./composites/layer/index.js";
-import {KatonLayerProps} from "./composites/layer/type.js";
-import {KatonNavbar} from "./composites/navbar/index.js";
-import {KatonNavbarProps} from "./composites/navbar/type.js";
-import {KatonScrollArea} from "./composites/scroll-area/index.js";
-import {KatonScrollAreaProps} from "./composites/scroll-area/type.js";
-import { KatonModal } from "./composites/modal/index.js";
-import { KatonSheet } from "./composites/sheet/index.js";
-import { KatonSheetProps } from "./composites/sheet/type.js";
-import {Color, IWidgetNode} from "@protorians/widgets";
-import { KatonProgress } from "./composites/progress/index.js";
-import { KatonProgressProps } from "./composites/progress/type.js";
+import {Color} from "@protorians/widgets";
+import {KatonModalAnimations} from "./animations/modal.js";
+import {
+    ThemeAlert,
+    type ThemeAlertProps,
+} from "@widgetui/core/composites";
 
 
-export class KatonTheme extends CommonTheme {
+export class KatonTheme extends WidgetTheme {
 
     get name(): string {
         return 'katon';
@@ -36,56 +21,107 @@ export class KatonTheme extends CommonTheme {
     protected prepareSettings(settings: Partial<IThemeSettings>): Partial<IThemeSettings> {
         settings = super.prepareSettings(settings);
 
-        settings.radius = '.7rem';
-        settings.blurred = '2rem';
+        settings.radius = '1rem';
+        settings.radiusMin = '0.5rem';
+        settings.radiusMax = '2rem';
+        settings.blurred = '1.5rem';
         settings.spacing = '.4rem';
-        settings.borderWidth = '1px';
+        settings.borderWidth = '2px';
         settings.borderStyle = 'solid';
         settings.borderColor = Color.tint_100;
+        settings.shadow = `0 0 1rem rgba(0,0,0,.1)`;
 
         return settings;
     }
 
-    Helmet(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & KatonHelmetProps>) {
-        return KatonHelmet(declaration)
+    outlineColoring(color: LayerVariant): IColoringLayer {
+        switch (color) {
+            case LayerVariant.Text:
+                return {fore: 'text', back: null, edge: 'text-a1',}
+
+            case LayerVariant.Primary:
+                return {fore: 'one', back: null, edge: 'one',}
+
+            case LayerVariant.Secondary:
+                return {fore: 'three', back: null, edge: 'three',}
+
+            case LayerVariant.Error:
+                return {fore: 'error', back: null, edge: 'error',}
+
+            case LayerVariant.Success:
+                return {fore: 'success', back: null, edge: 'success',}
+
+            case LayerVariant.Info:
+                return {fore: 'text', back: null, edge: 'text-a2',}
+
+            case LayerVariant.Warning:
+                return {fore: 'warning', back: null, edge: 'warning',}
+
+            case LayerVariant.Link:
+                return {fore: 'one', back: null, edge: null,}
+
+            case LayerVariant.White:
+                return {fore: 'white', back: null, edge: "white-800",}
+
+            case LayerVariant.Black:
+                return {fore: 'black', back: null, edge: "black-800",}
+
+            case LayerVariant.Revert:
+                return {fore: 'text-100', back: null, edge: "text-100",}
+
+            default:
+                return {fore: 'text', back: null, edge: 'text-100-a7',}
+        }
     }
 
-    Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & KatonNavbarProps>) {
-        return KatonNavbar(this, declaration)
+
+    coloring(color: LayerVariant): IColoringLayer {
+        switch (color) {
+            case LayerVariant.Text:
+                return {fore: 'text', back: null, edge: null,}
+
+            case LayerVariant.Primary:
+                return {fore: 'white', back: 'one', edge: 'one-100',}
+
+            case LayerVariant.Secondary:
+                return {fore: 'white', back: 'three', edge: 'three-100',}
+
+            case LayerVariant.Error:
+                return {fore: 'white', back: 'error', edge: 'error-100',}
+
+            case LayerVariant.Success:
+                return {fore: 'white', back: 'success', edge: 'success-100',}
+
+            case LayerVariant.Info:
+                return {fore: 'text', back: 'tint', edge: 'tint-100',}
+
+            case LayerVariant.Warning:
+                return {fore: 'white', back: 'warning', edge: 'warning-100',}
+
+            case LayerVariant.Link:
+                return {fore: 'one', back: null, edge: null,}
+
+            case LayerVariant.White:
+                return {fore: 'black', back: 'white', edge: "white-800",}
+
+            case LayerVariant.Black:
+                return {fore: 'white', back: 'black', edge: "black-800",}
+
+            case LayerVariant.Revert:
+                return {fore: 'tint-100', back: "text", edge: "tint-100-a1",}
+
+            default:
+                return {fore: 'text', back: 'tint-100-a8', edge: 'tint-100',}
+        }
     }
 
-    Button(
-        declaration: IWidgetDeclaration<HTMLButtonElement, KatonButtonProps & IButtonAttributes & IButtonAttributesBase>
-    ) {
-        return KatonButton(declaration)
-    }
 
-    View(declaration: IWidgetDeclaration<HTMLElement, KatonViewProps & ICommonAttributes>,) {
-        return KatonView(declaration)
-    }
-
-    Skeleton(declaration: IWidgetDeclaration<HTMLElement, KatonSkeletonProps & ICommonAttributes>,) {
-        return KatonSkeleton(declaration)
-    }
-
-    Layer(declaration: IWidgetDeclaration<HTMLElement, KatonLayerProps & ICommonAttributes>) {
-        return KatonLayer(declaration)
-    }
-
-    ScrollArea(declaration: IWidgetDeclaration<HTMLElement, KatonScrollAreaProps & ICommonAttributes>) {
-        return KatonScrollArea(declaration)
-    }
-
-    Modal(declaration: Omit<IWidgetDeclaration<HTMLElement, Partial<IModalOptions> & ICommonAttributes>, 'children'>){
-        return KatonModal(declaration)
-    }
-
-    Sheet(declaration: Omit<IWidgetDeclaration<HTMLElement, Partial<KatonSheetProps> & ICommonAttributes>, 'children'>){
-        return KatonSheet(declaration)
-    }
-
-    Progress(declaration: Omit<IWidgetDeclaration<HTMLElement, KatonProgressProps & ICommonAttributes>, 'children'>): IWidgetNode<any, any> | undefined {
-        return KatonProgress(declaration);
+    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IChildren<any> | undefined {
+        return ThemeAlert(this, {
+            ...declaration,
+            animateIn: KatonModalAnimations.entry,
+            animateOut: KatonModalAnimations.exit,
+        });
     }
 
 }

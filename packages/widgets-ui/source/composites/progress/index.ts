@@ -6,32 +6,32 @@ import {
     Layer,
     Style
 } from "@protorians/widgets";
-import {KatonProgressProps} from "./type.js";
-import {TextureStylesheet} from "../../stylesheet.js";
-import {resolveColoringLayer, resolveColoringLayerOutlined} from "../../common/index.js";
-import {LayerVariant} from "@widgetui/core";
+import {ThemeProgressProps} from "./type.js";
 import {createState} from "@protorians/widgets";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
-export function KatonProgress(
-    declarations: Omit<IWidgetDeclaration<HTMLElement, KatonProgressProps & ICommonAttributes>, 'children'>
+export function ThemeProgress(
+    theme: ITheme,
+    declarations: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, KatonProgressProps & ICommonAttributes>, 'children'>, KatonProgressProps>(
+    } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>, ThemeProgressProps>(
         declarations, ['variant', 'size', 'initiate']
     )
     const variant = extended.variant || LayerVariant.Normal
-    const coloring = (extended.outline
-        ? resolveColoringLayerOutlined
-        : resolveColoringLayer)(variant);
+    const coloring = theme[extended.outline
+        ? 'resolveColoringLayerOutlined'
+        : 'resolveColoringLayer'](variant);
     const size = extended.size || .5;
     const percentState = createState<number>(0)
     const variantState = createState<LayerVariant>(variant)
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge(declaration.style)
         .merge({
@@ -86,9 +86,9 @@ export function KatonProgress(
         ]
     }).mount(({widget}) => {
         variantState.effect((variant) => {
-            const coloring = (extended.outline
-                ? resolveColoringLayerOutlined
-                : resolveColoringLayer)(variant);
+            const coloring = theme[extended.outline
+                ? 'resolveColoringLayerOutlined'
+                : 'resolveColoringLayer'](variant);
             widget.style({
                 color: Color[`${coloring.fore || 'tint'}`],
                 borderColor: Color[`${coloring.edge || 'tint-200-a1'}`],

@@ -1,7 +1,7 @@
 import type {IWidgetNode} from "@protorians/widgets";
-import {LayerVariant} from "@widgetui/core";
+import {LayerVariant} from "../../enums.js";
 
-export type KatonButtonProps = {
+export type ThemeButtonProps = {
     variant?: LayerVariant;
     outline?: boolean;
     before?: IWidgetNode<any, any>;

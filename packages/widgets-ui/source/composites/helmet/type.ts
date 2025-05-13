@@ -1,7 +1,7 @@
 import {AligningDirection, type IStyleSheetDeclarations, type IWidgetNode} from "@protorians/widgets";
-import {LayerVariant} from "@widgetui/core";
+import {LayerVariant} from "../../enums.js";
 
-export type KatonHelmetProps = {
+export type ThemeHelmetProps = {
     variant?: LayerVariant;
     childrenStyle?:  IStyleSheetDeclarations;
     direction?: AligningDirection;

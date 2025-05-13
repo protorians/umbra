@@ -1,6 +1,7 @@
 import {AligningDirection, type IWidgetNode} from "@protorians/widgets";
 
-export type KatonViewProps = {
+export type ThemeViewProps = {
+    title?: string;
     direction?: AligningDirection;
     helmet?: IWidgetNode<any, any>;
     navbar?: IWidgetNode<any, any>;

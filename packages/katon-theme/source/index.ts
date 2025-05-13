@@ -1,5 +1,3 @@
 import "@widgetui/core/appearances"
 import "@widgetui/core/appearances/animations.css"
-export * from "./stylesheet.js"
-export * from "./common/index.js"
 export * from "./theme.js"

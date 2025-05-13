@@ -1,5 +1,4 @@
-import {TextureStylesheet} from "../../stylesheet.js";
-import {type KatonNavbarProps} from "./type.js";
+import {type ThemeNavbarProps} from "./type.js";
 import {
     Color,
     declarationExplodes,
@@ -10,23 +9,23 @@ import {
     Style,
     WidgetElevation
 } from "@protorians/widgets";
-import {resolveColoringLayer} from "../../common/index.js";
-import {ITheme, LayerVariant} from "@widgetui/core";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
 
-export function KatonNavbar(
+export function ThemeNavbar(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, KatonNavbarProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeNavbarProps & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonNavbarProps & ICommonAttributes>, KatonNavbarProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeNavbarProps & ICommonAttributes>, ThemeNavbarProps>(
         declarations, ['variant', 'fixed', 'children']
     )
 
-    const coloring = resolveColoringLayer(extended.variant || LayerVariant.Normal)
+    const coloring = theme.coloring(extended.variant || LayerVariant.Normal)
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
@@ -35,11 +34,11 @@ export function KatonNavbar(
     const spacing = theme.settings.spacing || '.5rem';
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge(declaration.style)
         .merge({
-            boxShadow: isNude ? 'none' : `${TextureStylesheet.declarations.boxShadow}`,
+            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
             position: fixed ? 'fixed' : 'sticky',
             display: 'flex',
             margin: spacing,

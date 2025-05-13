@@ -7,44 +7,42 @@ import {
     IWidgetDeclaration,
     Style,
 } from "@protorians/widgets";
-import {TextureStylesheet} from "../../stylesheet.js";
-import {type KatonButtonProps} from "./type.js";
-import {resolveColoringLayer, resolveColoringLayerOutlined} from "../../common/index.js";
-import {LayerVariant} from "@widgetui/core";
+import {type ThemeButtonProps} from "./type.js";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
 
-export function KatonButton(
-    declarations: IWidgetDeclaration<HTMLButtonElement, KatonButtonProps & IButtonAttributes & IButtonAttributesBase>
+export function ThemeButton(
+    theme: ITheme,
+    declarations: IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, KatonButtonProps & IButtonAttributes & IButtonAttributesBase>, KatonButtonProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>, ThemeButtonProps>(
         declarations, ['variant', 'outline', 'before', 'after']
     )
 
     const variant = extended.variant || LayerVariant.Normal;
-    const coloring = (extended.outline
-        ? resolveColoringLayerOutlined
-        : resolveColoringLayer)(variant);
+    const coloring = theme[extended.outline ? 'outlineColoring' : 'coloring'](variant);
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
     );
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge({
             display: 'flex',
             alignItems: 'center',
-            borderRadius: 'var(--widget-radius, .7rem)',
+            borderRadius: theme.settings.radiusMin || '0',
             borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
             padding: '.4rem .8rem',
             borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
             justifyContent: 'space-between',
-            boxShadow: isNude ? 'none' : `${TextureStylesheet.declarations.boxShadow}`,
+            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
             '& > span': Style({
                 whiteSpace: 'nowrap',
             })
@@ -55,13 +53,12 @@ export function KatonButton(
             backgroundColor: coloring.back ? Color[`${coloring.back}`] : 'transparent',
             backdropFilter: 'blur(var(--widget-blurred))',
             '&:hover': Style({
-                opacity: '.80',
+                opacity: '.8',
             }),
         })
     ;
 
     declaration.children = [extended.before, declaration.children, extended.after,];
-
     return Button(declaration)
 }
 

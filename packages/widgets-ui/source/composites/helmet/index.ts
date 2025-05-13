@@ -1,5 +1,4 @@
-import {TextureStylesheet} from "../../stylesheet.js";
-import {type KatonHelmetProps} from "./type.js";
+import {type ThemeHelmetProps} from "./type.js";
 import {
     AligningDirection,
     Color, Column,
@@ -10,23 +9,24 @@ import {
     type IWidgetNode, Row,
     Style, WidgetElevation
 } from "@protorians/widgets";
-import {resolveColoringLayer} from "../../common/index.js";
-import {LayerVariant} from "@widgetui/core";
 import {Callable} from "@protorians/core";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
 
-export function KatonHelmet(
-    declarations: IWidgetDeclaration<HTMLElement, KatonHelmetProps & ICommonAttributes>
+export function ThemeHelmet(
+    theme: ITheme,
+    declarations: IWidgetDeclaration<HTMLElement, ThemeHelmetProps & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonHelmetProps & ICommonAttributes>, KatonHelmetProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeHelmetProps & ICommonAttributes>, ThemeHelmetProps>(
         declarations, ['variant', 'direction', 'childrenStyle', 'start', 'end', 'fixed']
     )
 
-    const coloring = resolveColoringLayer(extended.variant || LayerVariant.Normal)
+    const coloring = theme.coloring(extended.variant || LayerVariant.Normal)
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
@@ -35,18 +35,18 @@ export function KatonHelmet(
     const isColumn = (extended.direction === AligningDirection.Column || extended.direction === AligningDirection.ColumnReverse)
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge(declaration.style)
         .merge({
-            boxShadow: isNude ? 'none' : `${TextureStylesheet.declarations.boxShadow}`,
+            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
             position: fixed ? 'fixed' : 'sticky',
             display: 'flex',
             top: '0',
             borderRadius: '0',
             overflow: 'hidden',
             flexDirection: extended.direction?.toString() || 'column',
-            backdropFilter: 'blur(var(--widget-blurred, 1.6rem))',
+            backdropFilter: `blur(${theme.settings.blurred || '1.6rem'})`,
             color: Color[coloring.fore || 'text'],
             backgroundColor: Color[`${coloring.back || 'tint-a8'}`],
             borderColor: Color[`${coloring.edge || 'tint-100-a8'}`],

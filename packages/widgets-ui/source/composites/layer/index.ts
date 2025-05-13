@@ -6,25 +6,25 @@ import {
     Layer,
     Style
 } from "@protorians/widgets";
-import {KatonLayerProps} from "./type.js";
-import {TextureStylesheet} from "../../stylesheet.js";
-import {resolveColoringLayer} from "../../common/index.js";
-import {LayerVariant} from "@widgetui/core";
+import {ThemeLayerProps} from "./type.js";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
-export function KatonLayer(
-    declarations: IWidgetDeclaration<HTMLElement, KatonLayerProps & ICommonAttributes>
+export function ThemeLayer(
+    theme: ITheme,
+    declarations: IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, KatonLayerProps & ICommonAttributes>, KatonLayerProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>, ThemeLayerProps>(
         declarations, ['variant']
     )
-    const coloring = resolveColoringLayer(extended.variant || LayerVariant.Normal)
+    const coloring = theme.coloring(extended.variant || LayerVariant.Normal)
 
     declaration.style = Style({
-        ...TextureStylesheet.declarations
+        ...theme.stylesheets.declarations
     })
         .merge(declaration.style)
         .merge({
