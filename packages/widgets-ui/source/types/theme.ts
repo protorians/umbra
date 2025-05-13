@@ -1,12 +1,18 @@
-import type {IWidgetNode} from "@protorians/widgets";
+import type {IStyleSheet, IWidgetNode} from "@protorians/widgets";
 import type {IUiTarget} from "@protorians/core";
+import {LayerVariant} from "../enums.js";
+import type {IColoringLayer} from "./coloring.js";
 
-export type IThemeSettings = {
+
+export interface IThemeSettings {
     blurred: string;
     borderWidth: string;
     borderStyle: string;
     borderColor: string;
+    radiusMin: string;
     radius: string;
+    radiusMax: string;
+    shadow: string;
     colorScheme: string;
     fontFamily: string;
     fontSize: string;
@@ -21,75 +27,72 @@ export type IThemeSettings = {
     animationDuration: string;
     animationTiming: string;
     animationDelay: string;
-};
-
-export type IThemeCompositeKeys =
-    | "Helmet"
-    | "Frame"
-    | "Accordion"
-    | "Alert"
-    | "AlertDialog"
-    | "AspectRatio"
-    | "Avatar"
-    | "Badge"
-    | "Breadcrumb"
-    | "Button"
-    | "Calendar"
-    | "Card"
-    | "Carousel"
-    | "Chart"
-    | "Checkbox"
-    | "Collapsible"
-    | "Combobox"
-    | "Command"
-    | "ContextMenu"
-    | "DataTable"
-    | "DatePicker"
-    | "Dialog"
-    | "Drawer"
-    | "DropdownMenu"
-    | "View"
-    | "HoverCard"
-    | "Indicator"
-    | "Input"
-    | "InputOTP"
-    | "Label"
-    | "Layer"
-    | "List"
-    | "Menubar"
-    | "Modal"
-    | "NavigationMenu"
-    | "Navbar"
-    | "Pagination"
-    | "Popover"
-    | "Progress"
-    | "RadioGroup"
-    | "Resizable"
-    | "ScrollArea"
-    | "SelectOptions"
-    | "Separator"
-    | "Sheet"
-    | "Sidebar"
-    | "Skeleton"
-    | "Slider"
-    | "Sonner"
-    | "Switch"
-    | "Table"
-    | "Tabs"
-    | "Textarea"
-    | "Toast"
-    | "Toggle"
-    | "ToggleGroup"
-    | "Tooltip";
+}
 
 export type IThemeComposite<T> = (declaration: T) => IWidgetNode<any, any> | undefined;
 
-export type IThemeScheme = {
-    [K in IThemeCompositeKeys]: IThemeComposite<any>;
+export interface IThemeCompositeScheme {
+    Accordion: IThemeComposite<any>;
+    Alert: IThemeComposite<any>;
+    AlertDialog: IThemeComposite<any>;
+    AspectRatio: IThemeComposite<any>;
+    Avatar: IThemeComposite<any>;
+    Badge: IThemeComposite<any>;
+    Breadcrumb: IThemeComposite<any>;
+    Button: IThemeComposite<any>;
+    Calendar: IThemeComposite<any>;
+    Card: IThemeComposite<any>;
+    Carousel: IThemeComposite<any>;
+    Chart: IThemeComposite<any>;
+    Checkbox: IThemeComposite<any>;
+    Collapsible: IThemeComposite<any>;
+    Combobox: IThemeComposite<any>;
+    Command: IThemeComposite<any>;
+    ContextMenu: IThemeComposite<any>;
+    DataTable: IThemeComposite<any>;
+    DatePicker: IThemeComposite<any>;
+    Dialog: IThemeComposite<any>;
+    Drawer: IThemeComposite<any>;
+    DropdownMenu: IThemeComposite<any>;
+    Frame: IThemeComposite<any>;
+    Helmet: IThemeComposite<any>;
+    HoverCard: IThemeComposite<any>;
+    Indicator: IThemeComposite<any>;
+    Input: IThemeComposite<any>;
+    InputOTP: IThemeComposite<any>;
+    Label: IThemeComposite<any>;
+    Layer: IThemeComposite<any>;
+    List: IThemeComposite<any>;
+    Menubar: IThemeComposite<any>;
+    Modal: IThemeComposite<any>;
+    Navbar: IThemeComposite<any>;
+    NavigationMenu: IThemeComposite<any>;
+    Pagination: IThemeComposite<any>;
+    Popover: IThemeComposite<any>;
+    Progress: IThemeComposite<any>;
+    RadioGroup: IThemeComposite<any>;
+    Resizable: IThemeComposite<any>;
+    ScrollArea: IThemeComposite<any>;
+    SelectOptions: IThemeComposite<any>;
+    Separator: IThemeComposite<any>;
+    Sheet: IThemeComposite<any>;
+    Sidebar: IThemeComposite<any>;
+    Skeleton: IThemeComposite<any>;
+    Slider: IThemeComposite<any>;
+    Sonner: IThemeComposite<any>;
+    Switch: IThemeComposite<any>;
+    Table: IThemeComposite<any>;
+    Tabs: IThemeComposite<any>;
+    Textarea: IThemeComposite<any>;
+    Toast: IThemeComposite<any>;
+    Toggle: IThemeComposite<any>;
+    ToggleGroup: IThemeComposite<any>;
+    Tooltip: IThemeComposite<any>;
+    View: IThemeComposite<any>;
 }
 
 
-export interface ITheme extends IThemeScheme {
+export interface ITheme extends IThemeCompositeScheme {
     get name(): string;
 
     get selector(): string;
@@ -98,7 +101,9 @@ export interface ITheme extends IThemeScheme {
 
     get repository(): HTMLStyleElement | undefined;
 
-    getSetting(name: string): string | undefined;
+    get stylesheets(): IStyleSheet;
+
+    getSetting<K extends keyof IThemeSettings>(name: K): IThemeSettings[K] | undefined
 
     setSetting<K extends keyof IThemeSettings>(key: K, value: IThemeSettings[K] | undefined): this;
 
@@ -109,4 +114,8 @@ export interface ITheme extends IThemeScheme {
     attach(target?: IUiTarget<HTMLElement>): this;
 
     detach(target?: IUiTarget<HTMLElement>): this
+
+    outlineColoring(color: LayerVariant): IColoringLayer;
+
+    coloring(color: LayerVariant): IColoringLayer;
 }

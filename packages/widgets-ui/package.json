@@ -16,7 +16,10 @@
     "./kits": "./build/kits/index.js",
     "./kits/*": "./build/kits/*",
     "./types": "./build/types/index.js",
-    "./types/*": "./build/types/*"
+    "./types/*": "./build/types/*",
+    "./utilities": "./build/utilities/index.js",
+    "./utilities/*": "./build/utilities/*",
+    "./composites": "./build/composites/index.js"
   },
   "keywords": [
     "protorians",

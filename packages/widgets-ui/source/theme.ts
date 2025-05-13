@@ -1,15 +1,68 @@
-import type {ITheme, IThemeSettings} from "./types/index.js";
+import type {IColoringLayer, ITheme, IThemeSettings} from "./types/index.js";
 import {$ui, Environment, IUiTarget, unCamelCase} from "@protorians/core";
-import {IWidgetNode, WidgetException} from "@protorians/widgets";
+import {
+    Color,
+    IButtonAttributes, IButtonAttributesBase,
+    IChildren,
+    ICommonAttributes,
+    IStyleSheet,
+    IWidgetDeclaration, IWidgetNode,
+    Style,
+    WidgetException
+} from "@protorians/widgets";
+import {LayerVariant} from "./enums.js";
+import {
+    ThemeAlert,
+    type ThemeAlertProps,
+    ThemeButton,
+    type ThemeButtonProps,
+    ThemeDialog, ThemeDialogProps,
+    ThemeHelmet,
+    type ThemeHelmetProps,
+    ThemeLayer,
+    type ThemeLayerProps,
+    ThemeModal,
+    ThemeNavbar,
+    type ThemeNavbarProps,
+    ThemeProgress,
+    type ThemeProgressProps,
+    ThemeScrollArea,
+    type ThemeScrollAreaProps,
+    ThemeSheet,
+    type ThemeSheetProps,
+    ThemeSkeleton,
+    type ThemeSkeletonProps,
+    ThemeView,
+    type ThemeViewProps
+} from "./composites/index.js";
+import {IModalOptions} from "./kits/index.js";
+import {ThemeAlertDialog} from "./composites/alert-dialog/index.js";
+import {ThemeAlertDialogProps} from "./composites/alert-dialog/type.js";
 
 
-export class CommonTheme implements ITheme {
+export class WidgetTheme implements ITheme {
 
     protected _repository: HTMLStyleElement | undefined;
     protected _settings: Partial<IThemeSettings>;
+    protected _stylesheet: IStyleSheet | undefined;
+
+    protected prepareSettings(settings: Partial<IThemeSettings>): Partial<IThemeSettings> {
+        return {
+            radius: '0',
+            radiusMin: '0',
+            radiusMax: '0rem',
+            blurred: '1.5rem',
+            spacing: '.2rem',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: Color.tint_100,
+            shadow: `none`,
+            ...(settings || {})
+        };
+    }
 
     constructor(settings?: Partial<IThemeSettings>) {
-        this._settings = this.prepareSettings(settings || {} as IThemeSettings);
+        this._settings = this.prepareSettings(settings as IThemeSettings);
         this.syncSettings();
     }
 
@@ -34,7 +87,20 @@ export class CommonTheme implements ITheme {
         return this._settings;
     }
 
-    getSetting<K extends keyof IThemeSettings>(name: K): string | undefined {
+    get stylesheets(): IStyleSheet {
+        this._stylesheet = this._stylesheet || Style({
+            backdropFilter: 'none',
+            borderWidth: '0px',
+            borderStyle: 'solid',
+            borderColor: 'transparent',
+            boxSizing: 'border-box',
+            boxShadow: '0 0 .3rem rgba(0, 0, 0, 0.05)',
+            borderRadius: 'var(--widget-radius, .7rem)',
+        })
+        return this._stylesheet;
+    }
+
+    getSetting<K extends keyof IThemeSettings>(name: K): IThemeSettings[K] | undefined {
         return this._settings[name] || undefined;
     }
 
@@ -70,21 +136,97 @@ export class CommonTheme implements ITheme {
         return this;
     }
 
-    protected prepareSettings(settings: Partial<IThemeSettings>): Partial<IThemeSettings> {
-        return settings;
+    outlineColoring(color: LayerVariant): IColoringLayer {
+        switch (color) {
+            case LayerVariant.Text:
+                return {fore: 'text', back: null, edge: 'text',}
+
+            case LayerVariant.Primary:
+                return {fore: 'one', back: null, edge: 'one',}
+
+            case LayerVariant.Secondary:
+                return {fore: 'three', back: null, edge: 'three',}
+
+            case LayerVariant.Error:
+                return {fore: 'error', back: null, edge: 'error',}
+
+            case LayerVariant.Success:
+                return {fore: 'success', back: null, edge: 'success',}
+
+            case LayerVariant.Info:
+                return {fore: 'text', back: null, edge: 'text',}
+
+            case LayerVariant.Warning:
+                return {fore: 'warning', back: null, edge: 'warning',}
+
+            case LayerVariant.Link:
+                return {fore: 'one', back: null, edge: null,}
+
+            case LayerVariant.White:
+                return {fore: 'white', back: null, edge: "white",}
+
+            case LayerVariant.Black:
+                return {fore: 'black', back: null, edge: "black",}
+
+            case LayerVariant.Revert:
+                return {fore: 'tint-100', back: null, edge: "tint-100",}
+
+            default:
+                return {fore: 'text', back: null, edge: 'text',}
+        }
     }
 
+
+    coloring(color: LayerVariant): IColoringLayer {
+        switch (color) {
+            case LayerVariant.Text:
+                return {fore: 'text', back: null, edge: null,}
+
+            case LayerVariant.Primary:
+                return {fore: 'white', back: 'one', edge: 'one',}
+
+            case LayerVariant.Secondary:
+                return {fore: 'white', back: 'three', edge: 'three',}
+
+            case LayerVariant.Error:
+                return {fore: 'white', back: 'error', edge: 'error',}
+
+            case LayerVariant.Success:
+                return {fore: 'white', back: 'success', edge: 'success',}
+
+            case LayerVariant.Info:
+                return {fore: 'text', back: 'tint', edge: 'tint',}
+
+            case LayerVariant.Warning:
+                return {fore: 'white', back: 'warning', edge: 'warning',}
+
+            case LayerVariant.Link:
+                return {fore: 'one', back: null, edge: null,}
+
+            case LayerVariant.White:
+                return {fore: 'black', back: 'white', edge: "white",}
+
+            case LayerVariant.Black:
+                return {fore: 'white', back: 'black', edge: "black",}
+
+            case LayerVariant.Revert:
+                return {fore: 'tint-100', back: "text", edge: "text",}
+
+            default:
+                return {fore: 'text', back: 'tint-100', edge: 'tint-100',}
+        }
+    }
 
     Accordion(declaration: any): IWidgetNode<any, any> | undefined {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Alert(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IChildren<any> | undefined {
+        return ThemeAlert(this, declaration);
     }
 
-    AlertDialog(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    AlertDialog(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertDialogProps>): IWidgetNode<any, any> | undefined {
+        return ThemeAlertDialog(this, declaration);
     }
 
     AspectRatio(declaration: any): IWidgetNode<any, any> | undefined {
@@ -103,8 +245,10 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Button(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Button(
+        declaration: IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>
+    ) {
+        return ThemeButton(this, declaration)
     }
 
     Calendar(declaration: any): IWidgetNode<any, any> | undefined {
@@ -151,8 +295,8 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Dialog(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Dialog(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeDialogProps>): IWidgetNode<any, any> | undefined {
+        return ThemeDialog(this, declaration)
     }
 
     Drawer(declaration: any): IWidgetNode<any, any> | undefined {
@@ -167,8 +311,8 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Helmet(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Helmet(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeHelmetProps>) {
+        return ThemeHelmet(this, declaration)
     }
 
     HoverCard(declaration: any): IWidgetNode<any, any> | undefined {
@@ -191,8 +335,8 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Layer(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Layer(declaration: IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>) {
+        return ThemeLayer(this, declaration)
     }
 
     List(declaration: any): IWidgetNode<any, any> | undefined {
@@ -203,12 +347,12 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Modal(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Modal(declaration: Omit<IWidgetDeclaration<HTMLElement, Partial<IModalOptions> & ICommonAttributes>, 'children'>) {
+        return ThemeModal(declaration)
     }
 
-    Navbar(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeNavbarProps>) {
+        return ThemeNavbar(this, declaration)
     }
 
     NavigationMenu(declaration: any): IWidgetNode<any, any> | undefined {
@@ -223,8 +367,8 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Progress(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Progress(declaration: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>): IWidgetNode<any, any> | undefined {
+        return ThemeProgress(this, declaration);
     }
 
     RadioGroup(declaration: any): IWidgetNode<any, any> | undefined {
@@ -235,8 +379,8 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    ScrollArea(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    ScrollArea(declaration: IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>) {
+        return ThemeScrollArea(declaration)
     }
 
     SelectOptions(declaration: any): IWidgetNode<any, any> | undefined {
@@ -247,16 +391,16 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Sheet(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Sheet(declaration: IWidgetDeclaration<HTMLElement, Partial<ThemeSheetProps> & ICommonAttributes>) {
+        return ThemeSheet(declaration)
     }
 
     Sidebar(declaration: any): IWidgetNode<any, any> | undefined {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Skeleton(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Skeleton(declaration: IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>,) {
+        return ThemeSkeleton(this, declaration)
     }
 
     Slider(declaration: any): IWidgetNode<any, any> | undefined {
@@ -299,8 +443,7 @@ export class CommonTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    View(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    View(declaration: IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>,) {
+        return ThemeView(declaration)
     }
-
 }
