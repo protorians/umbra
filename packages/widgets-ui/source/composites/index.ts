@@ -3,6 +3,15 @@ export * from "./modal/index.js"
 export * from "./alert/type.js"
 export * from "./alert/index.js"
 
+export * from "./alert-dialog/type.js"
+export * from "./alert-dialog/index.js"
+
+export * from "./aspect-ratio/type.js"
+export * from "./aspect-ratio/index.js"
+
+export * from "./avatar/type.js"
+export * from "./avatar/index.js"
+
 export * from "./dialog/type.js"
 export * from "./dialog/style.js"
 export * from "./dialog/index.js"
