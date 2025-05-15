@@ -8,11 +8,14 @@ import { IAnimetricGroup, IAnimetricSlimOptions } from "@protorians/animetric";
 export interface IThemeSettings {
     blurred: string;
     borderWidth: string;
+    borderWidthMin: string;
+    borderWidthMax: string;
     borderStyle: string;
     borderColor: string;
     radiusMin: string;
     radius: string;
     radiusMax: string;
+    radiusHigh: string;
     shadow: string;
     colorScheme: string;
     fontFamily: string;
@@ -38,6 +41,7 @@ export interface IThemeCompositeScheme {
     AlertDialog: IThemeComposite<any>;
     AspectRatio: IThemeComposite<any>;
     Avatar: IThemeComposite<any>;
+    Avatars: IThemeComposite<any>;
     Badge: IThemeComposite<any>;
     Breadcrumb: IThemeComposite<any>;
     Button: IThemeComposite<any>;
