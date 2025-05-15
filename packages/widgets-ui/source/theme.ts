@@ -3,10 +3,9 @@ import {$ui, Environment, IUiTarget, unCamelCase} from "@protorians/core";
 import {
     Color,
     IButtonAttributes, IButtonAttributesBase,
-    IChildren,
     ICommonAttributes,
     IStyleSheet,
-    IWidgetDeclaration, IWidgetNode,
+    IWidgetDeclaration, IWidgetNode, ObjectRounded,
     Style,
     WidgetException
 } from "@protorians/widgets";
@@ -36,8 +35,15 @@ import {
     type ThemeViewProps
 } from "./composites/index.js";
 import {IModalOptions} from "./kits/index.js";
-import {ThemeAlertDialog} from "./composites/alert-dialog/index.js";
-import {ThemeAlertDialogProps} from "./composites/alert-dialog/type.js";
+import {
+    ThemeAlertDialog,
+    type ThemeAlertDialogProps,
+    ThemeAspectRatio,
+    type ThemeAspectRatioProps,
+    ThemeAvatar,
+    type ThemeAvatarProps
+} from "./composites/index.js";
+import { type IAnimetricGroup, type IAnimetricSlimOptions, slimetric } from "@protorians/animetric";
 
 
 export class WidgetTheme implements ITheme {
@@ -57,6 +63,8 @@ export class WidgetTheme implements ITheme {
             borderStyle: 'solid',
             borderColor: Color.tint_100,
             shadow: `none`,
+            transitionTiming: `ease-out`,
+            transitionDuration: '250ms',
             ...(settings || {})
         };
     }
@@ -136,7 +144,7 @@ export class WidgetTheme implements ITheme {
         return this;
     }
 
-    outlineColoring(color: LayerVariant): IColoringLayer {
+    outlineColoringResolves(color: LayerVariant): IColoringLayer {
         switch (color) {
             case LayerVariant.Text:
                 return {fore: 'text', back: null, edge: 'text',}
@@ -176,8 +184,7 @@ export class WidgetTheme implements ITheme {
         }
     }
 
-
-    coloring(color: LayerVariant): IColoringLayer {
+    coloringResolves(color: LayerVariant): IColoringLayer {
         switch (color) {
             case LayerVariant.Text:
                 return {fore: 'text', back: null, edge: null,}
@@ -217,24 +224,51 @@ export class WidgetTheme implements ITheme {
         }
     }
 
+    roundedResolves(rounded: ObjectRounded): string {
+        switch (rounded) {
+
+            case ObjectRounded.Small:
+                return '0.2rem';
+
+            case ObjectRounded.Medium:
+                return '0.5rem';
+
+            case ObjectRounded.Large:
+                return '1rem';
+
+            case ObjectRounded.Full:
+                return '100%';
+
+            default:
+                return '0';
+        }
+    }
+
+
+    animate(widget: IWidgetNode<any, any>, options: IAnimetricSlimOptions): IAnimetricGroup{
+        if (options.from) widget.style(options.from)
+        return slimetric(widget.element, options)
+    }
+
+
     Accordion(declaration: any): IWidgetNode<any, any> | undefined {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IChildren<any> | undefined {
+    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IWidgetNode<any, any> | undefined {
         return ThemeAlert(this, declaration);
     }
 
-    AlertDialog(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertDialogProps>): IWidgetNode<any, any> | undefined {
+    AlertDialog(declaration: ThemeAlertDialogProps): IWidgetNode<any, any> | undefined {
         return ThemeAlertDialog(this, declaration);
     }
 
-    AspectRatio(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    AspectRatio(declaration: ThemeAspectRatioProps): IWidgetNode<any, any> | undefined {
+        return ThemeAspectRatio(declaration);
     }
 
-    Avatar(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Avatar(declaration: ThemeAvatarProps): IWidgetNode<any, any> | undefined {
+        return ThemeAvatar(this, declaration);
     }
 
     Badge(declaration: any): IWidgetNode<any, any> | undefined {
@@ -295,7 +329,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Dialog(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeDialogProps>): IWidgetNode<any, any> | undefined {
+    Dialog(declaration: ThemeDialogProps): IWidgetNode<any, any> | undefined {
         return ThemeDialog(this, declaration)
     }
 
