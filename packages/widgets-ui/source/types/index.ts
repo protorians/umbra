@@ -1,3 +1,4 @@
 export type * from "./theme.js"
 export type * from "./coloring.js"
 export type * from "./progress.js"
+export type * from "./gradient.js"
