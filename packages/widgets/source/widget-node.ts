@@ -32,7 +32,7 @@ import {
     TreatmentQueueStatus,
     camelCase
 } from "@protorians/core";
-import {ToggleOption, WidgetElevation, WidgetsNativeProperty} from "./enums.js";
+import {ToggleOption, ObjectElevation, WidgetsNativeProperty} from "./enums.js";
 import {Widgets} from "./widgets.js";
 import {StyleWidget} from "./style.js";
 import {ISpectraElement, SpectraElement} from "@protorians/spectra";
@@ -461,8 +461,8 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {this} The current instance with the updated context.
      */
     useContext(context?: IContext<any, any>): this {
-        this._context = context;
-        // this._context = this._context || context;
+        // this._context = context;
+        this._context = this._context || context;
         return this;
     }
 
@@ -746,13 +746,13 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     /**
      * Adjusts the widget's elevation level by modifying its style and z-index.
      *
-     * @param {WidgetElevation} [elevation] - The desired elevation level. If not provided, defaults to `WidgetElevation.None`.
+     * @param {ObjectElevation} [elevation] - The desired elevation level. If not provided, defaults to `WidgetElevation.None`.
      * @return {this} The current instance of the widget for method chaining.
      */
-    elevate(elevation?: WidgetElevation): this {
+    elevate(elevation?: ObjectElevation): this {
         this
             .stylesheet
-            .merge({zIndex: elevation?.toString() || WidgetElevation.None})
+            .merge({zIndex: elevation?.toString() || ObjectElevation.None})
             .sync()
         return this;
     }
