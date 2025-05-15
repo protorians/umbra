@@ -2,7 +2,7 @@ import type {IChildren} from "./children.js";
 import type {IPrimitives, IPrimitive, IStringToken, IFunctioningPrimitives} from "./value.js";
 import type {IAttributes} from "./attributes.js";
 import type { IMeasure} from "./measure.js";
-import {ToggleOption, WidgetElevation} from "../enums.js";
+import {ToggleOption, ObjectElevation} from "../enums.js";
 import {ISignalStack, IUiTarget, TreatmentQueueStatus} from "@protorians/core";
 import {IStateStack} from "./state.js";
 import {IEngine} from "./engine.js";
@@ -177,7 +177,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     hide(): this;
 
-    elevate(elevation?: WidgetElevation): this;
+    elevate(elevation?: ObjectElevation): this;
 
     // replaceWith(component: IWidget<any, any>): this;
 
@@ -356,7 +356,7 @@ export type INativeProperties<E extends HTMLElement, A extends IAttributes> = {
     /**
      * ZIndex Elevation
      */
-    elevate?: WidgetElevation;
+    elevate?: ObjectElevation;
 
     // /**
     //  * Namespace Attributes
