@@ -33,7 +33,7 @@ export function ThemeSkeleton(
             boxShadow: 'none',
             color: Color.text_100_a1,
             backgroundColor: Color.text_a1,
-            animationName: 'widget-ui-pulse-opacity',
+            animationName: 'widget-ui-pulse-opacity-animation',
             animationDelay: `${extended.delay || 0}ms`,
             animationDuration: `${extended.duration || 2525}ms`,
             animationTimingFunction: 'cubic-bezier(.4,0,.6,1)',
