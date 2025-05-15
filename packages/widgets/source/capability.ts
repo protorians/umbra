@@ -1,13 +1,13 @@
 import type {
   IAttributes,
-  ICallable, ICapabilities, ICapabilitiesMap, ICapabilitiesScheme,
-  ICapability,
+  ICallable, IWidgetCapabilities, IWidgetCapabilitiesMap, IWidgetCapabilitiesScheme,
+  IWidgetCapability,
   IWidgetNode,
 } from "./types/index.js";
 import {WidgetException} from "./errors/index.js";
 
 
-export class Capability<E extends HTMLElement, A extends IAttributes, Payload> implements ICapability<E, A, Payload> {
+export class WidgetCapability<E extends HTMLElement, A extends IAttributes, Payload> implements IWidgetCapability<E, A, Payload> {
 
   protected target: IWidgetNode<E, A> | undefined
 
@@ -34,24 +34,24 @@ export class Capability<E extends HTMLElement, A extends IAttributes, Payload> i
 
 }
 
-export function createCapability<E extends HTMLElement, A extends IAttributes, Payload>(
+export function createWidgetCapability<E extends HTMLElement, A extends IAttributes, Payload>(
   name: string,
   callable: ICallable<E, A, Payload>
-): ICapability<E, A, Payload> {
-  return new Capability(name, callable);
+): IWidgetCapability<E, A, Payload> {
+  return new WidgetCapability(name, callable);
 }
 
 
 
-export class Capabilities<C> implements ICapabilities<C> {
+export class Capabilities<C> implements IWidgetCapabilities<C> {
 
-  protected _scheme: Partial<ICapabilitiesMap<C>> = {} as Partial<ICapabilitiesMap<C>>;
+  protected _scheme: Partial<IWidgetCapabilitiesMap<C>> = {} as Partial<IWidgetCapabilitiesMap<C>>;
 
-  get scheme(): Partial<ICapabilitiesMap<C>> {
+  get scheme(): Partial<IWidgetCapabilitiesMap<C>> {
     return this._scheme;
   }
 
-  attach<K extends keyof C>(capability: ICapability<any, any, C[K]>): this {
+  attach<K extends keyof C>(capability: IWidgetCapability<any, any, C[K]>): this {
     const name = capability.name as keyof C;
     if (typeof this._scheme[name] !== 'undefined') {
       throw (new WidgetException(`This capability is already attached`)).show()
@@ -60,7 +60,7 @@ export class Capabilities<C> implements ICapabilities<C> {
     return this;
   }
 
-  override<K extends keyof C>(capability: ICapability<any, any, C[K]>): this {
+  override<K extends keyof C>(capability: IWidgetCapability<any, any, C[K]>): this {
     const name = capability.name as keyof C;
     this._scheme[name] = capability;
     return this;
@@ -74,7 +74,7 @@ export class Capabilities<C> implements ICapabilities<C> {
     return this;
   }
 
-  capability<K extends keyof C>(name: K): ICapability<any, any, C[K]> | undefined {
+  capability<K extends keyof C>(name: K): IWidgetCapability<any, any, C[K]> | undefined {
     return (this._scheme[name] || undefined);
   }
 
@@ -84,6 +84,6 @@ export class Capabilities<C> implements ICapabilities<C> {
 
 }
 
-export function createCapabilities<C extends ICapabilitiesScheme>() {
+export function createWidgetCapabilities<C extends IWidgetCapabilitiesScheme>() {
   return new Capabilities<C>;
 }
