@@ -20,7 +20,7 @@ import type {
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
 import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
-import {ToggleOption, WidgetElevation} from "../enums.js";
+import {ToggleOption, ObjectElevation} from "../enums.js";
 import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
 export class Manticore<E extends HTMLElement, A extends IAttributes> implements IEngine<E, A> {
@@ -345,8 +345,9 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (Environment.Client) {
             (widget.element as HTMLElement)?.addEventListener(type, ev => {
                 if (widget.locked) return;
-                const payload: IGlobalEventPayload<T> = {type, event: ev}
-                const r = callback({root: this.widget, widget: widget, payload})
+                const payload: IGlobalEventPayload<T> = {type, event: ev};
+                if(typeof callback !== 'function') return;
+                const r = callback({root: this.widget, widget, payload})
                 widget.signal.dispatch('listen', {root: this.widget, widget, payload}, widget.signal);
                 if (r === TreatmentQueueStatus.Cancel) ev.preventDefault()
                 if (r === TreatmentQueueStatus.Exit) ev.stopPropagation()
@@ -400,13 +401,13 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         return this
     }
 
-    elevate(widget: IWidgetNode<E, A>, elevation: WidgetElevation): this {
+    elevate(widget: IWidgetNode<E, A>, elevation: ObjectElevation): this {
         widget.elevate(elevation);
         return this
     }
 
     render<P extends IPropStack, S extends IStateStack>(widget: IWidgetNode<E, A>, context: IContext<P, S>): E | undefined {
-        context.root = this.widget.context?.root || widget;
+        context.root = this.widget.context?.root || context.root || widget;
         widget
             .useContext(context)
             .stylesheet
