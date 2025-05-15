@@ -8,4 +8,5 @@ export interface ThemeAvatarProps {
     size?: ObjectSize | number;
     loader?: IWidgetNode<any, any>;
     fallback?: IWidgetNode<any, any>;
+    borderless?: boolean;
 }
