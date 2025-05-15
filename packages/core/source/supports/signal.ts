@@ -88,15 +88,15 @@ export namespace Signal {
     export class Stack<M> implements ISignalStack<M> {
 
         protected _entries: ISignalStackEntries<M> = {} as ISignalStackEntries<M>;
+        protected _computed: Record<keyof M, any> = {} as Record<keyof M, any>;
 
         get entities(): ISignalStackEntries<M> {
             return this._entries;
         }
 
         listen<T extends keyof M>(type: T, callable: ISignalStackCallable<M[T]>, options?: ISignalStackOptions): this {
-
+            this._computed[type] = undefined;
             this._entries[type] = this._entries[type] || [];
-
             this._entries[type].push({
                 type,
                 callable: callable as ISignalStackCallable<M[keyof M]>,
@@ -106,7 +106,7 @@ export namespace Signal {
         }
 
         dispatch<T extends keyof M>(type: T, payload: M[T], embarked?: any): this {
-            const accumulate: ISignalStackEntries<M>[T] = []
+            const accumulate: ISignalStackEntries<M>[T] = [];
 
             if (this._entries[type]) {
                 let cancellable: boolean = false;
@@ -122,12 +122,18 @@ export namespace Signal {
                         } else accumulate.push(entry);
                     }
                     if (!parsed) accumulate.push(entry);
+
+                    if (parsed !== this._computed[type]) this._computed[type] = parsed;
                 }
 
                 this._entries[type] = accumulate;
             }
 
             return this;
+        }
+
+        computed<T>(type: keyof M): T | undefined {
+            return this._computed[type] || undefined;
         }
 
         remove<T extends keyof M>(type: T, index: number): this {
