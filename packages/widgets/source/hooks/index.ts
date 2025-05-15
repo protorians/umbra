@@ -1,5 +1,5 @@
 import type {
-    IAttributes,
+    IAttributes, IContext,
     IPrimitive,
     IState,
     IStateCallable,
@@ -11,13 +11,14 @@ import {WidgetBuilder, WidgetNode} from "../widget-node.js";
 import {type ISignalController, Signal} from "@protorians/core";
 
 function createMarker<T>(widget: IWidgetNode<any, any>, data: IPrimitive | IWidgetNode<any, any> | T): Text | HTMLElement {
-
     if (typeof data === "object" && data instanceof WidgetNode) {
-        if (widget.context) WidgetBuilder(data, widget.context)
+        if (widget.context) {
+            WidgetBuilder(data, widget.context)
+        }
         return data.element;
     } else if (typeof data === "object" && Array.isArray(data)) {
         data.forEach((w) => {
-            if (w instanceof WidgetNode && widget.context) WidgetBuilder(w, widget.context)
+            if (w instanceof WidgetNode && widget.context && !w.context) WidgetBuilder(w, widget.context)
         })
         return document.createTextNode('');
     }
@@ -29,17 +30,16 @@ function createMarker<T>(widget: IWidgetNode<any, any>, data: IPrimitive | IWidg
 function mountWidgetState<T>(
     widget: IWidgetNode<any, any>,
     state: T,
+    context: IContext<any, any>
 ) {
-
     if (state instanceof WidgetNode) {
         state.signal.dispatch('mount', {
-            root: widget,
+            root: context.root || widget.context?.root || widget,
             widget: state,
             payload: state
         })
         return true;
     }
-
     return false;
 }
 
@@ -49,13 +49,17 @@ function updateMarkerFromArray<T>(
     state: T,
     marker?: Text | HTMLElement,
 ): Text | HTMLElement {
+
+    const context = (widget.context?.root?.context || widget.context) as IContext<any, any>;
     const newMarker = createMarker<T>(widget, state);
     if (marker) marker.replaceWith(newMarker)
 
     if (Array.isArray(state)) {
         newMarker.before(...state.map(item => item instanceof WidgetNode ? item.element : item));
-        for (const item of state) mountWidgetState(widget, item)
-    } else if (state instanceof WidgetNode) mountWidgetState(widget, state)
+        for (const item of state) mountWidgetState(widget, item, context)
+    } else if (state instanceof WidgetNode) {
+        mountWidgetState(widget, state, context)
+    }
 
     return newMarker;
 }
