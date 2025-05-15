@@ -3,7 +3,7 @@ import {
     declarationExplodes,
     ICommonAttributes,
     IWidgetDeclaration,
-    Layer,
+    Layer, Stack,
     Style
 } from "@protorians/widgets";
 import {ThemeLayerProps} from "./type.js";
@@ -37,15 +37,19 @@ export function ThemeLayer(
 
     declaration.children = declaration.children || [];
 
-    return Layer({
+    declaration.style = Style({
+        borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
+        color: Color[`${coloring.fore || 'tint'}`],
+        borderColor: Color[`${coloring.edge || 'tint-200-a1'}`],
+        backgroundColor: coloring.back ? Color[coloring.back] : 'transparent',
+        borderRadius: theme.settings.radiusMin || '0',
+        boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
+        flex: '1 1 auto',
+    }).merge(declaration.style)
+
+    return Stack({
         style: {
             position: "relative",
-            borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
-            color: Color[`${coloring.fore || 'tint'}`],
-            borderColor: Color[`${coloring.edge || 'tint-200-a1'}`],
-            backgroundColor: coloring.back ? Color[coloring.back] : 'transparent',
-            borderRadius: theme.settings.radiusMin || '0',
-            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
         },
         children: [
             Layer({
