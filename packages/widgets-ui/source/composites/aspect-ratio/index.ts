@@ -1,12 +1,32 @@
-import {IWidgetNode} from "@protorians/widgets";
+import {
+    declarationExplodes,
+    ICommonAttributes,
+    IWidgetDeclaration,
+    IWidgetNode,
+    Stack,
+    Style
+} from "@protorians/widgets";
 import {ThemeAspectRatioProps} from "./type.js";
 
 
 export function ThemeAspectRatio(
-    declarations: ThemeAspectRatioProps
-): IWidgetNode<any, any> {
-    return declarations.children.style({
-        aspectRatio: declarations.ratio || '1/1',
-        objectFit: declarations.fit || 'cover',
-    });
+    declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>
+): IWidgetNode<any, any> | undefined {
+
+    const {
+        declaration,
+        extended
+    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, ThemeAspectRatioProps & ICommonAttributes>, ThemeAspectRatioProps>(
+        declarations, ['ratio', 'fit', 'children']
+    )
+
+    declaration.style = Style({
+        aspectRatio: `${extended.ratio || '1/1'}`,
+        objectFit: extended.fit || 'cover',
+    }).merge(declarations.style);
+
+    return Stack({
+        ...declaration,
+        children: declaration.children
+    } as IWidgetDeclaration<HTMLElement, ICommonAttributes>);
 }
