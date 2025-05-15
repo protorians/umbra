@@ -43,7 +43,9 @@ import {
     ThemeAvatar,
     type ThemeAvatarProps
 } from "./composites/index.js";
-import { type IAnimetricGroup, type IAnimetricSlimOptions, slimetric } from "@protorians/animetric";
+import {type IAnimetricGroup, type IAnimetricSlimOptions, slimetric} from "@protorians/animetric";
+import {ThemeAvatarsProps} from "./composites/avarts/type.js";
+import {ThemeAvatars} from "./composites/avarts/index.js";
 
 
 export class WidgetTheme implements ITheme {
@@ -57,9 +59,12 @@ export class WidgetTheme implements ITheme {
             radius: '0',
             radiusMin: '0',
             radiusMax: '0rem',
+            radiusHigh: '7rem',
             blurred: '1.5rem',
             spacing: '.2rem',
             borderWidth: '1px',
+            borderWidthMin: '.5px',
+            borderWidthMax: '3px',
             borderStyle: 'solid',
             borderColor: Color.tint_100,
             shadow: `none`,
@@ -244,8 +249,7 @@ export class WidgetTheme implements ITheme {
         }
     }
 
-
-    animate(widget: IWidgetNode<any, any>, options: IAnimetricSlimOptions): IAnimetricGroup{
+    animate(widget: IWidgetNode<any, any>, options: IAnimetricSlimOptions): IAnimetricGroup {
         if (options.from) widget.style(options.from)
         return slimetric(widget.element, options)
     }
@@ -263,12 +267,16 @@ export class WidgetTheme implements ITheme {
         return ThemeAlertDialog(this, declaration);
     }
 
-    AspectRatio(declaration: ThemeAspectRatioProps): IWidgetNode<any, any> | undefined {
-        return ThemeAspectRatio(declaration);
+    AspectRatio(declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>): IWidgetNode<any, any> | undefined {
+        return ThemeAspectRatio(declarations);
     }
 
     Avatar(declaration: ThemeAvatarProps): IWidgetNode<any, any> | undefined {
         return ThemeAvatar(this, declaration);
+    }
+
+    Avatars(declaration: ThemeAvatarsProps): IWidgetNode<any, any> | undefined {
+        return ThemeAvatars(this, declaration);
     }
 
     Badge(declaration: any): IWidgetNode<any, any> | undefined {
