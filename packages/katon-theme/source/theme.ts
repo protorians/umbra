@@ -1,13 +1,12 @@
 import {WidgetTheme, type IThemeSettings, LayerVariant, type IColoringLayer} from "@widgetui/core";
 import {
-    type IChildren,
     type ICommonAttributes,
-    type IWidgetDeclaration,
+    type IWidgetDeclaration, IWidgetNode,
 } from "@protorians/widgets";
 import {Color} from "@protorians/widgets";
 import {KatonModalAnimations} from "./animations/modal.js";
 import {
-    ThemeAlert,
+    type ThemeAlertDialogProps,
     type ThemeAlertProps,
 } from "@widgetui/core/composites";
 
@@ -21,8 +20,9 @@ export class KatonTheme extends WidgetTheme {
     protected prepareSettings(settings: Partial<IThemeSettings>): Partial<IThemeSettings> {
         settings = super.prepareSettings(settings);
 
-        settings.radius = '1rem';
-        settings.radiusMin = '0.5rem';
+        settings.gap = '.5rem';
+        settings.radius = '1.2rem';
+        settings.radiusMin = '0.7rem';
         settings.radiusMax = '2rem';
         settings.blurred = '1.5rem';
         settings.spacing = '.4rem';
@@ -34,7 +34,7 @@ export class KatonTheme extends WidgetTheme {
         return settings;
     }
 
-    outlineColoring(color: LayerVariant): IColoringLayer {
+    outlineColoringResolves(color: LayerVariant): IColoringLayer {
         switch (color) {
             case LayerVariant.Text:
                 return {fore: 'text', back: null, edge: 'text-a1',}
@@ -75,7 +75,7 @@ export class KatonTheme extends WidgetTheme {
     }
 
 
-    coloring(color: LayerVariant): IColoringLayer {
+    coloringResolves(color: LayerVariant): IColoringLayer {
         switch (color) {
             case LayerVariant.Text:
                 return {fore: 'text', back: null, edge: null,}
@@ -116,8 +116,16 @@ export class KatonTheme extends WidgetTheme {
     }
 
 
-    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IChildren<any> | undefined {
-        return ThemeAlert(this, {
+    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IWidgetNode<any, any> | undefined {
+        return super.Alert({
+            ...declaration,
+            animateIn: KatonModalAnimations.entry,
+            animateOut: KatonModalAnimations.exit,
+        });
+    }
+
+    AlertDialog(declaration: ThemeAlertDialogProps): IWidgetNode<any, any> | undefined {
+        return super.AlertDialog({
             ...declaration,
             animateIn: KatonModalAnimations.entry,
             animateOut: KatonModalAnimations.exit,
