@@ -25,8 +25,8 @@ export class DialogStyle {
                 flex: '1 1 auto',
                 borderRadius: '0',
                 boxShadow: 'none',
-                color: coloring.fore ? Color[coloring.fore] : Color.tint,
-                backgroundColor: 'transparent',
+                // color: coloring.fore ? Color[coloring.fore] : Color.tint,
+                // backgroundColor: 'transparent',
                 paddingX: 1,
                 paddingY: .9,
                 textAlign: 'center',
@@ -42,7 +42,13 @@ export class DialogStyle {
                 '& *:last-child': Style({
                     borderBottomRightRadius: theme.settings.radius,
                     borderRightWidth: `0`,
-                })
+                }),
+                '&:last-child': Style({
+                    borderBottomWidth: `0`,
+                }),
+                // '& > *:hover': Style({
+                //     backgroundColor: coloring.edge ? Color[`${coloring.edge}`] : Color.one,
+                // }),
             })
         }
     }

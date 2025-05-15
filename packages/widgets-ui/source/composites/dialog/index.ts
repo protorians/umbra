@@ -1,9 +1,6 @@
 import {
     Column,
-    declarationExplodes,
     IChildren,
-    ICommonAttributes,
-    IWidgetDeclaration,
     PopupType,
     PositionX,
     PositionY, Row, SmallText,
@@ -17,50 +14,34 @@ import {LayerVariant} from "../../enums.js";
 
 export function ThemeDialog(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeDialogProps>
+    declarations: ThemeDialogProps
 ): IChildren<any> {
 
-    const {extended} = declarationExplodes<IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeDialogProps>, ThemeDialogProps>(
-        declarations, [
-            'variant',
-            'scoped',
-            'trigger',
-            'children',
-            'ariaTitle',
-            'ariaDescription',
-            'opened',
-            'icon',
-            'title',
-            'animateIn',
-            'animateOut',
-            'actions'
-        ]
-    );
-    const variant = extended.variant || LayerVariant.Normal;
-    const coloring = theme.coloring(variant);
+    const variant = declarations.variant || LayerVariant.Normal;
+    const coloring = theme.coloringResolves(variant);
 
     return ModalKit.callable((modal: IModal): IModalOptions => {
         return {
             locked: true,
             blurred: true,
-            opened: extended.opened,
-            scoped: extended.scoped,
-            ariaTitle: extended.ariaTitle,
-            ariaDescription: extended.ariaDescription,
-            animateIn: extended.animateIn,
-            animateOut: extended.animateOut,
+            opened: declarations.opened,
+            scoped: declarations.scoped,
+            ariaTitle: declarations.ariaTitle,
+            ariaDescription: declarations.ariaDescription,
+            animateIn: declarations.animateIn,
+            animateOut: declarations.animateOut,
             type: PopupType.Dialog,
             position: [PositionX.Center, PositionY.Center],
-            trigger: extended.trigger!,
+            trigger: declarations.trigger!,
             children: Column({
                 style: DialogStyle.Container(theme, coloring),
                 children: [
                     Row({
                         style: DialogStyle.Content(),
                         children: [
-                            extended.icon ? Row({
+                            declarations.icon ? Row({
                                 style: DialogStyle.Icon(),
-                                children: extended.icon,
+                                children: declarations.icon,
                             }) : undefined,
                             Column({
                                 style: {
@@ -75,7 +56,7 @@ export function ThemeDialog(
                                             opacity: '.5',
                                         },
                                         children: SmallText({
-                                            children: extended.title || 'Alert'
+                                            children: declarations.title || 'Alert'
                                         }),
                                     }),
                                     Column({
@@ -83,7 +64,7 @@ export function ThemeDialog(
                                             paddingX: 1,
                                             paddingBottom: 1,
                                         },
-                                        children: extended.children!
+                                        children: declarations.children!
                                     }),
                                 ]
                             }),
@@ -91,7 +72,7 @@ export function ThemeDialog(
                     }),
                     Row({
                         style: DialogStyle.Buttons(theme, coloring),
-                        children: extended.actions ? extended.actions(modal) : [],
+                        children: declarations.actions ? declarations.actions(modal) : [],
                     }),
                 ]
             }),
