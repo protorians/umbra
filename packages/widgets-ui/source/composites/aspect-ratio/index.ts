@@ -16,7 +16,7 @@ export function ThemeAspectRatio(
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, ThemeAspectRatioProps & ICommonAttributes>, ThemeAspectRatioProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>, ThemeAspectRatioProps>(
         declarations, ['ratio', 'fit', 'children']
     )
 
@@ -26,7 +26,7 @@ export function ThemeAspectRatio(
     }).merge(declarations.style);
 
     return Stack({
-        ...declaration,
+        ...(declaration as any),
         children: declaration.children
     } as IWidgetDeclaration<HTMLElement, ICommonAttributes>);
 }
