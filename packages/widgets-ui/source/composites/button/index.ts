@@ -25,7 +25,7 @@ export function ThemeButton(
     )
 
     const variant = extended.variant || LayerVariant.Normal;
-    const coloring = theme[extended.outline ? 'outlineColoring' : 'coloring'](variant);
+    const coloring = theme[extended.outline ? 'outlineColoringResolves' : 'coloringResolves'](variant);
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
@@ -33,15 +33,19 @@ export function ThemeButton(
 
     declaration.style = Style({
         ...theme.stylesheets.declarations
+        
     })
         .merge({
             display: 'flex',
             alignItems: 'center',
             borderRadius: theme.settings.radiusMin || '0',
             borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
-            padding: '.4rem .8rem',
+            padding: '.6rem 1rem',
             borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
             justifyContent: 'space-between',
+            // transitionProperty: 'all',
+            // transitionDuration: theme.settings.transitionDuration || '200ms',
+            // transitionTiming: theme.settings.transitionTiming || 'linear',
             boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
             '& > span': Style({
                 whiteSpace: 'nowrap',
