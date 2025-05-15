@@ -35,7 +35,7 @@ export interface ISignalController<I extends Object> {
  * Signal entry callable.
  * Returns the `TreatmentQueueStatus` enumerator to check the current execution (`Cancel` or `Exit`).
  */
-export type ISignalStackCallable<P> = (payload: P) => void | TreatmentQueueStatus;
+export type ISignalStackCallable<P> = (payload: P) => any | TreatmentQueueStatus;
 
 /**
  * @property key Custom key identifier
@@ -64,6 +64,8 @@ export interface ISignalStack<M> {
     listen<T extends keyof M>(type: T, callable: ISignalStackCallable<M[T]>, options?: ISignalStackOptions): this;
 
     dispatch<T extends keyof M>(type: T, payload: M[T], embarked?: any): this;
+
+    computed<T>(type: keyof M): T | undefined;
 
     remove<T extends keyof M>(type: T, index: number): this;
 
