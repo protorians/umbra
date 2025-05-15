@@ -1,7 +1,8 @@
-import type {IStyleSheet, IWidgetNode} from "@protorians/widgets";
+import {IStyleSheet, IWidgetNode, ObjectRounded} from "@protorians/widgets";
 import type {IUiTarget} from "@protorians/core";
 import {LayerVariant} from "../enums.js";
 import type {IColoringLayer} from "./coloring.js";
+import { IAnimetricGroup, IAnimetricSlimOptions } from "@protorians/animetric";
 
 
 export interface IThemeSettings {
@@ -115,7 +116,11 @@ export interface ITheme extends IThemeCompositeScheme {
 
     detach(target?: IUiTarget<HTMLElement>): this
 
-    outlineColoring(color: LayerVariant): IColoringLayer;
+    outlineColoringResolves(color: LayerVariant): IColoringLayer;
 
-    coloring(color: LayerVariant): IColoringLayer;
+    coloringResolves(color: LayerVariant): IColoringLayer;
+
+    roundedResolves(rounded: ObjectRounded): string;
+
+    animate(widget: IWidgetNode<any, any>, options: IAnimetricSlimOptions): IAnimetricGroup;
 }
