@@ -1,5 +1,19 @@
 # @widgetui/core
 
+## 0.2.0
+
+### Minor Changes
+
+- Refactor ThemeAspectRatio to support extended declarations [1ba24ec155ff15d7b84ddb0e4bdeae52752be4c5]
+- Enhance Avatar component with borderless option and refactor. [28621b9ebd4a6a6707c2986f05a64a2013d7d1f5]
+- Refactor Layer to use Stack and enhance style handling [eb6a3b85f06bb0486827f825a37f4b67f8a82169]
+- Refactor scroll-area to handle single child properly [be9d980d57651c7ae2ae52300be2b34e9a898d82]
+- Add new theme properties and Avatars component configuration [bb92ed4b1bb7496e0ebfb62e4dc33b402feb49b5]
+- Add support for ThemeAvatars and extend theme properties [5d9b8a1729a8ebdc95a3ecc9e9dc8713b1a77c6b]
+- Combine changeset commands into a single 'version' script. [ec65f7751ebf8f8fdba449446e4eda10654bed61]
+- Add ThemeAvatars composite component and type definition [970094cf11cfe154277f15304a480ebed76a4ae8]
+
+
 ## 0.1.0
 
 ### Minor Changes
@@ -36,9 +50,9 @@
 ### Patch Changes
 
 - Updated dependencies
-    - @protorians/animetric@0.1.0
-    - @protorians/widgets@0.5.0
-    - @protorians/core@0.3.0
+  - @protorians/animetric@0.1.0
+  - @protorians/widgets@0.5.0
+  - @protorians/core@0.3.0
 
 ## 0.0.15
 
@@ -46,11 +60,11 @@
 
 - Clear
 - Updated dependencies
-    - @protorians/animetric@0.0.21
-    - @protorians/colorimetric@0.0.21
-    - @protorians/core@0.2.14
-    - @protorians/shortcuts@0.0.17
-    - @protorians/widgets@0.3.14
+  - @protorians/animetric@0.0.21
+  - @protorians/colorimetric@0.0.21
+  - @protorians/core@0.2.14
+  - @protorians/shortcuts@0.0.17
+  - @protorians/widgets@0.3.14
 
 ## 0.0.14
 
@@ -58,11 +72,11 @@
 
 - Fix Spectra dependencies version
 - Updated dependencies
-    - @protorians/animetric@0.0.20
-    - @protorians/colorimetric@0.0.20
-    - @protorians/core@0.2.13
-    - @protorians/shortcuts@0.0.16
-    - @protorians/widgets@0.3.13
+  - @protorians/animetric@0.0.20
+  - @protorians/colorimetric@0.0.20
+  - @protorians/core@0.2.13
+  - @protorians/shortcuts@0.0.16
+  - @protorians/widgets@0.3.13
 
 ## 0.0.13
 
@@ -72,11 +86,11 @@
 - f9fe44d: Prepare next version
 - Updated dependencies
 - Updated dependencies [f9fe44d]
-    - @protorians/animetric@0.0.19
-    - @protorians/colorimetric@0.0.19
-    - @protorians/core@0.2.12
-    - @protorians/shortcuts@0.0.15
-    - @protorians/widgets@0.3.12
+  - @protorians/animetric@0.0.19
+  - @protorians/colorimetric@0.0.19
+  - @protorians/core@0.2.12
+  - @protorians/shortcuts@0.0.15
+  - @protorians/widgets@0.3.12
 
 ## 0.0.12
 
@@ -84,11 +98,11 @@
 
 - Umbra Patch
 - Updated dependencies
-    - @protorians/animetric@0.0.18
-    - @protorians/colorimetric@0.0.18
-    - @protorians/core@0.2.11
-    - @protorians/shortcuts@0.0.14
-    - @protorians/widgets@0.3.11
+  - @protorians/animetric@0.0.18
+  - @protorians/colorimetric@0.0.18
+  - @protorians/core@0.2.11
+  - @protorians/shortcuts@0.0.14
+  - @protorians/widgets@0.3.11
 
 ## 0.0.11
 
@@ -102,11 +116,11 @@
 - Updated dependencies [cd1813c]
 - Updated dependencies [59c12b3]
 - Updated dependencies [59c12b3]
-    - @protorians/widgets@0.3.10
-    - @protorians/animetric@0.0.17
-    - @protorians/colorimetric@0.0.17
-    - @protorians/core@0.2.10
-    - @protorians/shortcuts@0.0.13
+  - @protorians/widgets@0.3.10
+  - @protorians/animetric@0.0.17
+  - @protorians/colorimetric@0.0.17
+  - @protorians/core@0.2.10
+  - @protorians/shortcuts@0.0.13
 
 ## 0.0.10
 
@@ -114,11 +128,11 @@
 
 - Patching
 - Updated dependencies
-    - @protorians/animetric@0.0.16
-    - @protorians/colorimetric@0.0.16
-    - @protorians/core@0.2.9
-    - @protorians/shortcuts@0.0.12
-    - @protorians/widgets@0.3.9
+  - @protorians/animetric@0.0.16
+  - @protorians/colorimetric@0.0.16
+  - @protorians/core@0.2.9
+  - @protorians/shortcuts@0.0.12
+  - @protorians/widgets@0.3.9
 
 ## 0.0.9
 
@@ -126,11 +140,11 @@
 
 - Fixing workflow
 - Updated dependencies
-    - @protorians/animetric@0.0.15
-    - @protorians/colorimetric@0.0.15
-    - @protorians/core@0.2.8
-    - @protorians/shortcuts@0.0.11
-    - @protorians/widgets@0.3.8
+  - @protorians/animetric@0.0.15
+  - @protorians/colorimetric@0.0.15
+  - @protorians/core@0.2.8
+  - @protorians/shortcuts@0.0.11
+  - @protorians/widgets@0.3.8
 
 ## 0.0.8
 
@@ -138,11 +152,11 @@
 
 - Fix workflow
 - Updated dependencies
-    - @protorians/animetric@0.0.14
-    - @protorians/colorimetric@0.0.14
-    - @protorians/core@0.2.7
-    - @protorians/shortcuts@0.0.10
-    - @protorians/widgets@0.3.7
+  - @protorians/animetric@0.0.14
+  - @protorians/colorimetric@0.0.14
+  - @protorians/core@0.2.7
+  - @protorians/shortcuts@0.0.10
+  - @protorians/widgets@0.3.7
 
 ## 0.0.7
 
@@ -150,11 +164,11 @@
 
 - Update workflow
 - Updated dependencies
-    - @protorians/animetric@0.0.13
-    - @protorians/colorimetric@0.0.13
-    - @protorians/core@0.2.6
-    - @protorians/shortcuts@0.0.9
-    - @protorians/widgets@0.3.6
+  - @protorians/animetric@0.0.13
+  - @protorians/colorimetric@0.0.13
+  - @protorians/core@0.2.6
+  - @protorians/shortcuts@0.0.9
+  - @protorians/widgets@0.3.6
 
 ## 0.0.6
 
@@ -162,11 +176,11 @@
 
 - Patching
 - Updated dependencies
-    - @protorians/animetric@0.0.12
-    - @protorians/colorimetric@0.0.12
-    - @protorians/core@0.2.5
-    - @protorians/shortcuts@0.0.8
-    - @protorians/widgets@0.3.5
+  - @protorians/animetric@0.0.12
+  - @protorians/colorimetric@0.0.12
+  - @protorians/core@0.2.5
+  - @protorians/shortcuts@0.0.8
+  - @protorians/widgets@0.3.5
 
 ## 0.0.5
 
@@ -174,11 +188,11 @@
 
 - Stabilize version
 - Updated dependencies
-    - @protorians/animetric@0.0.11
-    - @protorians/colorimetric@0.0.11
-    - @protorians/core@0.2.4
-    - @protorians/shortcuts@0.0.7
-    - @protorians/widgets@0.3.4
+  - @protorians/animetric@0.0.11
+  - @protorians/colorimetric@0.0.11
+  - @protorians/core@0.2.4
+  - @protorians/shortcuts@0.0.7
+  - @protorians/widgets@0.3.4
 
 ## 0.0.4
 
@@ -186,11 +200,11 @@
 
 - patching
 - Updated dependencies
-    - @protorians/colorimetric@0.0.10
-    - @protorians/animetric@0.0.10
-    - @protorians/shortcuts@0.0.6
-    - @protorians/widgets@0.3.3
-    - @protorians/core@0.2.3
+  - @protorians/colorimetric@0.0.10
+  - @protorians/animetric@0.0.10
+  - @protorians/shortcuts@0.0.6
+  - @protorians/widgets@0.3.3
+  - @protorians/core@0.2.3
 
 ## 0.1.0
 
@@ -204,11 +218,11 @@
 - Updated dependencies
 - Updated dependencies
 - Updated dependencies [0d0a854]
-    - @protorians/animetric@0.1.0
-    - @protorians/colorimetric@0.1.0
-    - @protorians/core@0.3.0
-    - @protorians/shortcuts@0.1.0
-    - @protorians/widgets@0.4.0
+  - @protorians/animetric@0.1.0
+  - @protorians/colorimetric@0.1.0
+  - @protorians/core@0.3.0
+  - @protorians/shortcuts@0.1.0
+  - @protorians/widgets@0.4.0
 
 ## 1.0.0
 
@@ -220,8 +234,8 @@
 
 - Updated dependencies [8762789]
 - Updated dependencies [d247435]
-    - @protorians/animetric@1.0.0
-    - @protorians/colorimetric@1.0.0
-    - @protorians/shortcuts@1.0.0
-    - @protorians/widgets@1.0.0
-    - @protorians/core@1.0.0
+  - @protorians/animetric@1.0.0
+  - @protorians/colorimetric@1.0.0
+  - @protorians/shortcuts@1.0.0
+  - @protorians/widgets@1.0.0
+  - @protorians/core@1.0.0
