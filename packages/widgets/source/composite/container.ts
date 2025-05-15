@@ -2,7 +2,7 @@ import type {ICommonAttributes, ContainerProps, IWidgetDeclaration} from "../typ
 import {Layer, Section} from "../overlay/index.js";
 import {declarationExplodes} from "../helpers/index.js";
 import {SizeCapabilities} from "../capabilities/index.js";
-import {Sizer} from "../enums.js";
+import {ObjectSize} from "../enums.js";
 
 
 export function Container(declaration: IWidgetDeclaration<HTMLElement, ContainerProps & ICommonAttributes>) {
@@ -20,7 +20,7 @@ export function Container(declaration: IWidgetDeclaration<HTMLElement, Container
                 widget.style({
                     width: '100%',
                     maxWidth: `${(typeof size == 'string')
-                        ? (Object.values(Sizer).includes(size as Sizer)
+                        ? (Object.values(ObjectSize).includes(size as ObjectSize)
                                 ? SizeCapabilities.capability('surface')?.on(widget).make(size) : size
                         ) : SizeCapabilities.capability('unit')?.on(widget).make(size)}`,
                 })
