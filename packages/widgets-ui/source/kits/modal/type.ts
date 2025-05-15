@@ -4,14 +4,14 @@ import {
     IStyleSheetDeclarations,
     IWidgetNode, PopupType,
     PositionX,
-    PositionY, WidgetElevation
+    PositionY, ObjectElevation
 } from "@protorians/widgets";
 import {ModalStyleSections} from "./enum.js";
 import {IAnimetricSlimOptions} from "@protorians/animetric";
 import {PartialWithout} from "@protorians/core";
 
 
-export type IModalElevation = WidgetElevation.Float | WidgetElevation.Critical | WidgetElevation.Overlay;
+export type IModalElevation = ObjectElevation.Float | ObjectElevation.Critical | ObjectElevation.Overlay;
 
 export interface IModalLayout {
     children: IWidgetNode<any, any>;

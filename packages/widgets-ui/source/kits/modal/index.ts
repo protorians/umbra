@@ -8,7 +8,7 @@ import {
     type IWidgetNode,
     Kit, Layer,
     Override, PopupType, PositionX, PositionY, Stack,
-    Structurable, WidgetElevation,
+    Structurable, ObjectElevation,
 } from "@protorians/widgets";
 import type {IModal, IModalElevation, IModalLayout, IModalOptions} from "./type.js";
 import {IAnimetricGroup, IAnimetricSlimOptions, slimetric} from "@protorians/animetric";
@@ -79,15 +79,15 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
         switch (this.options.type || PopupType.Dialog) {
             case PopupType.Dialog:
             case PopupType.Grid:
-                return WidgetElevation.Critical;
+                return ObjectElevation.Critical;
 
             case PopupType.Menu:
             case PopupType.Tree:
-                return WidgetElevation.Float;
+                return ObjectElevation.Float;
 
             case PopupType.Listbox:
             case PopupType.Custom:
-                return WidgetElevation.Overlay;
+                return ObjectElevation.Overlay;
         }
     }
 
