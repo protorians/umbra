@@ -15,9 +15,7 @@
     "umbra-sync-packages": "node ./bin/git-push-packages",
     "add:changesets": "pnpm add -D @changesets/cli@latest && pnpx changesets init",
     "up:ts": "pnpm up -r typescript",
-    "version:up": "pnpm changeset",
-    "version:add": "pnpm changeset add",
-    "version:set": "pnpm changeset version",
+    "version": "pnpm changeset add && pnpm changeset version",
     "demo:all": "pnpm -r --filter labs/* run dev",
     "demo:animetric": "pnpm --filter demo-animetric run start"
   },
