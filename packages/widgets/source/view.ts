@@ -157,7 +157,7 @@ export class ViewWidget implements IView {
      * @return {void} This method does not return a value.
      */
     static defuse<E extends HTMLElement, A extends IAttributes>(payload: ICallablePayload<E, A, undefined>): void {
-        const configs = this._getConfigs();
+        const configs = (this.constructor as any)._getConfigs();
 
         if (typeof configs !== 'object') return;
         if (typeof configs.defuser === 'undefined') return;
