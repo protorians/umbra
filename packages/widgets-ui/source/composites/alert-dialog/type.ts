@@ -1,12 +1,15 @@
 import {IWidgetNode} from "@protorians/widgets";
-import {IThemeAlertAction} from "../alert/type.js";
-import {IModalOptions} from "../../kits/index.js";
+import {IModal, IModalOptions} from "../../kits/index.js";
 import {LayerVariant} from "../../enums.js";
+import {IThemeAction} from "../../types/action.js";
 
+
+export interface IThemeAlertDialogAction extends IThemeAction<IModal>{
+}
 
 export interface IThemeAlertDialogActions {
-    accept: IThemeAlertAction;
-    refuse: IThemeAlertAction;
+    accept: IThemeAlertDialogAction;
+    refuse: IThemeAlertDialogAction;
 }
 
 export interface ThemeAlertDialogProps extends Partial<Omit<IModalOptions, 'favicon' | 'position' | 'locked' | 'blurred' | 'type'>> {
