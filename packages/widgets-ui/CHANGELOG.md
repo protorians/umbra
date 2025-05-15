@@ -1,5 +1,17 @@
 # @widgetui/core
 
+## 0.2.2
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/colorimetric@0.0.23
+  - @protorians/animetric@0.1.1
+  - @protorians/shortcuts@0.0.19
+  - @protorians/widgets@0.5.1
+  - @protorians/core@0.3.1
+
 ## 0.2.1
 
 ### Patch Changes

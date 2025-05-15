@@ -1,5 +1,16 @@
 # @protorians/widgets
 
+## 0.5.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/colorimetric@0.0.23
+  - @protorians/animetric@0.1.1
+  - @protorians/spectra@0.0.6
+  - @protorians/core@0.3.1
+
 ## 0.5.0
 
 ### Minor Changes

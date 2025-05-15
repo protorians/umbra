@@ -1,5 +1,13 @@
 # @protorians/shortcuts
 
+## 0.0.19
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
 ## 0.0.18
 
 ### Patch Changes

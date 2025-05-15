@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.3.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+
 ## 0.3.0
 
 ### Minor Changes

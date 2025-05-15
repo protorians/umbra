@@ -1,5 +1,13 @@
 # @protorians/colorimetric
 
+## 0.0.23
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
 ## 0.0.22
 
 ### Patch Changes

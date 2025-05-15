@@ -1,5 +1,13 @@
 # @protorians/animetric
 
+## 0.1.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
 ## 0.1.0
 
 ### Minor Changes

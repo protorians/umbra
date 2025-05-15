@@ -1,5 +1,18 @@
 # @widgetui/katon-theme
 
+## 0.1.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/colorimetric@0.0.23
+  - @widgetui/core@0.2.2
+  - @protorians/animetric@0.1.1
+  - @protorians/shortcuts@0.0.19
+  - @protorians/widgets@0.5.1
+  - @protorians/core@0.3.1
+
 ## 0.1.0
 
 ### Minor Changes
