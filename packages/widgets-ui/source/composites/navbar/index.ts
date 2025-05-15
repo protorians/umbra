@@ -7,7 +7,7 @@ import {
     type IWidgetNode,
     Row,
     Style,
-    WidgetElevation
+    ObjectElevation
 } from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
 import {LayerVariant} from "../../enums.js";
@@ -25,7 +25,7 @@ export function ThemeNavbar(
         declarations, ['variant', 'fixed', 'children']
     )
 
-    const coloring = theme.coloring(extended.variant || LayerVariant.Normal)
+    const coloring = theme.coloringResolves(extended.variant || LayerVariant.Normal)
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
@@ -83,7 +83,7 @@ export function ThemeNavbar(
         });
     })
 
-    declaration.elevate = WidgetElevation.Float;
+    declaration.elevate = ObjectElevation.Float;
 
     return Row(declaration as IWidgetDeclaration<HTMLElement, ICommonAttributes>)
 }
