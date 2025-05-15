@@ -4,14 +4,14 @@
 
 ### Minor Changes
 
-- Refactor ThemeAspectRatio to support extended declarations [1ba24ec155ff15d7b84ddb0e4bdeae52752be4c5]
-- Enhance Avatar component with borderless option and refactor. [28621b9ebd4a6a6707c2986f05a64a2013d7d1f5]
-- Refactor Layer to use Stack and enhance style handling [eb6a3b85f06bb0486827f825a37f4b67f8a82169]
-- Refactor scroll-area to handle single child properly [be9d980d57651c7ae2ae52300be2b34e9a898d82]
-- Add new theme properties and Avatars component configuration [bb92ed4b1bb7496e0ebfb62e4dc33b402feb49b5]
-- Add support for ThemeAvatars and extend theme properties [5d9b8a1729a8ebdc95a3ecc9e9dc8713b1a77c6b]
-- Combine changeset commands into a single 'version' script. [ec65f7751ebf8f8fdba449446e4eda10654bed61]
-- Add ThemeAvatars composite component and type definition [970094cf11cfe154277f15304a480ebed76a4ae8]
+    - Refactor ThemeAspectRatio to support extended declarations [1ba24ec155ff15d7b84ddb0e4bdeae52752be4c5]
+    - Enhance Avatar component with borderless option and refactor. [28621b9ebd4a6a6707c2986f05a64a2013d7d1f5]
+    - Refactor Layer to use Stack and enhance style handling [eb6a3b85f06bb0486827f825a37f4b67f8a82169]
+    - Refactor scroll-area to handle single child properly [be9d980d57651c7ae2ae52300be2b34e9a898d82]
+    - Add new theme properties and Avatars component configuration [bb92ed4b1bb7496e0ebfb62e4dc33b402feb49b5]
+    - Add support for ThemeAvatars and extend theme properties [5d9b8a1729a8ebdc95a3ecc9e9dc8713b1a77c6b]
+    - Combine changeset commands into a single 'version' script. [ec65f7751ebf8f8fdba449446e4eda10654bed61]
+    - Add ThemeAvatars composite component and type definition [970094cf11cfe154277f15304a480ebed76a4ae8]
 
 
 ## 0.1.0
