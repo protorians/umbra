@@ -7,7 +7,7 @@ import {
     type ICommonAttributes,
     type IWidgetDeclaration,
     type IWidgetNode, Row,
-    Style, WidgetElevation
+    Style, ObjectElevation
 } from "@protorians/widgets";
 import {Callable} from "@protorians/core";
 import {ITheme} from "../../types/index.js";
@@ -26,7 +26,7 @@ export function ThemeHelmet(
         declarations, ['variant', 'direction', 'childrenStyle', 'start', 'end', 'fixed']
     )
 
-    const coloring = theme.coloring(extended.variant || LayerVariant.Normal)
+    const coloring = theme.coloringResolves(extended.variant || LayerVariant.Normal)
     const isNude = (
         extended.variant == LayerVariant.Text ||
         extended.variant == LayerVariant.Link
@@ -98,7 +98,7 @@ export function ThemeHelmet(
         }),
     ];
 
-    declaration.elevate = WidgetElevation.Float;
+    declaration.elevate = ObjectElevation.Float;
 
     return HeaderFrame(declaration)
         .mount(({widget}) => {
