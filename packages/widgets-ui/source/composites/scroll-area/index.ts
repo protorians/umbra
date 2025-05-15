@@ -6,7 +6,7 @@ import {
     type ICommonAttributes,
     type IWidgetDeclaration,
     type IWidgetNode, Row,
-    Style
+    Style, WidgetNode
 } from "@protorians/widgets";
 
 
@@ -58,13 +58,17 @@ export function ThemeScrollArea(
         })
     }
 
-    declaration.children = extended.children?.map(widget => {
-        widget.style({
+    declaration.children = (
+        Array.isArray(extended.children)
+            ? extended.children
+            : [extended.children]
+    ).map((widget) => {
+        if(widget instanceof WidgetNode) widget.style({
             flexWrap: 'nowrap',
             whiteSpace: 'nowrap',
         })
         return widget;
     })
 
-    return (isColumn ? Column : Row)(declaration)
+    return ((isColumn ? Column : Row)(declaration))
 }
