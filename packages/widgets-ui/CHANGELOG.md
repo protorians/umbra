@@ -1,5 +1,11 @@
 # @widgetui/core
 
+## 0.2.1
+
+### Patch Changes
+
+    - Refactor type definitions in aspect-ratio composite
+
 ## 0.2.0
 
 ### Minor Changes
@@ -12,7 +18,6 @@
     - Add support for ThemeAvatars and extend theme properties [5d9b8a1729a8ebdc95a3ecc9e9dc8713b1a77c6b]
     - Combine changeset commands into a single 'version' script. [ec65f7751ebf8f8fdba449446e4eda10654bed61]
     - Add ThemeAvatars composite component and type definition [970094cf11cfe154277f15304a480ebed76a4ae8]
-
 
 ## 0.1.0
 
