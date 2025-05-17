@@ -9,7 +9,7 @@ export interface ThemeProgressPayload {
     root?: IWidgetNode<any, any>;
 }
 
-export type ThemeProgressProps = {
+export type ThemeProgressOptions = {
     initiate?: (payload: ThemeProgressPayload) => void;
     variant?: LayerVariant;
     size?: number | string;

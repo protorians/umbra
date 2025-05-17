@@ -6,20 +6,20 @@ import {
     Layer,
     Style
 } from "@protorians/widgets";
-import {ThemeProgressProps} from "./type.js";
+import {ThemeProgressOptions} from "./type.js";
 import {createState} from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
 import {LayerVariant} from "../../enums.js";
 
 export function ThemeProgress(
     theme: ITheme,
-    declarations: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>
+    declarations: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressOptions & ICommonAttributes>, 'children'>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>, ThemeProgressProps>(
+    } = declarationExplodes<Omit<IWidgetDeclaration<HTMLElement, ThemeProgressOptions & ICommonAttributes>, 'children'>, ThemeProgressOptions>(
         declarations, ['variant', 'size', 'initiate']
     )
     const variant = extended.variant || LayerVariant.Normal

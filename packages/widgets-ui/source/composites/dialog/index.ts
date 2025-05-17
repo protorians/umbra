@@ -5,7 +5,7 @@ import {
     PositionX,
     PositionY, Row, SmallText,
 } from "@protorians/widgets";
-import {ThemeDialogProps} from "./type.js";
+import {ThemeDialogOptions} from "./type.js";
 import {IModal, IModalOptions, ModalKit} from "../../kits/index.js";
 import {DialogStyle} from "./style.js";
 import type {ITheme} from "../../types/index.js";
@@ -14,7 +14,7 @@ import {LayerVariant} from "../../enums.js";
 
 export function ThemeDialog(
     theme: ITheme,
-    declarations: ThemeDialogProps
+    declarations: ThemeDialogOptions
 ): IChildren<any> {
 
     const variant = declarations.variant || LayerVariant.Normal;

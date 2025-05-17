@@ -4,15 +4,15 @@ import {
     ICommonAttributes,
     IWidgetDeclaration, IWidgetNode, Row, Stack, Style,
 } from "@protorians/widgets";
-import {IThemeAlertCapability, IThemeAlertExtended, ThemeAlertProps} from "./type.js";
+import {IThemeAlertMethods, IThemeAlertProperties, ThemeAlertOptions} from "./type.js";
 import {ITheme} from "../../types/index.js";
 import {createCapability} from "@protorians/core";
-import {AlertState} from "./enum.js";
+import {AlertStatus} from "./enum.js";
 
 
 export function ThemeAlert(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>
+    declarations: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertOptions>
 ): IWidgetNode<any, any> | undefined {
 
     const contentRef = createRef();
@@ -20,7 +20,7 @@ export function ThemeAlert(
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>, ThemeAlertProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertOptions>, ThemeAlertOptions>(
         declarations, [
             'variant',
             'direction',
@@ -31,13 +31,13 @@ export function ThemeAlert(
             'animateIn',
             'animateOut',
             'actions',
-            'collapsable',
+            'collapsible',
             'collapseSize',
             'mounted',
             'unmounted',
         ]
     );
-    extended.collapseSize = extended.collapsable ? extended.collapseSize || 80 : undefined;
+    extended.collapseSize = extended.collapsible ? extended.collapseSize || 80 : undefined;
 
     declaration.style = Style({})
         .merge(declaration.style)
@@ -49,24 +49,27 @@ export function ThemeAlert(
             gap: 1,
         })
 
-    const updateState = (state: AlertState) => {
-        instance.state = state;
+    const updateState = (state: AlertStatus) => {
+        instance.status = state;
         contentRef.current?.attributeLess({'ui:state': `${state}`})
     }
 
-    const {capability, current: instance} = createCapability<IThemeAlertCapability, IThemeAlertExtended>({
+    const {capability, current: instance} = createCapability<IThemeAlertMethods, IThemeAlertProperties>({
         methods: ['show', 'destroy', 'toggle', 'hide', 'expand', 'collapse',]
     });
 
-    instance.state = AlertState.Hidden;
+    instance.status = AlertStatus.Hidden;
 
     capability.apply('show', () => {
         widget.style({display: 'flex'})
         if (extended.animateIn && widget)
             theme.animate(widget, extended.animateIn).play()
                 .signal.listen('complete', () => {
-                updateState(AlertState.Shown);
+                updateState(AlertStatus.Shown);
             })
+        else {
+            updateState(AlertStatus.Shown);
+        }
         return instance;
     })
 
@@ -75,8 +78,12 @@ export function ThemeAlert(
             theme.animate(widget, extended.animateOut).play()
                 .signal.listen('complete', () => {
                 widget.style({display: 'none'});
-                updateState(AlertState.Hidden);
+                updateState(AlertStatus.Hidden);
             })
+        else {
+            widget.style({display: 'none'});
+            updateState(AlertStatus.Hidden);
+        }
         return instance;
     })
 
@@ -85,27 +92,31 @@ export function ThemeAlert(
             theme.animate(widget, extended.animateOut).play()
                 .signal.listen('complete', () => {
                 widget.remove()
-                updateState(AlertState.Destroyed);
+                updateState(AlertStatus.Destroyed);
             })
+        else {
+            widget.remove()
+            updateState(AlertStatus.Destroyed);
+        }
         return instance;
     })
 
     capability.apply('expand', () => {
-        if (widget && extended.collapsable && contentRef.current) {
+        if (widget && extended.collapsible && contentRef.current) {
             contentRef.current.style({
                 height: `${contentRef.current.clientElement!.scrollHeight}px`,
             })
-            updateState(AlertState.Expand);
+            updateState(AlertStatus.Expand);
         }
         return instance;
     })
 
     capability.apply('collapse', () => {
-        if (widget && extended.collapsable && contentRef.current) {
+        if (widget && extended.collapsible && contentRef.current) {
             contentRef.current.style({
                 height: `${extended.collapseSize}px`,
             })
-            updateState(AlertState.Collapse);
+            updateState(AlertStatus.Collapse);
         }
         return instance;
     })
@@ -133,11 +144,11 @@ export function ThemeAlert(
                     transitionTimingFunction: theme.settings.transitionTiming || 'ease-out',
                     transitionDuration: theme.settings.transitionDuration || '360ms',
                     overflowX: 'hidden',
-                    overflowY: extended.collapsable ? 'hidden' : 'initial',
-                    height: extended.collapsable ? '80px' : 'auto',
+                    overflowY: extended.collapsible ? 'hidden' : 'initial',
+                    height: extended.collapsible ? '80px' : 'auto',
                 },
                 signal: {
-                    mount: () => updateState(instance.state)
+                    mount: () => updateState(instance.status)
                 },
                 children: [
                     extended.helmet,

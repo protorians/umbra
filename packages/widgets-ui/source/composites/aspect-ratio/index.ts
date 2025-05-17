@@ -6,17 +6,17 @@ import {
     Stack,
     Style
 } from "@protorians/widgets";
-import {ThemeAspectRatioProps} from "./type.js";
+import {ThemeAspectRatioOptions} from "./type.js";
 
 
 export function ThemeAspectRatio(
-    declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioOptions & ICommonAttributes>
 ): IWidgetNode<any, any> | undefined {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>, ThemeAspectRatioProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeAspectRatioOptions & ICommonAttributes>, ThemeAspectRatioOptions>(
         declarations, ['ratio', 'fit', 'children']
     )
 

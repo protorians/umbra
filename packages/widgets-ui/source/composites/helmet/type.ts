@@ -1,7 +1,7 @@
 import {AligningDirection, type IStyleSheetDeclarations, type IWidgetNode} from "@protorians/widgets";
 import {LayerVariant} from "../../enums.js";
 
-export type ThemeHelmetProps = {
+export type ThemeHelmetOptions = {
     variant?: LayerVariant;
     childrenStyle?:  IStyleSheetDeclarations;
     direction?: AligningDirection;

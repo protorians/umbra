@@ -7,20 +7,20 @@ import {
     IWidgetDeclaration,
     Style,
 } from "@protorians/widgets";
-import {type ThemeButtonProps} from "./type.js";
+import {type ThemeButtonOptions} from "./type.js";
 import {ITheme} from "../../types/index.js";
 import {LayerVariant} from "../../enums.js";
 
 
 export function ThemeButton(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>
+    declarations: IWidgetDeclaration<HTMLButtonElement, ThemeButtonOptions & IButtonAttributes & IButtonAttributesBase>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>, ThemeButtonProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLButtonElement, ThemeButtonOptions & IButtonAttributes & IButtonAttributesBase>, ThemeButtonOptions>(
         declarations, ['variant', 'outline', 'before', 'after']
     )
 

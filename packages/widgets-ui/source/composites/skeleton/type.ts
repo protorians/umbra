@@ -1,4 +1,4 @@
-export type ThemeSkeletonProps = {
+export type ThemeSkeletonOptions = {
     duration?: number;
     delay?: number;
 }

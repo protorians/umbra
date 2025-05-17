@@ -6,16 +6,16 @@ import {
     ICommonAttributes,
     IWidgetDeclaration, PopupType
 } from "@protorians/widgets";
-import {ThemeSheetProps} from "./type.js";
+import {ThemeSheetOptions} from "./type.js";
 import {IModalOptions, ModalKit} from "../../kits/index.js";
 import {convertToArrayPosition} from "../../utilities/index.js";
 
 
 export function ThemeSheet(
-    declarations: IWidgetDeclaration<HTMLElement, Partial<ThemeSheetProps> & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, Partial<ThemeSheetOptions> & ICommonAttributes>
 ): IChildren<any> {
 
-    const {extended} = declarationExplodes<IWidgetDeclaration<HTMLElement, Partial<ThemeSheetProps> & ICommonAttributes>, ThemeSheetProps>(
+    const {extended} = declarationExplodes<IWidgetDeclaration<HTMLElement, Partial<ThemeSheetOptions> & ICommonAttributes>, ThemeSheetOptions>(
         declarations, [
             'scoped',
             'trigger',

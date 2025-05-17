@@ -1,4 +1,4 @@
-import {type ThemeNavbarProps} from "./type.js";
+import {type ThemeNavbarOptions} from "./type.js";
 import {
     Color,
     declarationExplodes,
@@ -15,13 +15,13 @@ import {LayerVariant} from "../../enums.js";
 
 export function ThemeNavbar(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ThemeNavbarProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeNavbarOptions & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeNavbarProps & ICommonAttributes>, ThemeNavbarProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeNavbarOptions & ICommonAttributes>, ThemeNavbarOptions>(
         declarations, ['variant', 'fixed', 'children']
     )
 

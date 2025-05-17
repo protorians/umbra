@@ -12,7 +12,7 @@ export interface IThemeAlertDialogActions {
     refuse: IThemeAlertDialogAction;
 }
 
-export interface ThemeAlertDialogProps extends Partial<Omit<IModalOptions, 'favicon' | 'position' | 'locked' | 'blurred' | 'type'>> {
+export interface ThemeAlertDialogOptions extends Partial<Omit<IModalOptions, 'favicon' | 'position' | 'locked' | 'blurred' | 'type'>> {
     variant?: LayerVariant;
     icon?: IWidgetNode<any, any>;
     title?: string;

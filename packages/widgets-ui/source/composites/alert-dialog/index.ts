@@ -1,5 +1,5 @@
 import {type IChildren,} from "@protorians/widgets";
-import {IThemeAlertDialogAction, ThemeAlertDialogProps} from "./type.js";
+import {IThemeAlertDialogAction, ThemeAlertDialogOptions} from "./type.js";
 import {ThemeDialog} from "../dialog/index.js";
 import {type ITheme} from "../../types/index.js";
 import {IModal} from "../../kits/index.js";
@@ -7,7 +7,7 @@ import {IModal} from "../../kits/index.js";
 
 export function ThemeAlertDialog(
     theme: ITheme,
-    declarations: ThemeAlertDialogProps
+    declarations: ThemeAlertDialogOptions
 ): IChildren<any> {
 
     return ThemeDialog(theme, {

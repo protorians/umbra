@@ -20,6 +20,5 @@ export function ThemeModal(
             'type'
         ]
     );
-
     return ModalKit.callable((): IModalOptions => ({...extended}))
 }

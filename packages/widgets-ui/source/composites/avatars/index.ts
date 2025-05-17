@@ -1,11 +1,11 @@
 import {Color, IWidgetNode, ObjectSize, Stack} from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
-import {ThemeAvatarsProps} from "./type.js";
+import {ThemeAvatarsOptions} from "./type.js";
 import {getObjectSize} from "../../utilities/index.js";
 
 export function ThemeAvatars(
     theme: ITheme,
-    {loader, rounded, direction, size, fallback, sources, borderless}: ThemeAvatarsProps
+    {loader, rounded, direction, size, fallback, sources, borderless}: ThemeAvatarsOptions
 ): IWidgetNode<any, any> | undefined {
     const gap = getObjectSize(size || ObjectSize.Medium);
 

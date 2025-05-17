@@ -1,4 +1,4 @@
-import {ThemeAvatarProps} from "./type.js";
+import {ThemeAvatarOptions} from "./type.js";
 import {Color, Image, IWidgetNode, ObjectRounded, ObjectSize, Stack} from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
 import {getObjectSize} from "../../utilities/index.js";
@@ -6,7 +6,7 @@ import {readBlobFile} from "@protorians/core";
 
 export function ThemeAvatar(
     theme: ITheme,
-    {loader, rounded, direction, size, fallback, source, borderless}: ThemeAvatarProps
+    {loader, rounded, direction, size, fallback, source, borderless}: ThemeAvatarOptions
 ): IWidgetNode<any, any> | undefined {
     const radius = theme.roundedResolves(rounded || ObjectRounded.Full);
     const sizes = getObjectSize(size || ObjectSize.Medium);
@@ -31,7 +31,6 @@ export function ThemeAvatar(
                 },
                 signal: {
                     mount: async ({widget}) => {
-                        console.log('source', source, '')
                         if (source) {
                             await fetch(source)
                                 .then(response => response.blob())

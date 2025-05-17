@@ -6,17 +6,17 @@ import {
     MainFrame, Section,
     Style
 } from "@protorians/widgets";
-import {ThemeViewProps} from "./type.js";
+import {ThemeViewOptions} from "./type.js";
 import {$ui} from "@protorians/core";
 
 
 export function ThemeView(
-    declarations: IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeViewOptions & ICommonAttributes>
 ) {
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>, ThemeViewProps>(declarations,
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeViewOptions & ICommonAttributes>, ThemeViewOptions>(declarations,
         ['direction', 'helmet', 'navbar', 'bottomNavbar', 'footer', 'scrollable', 'title']
     )
     const scrollable = (typeof extended.scrollable == 'undefined')

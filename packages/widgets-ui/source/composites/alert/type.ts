@@ -3,14 +3,14 @@ import {LayerVariant} from "../../enums.js";
 import {IAnimetricSlimOptions} from "@protorians/animetric";
 import {IThemeAction} from "../../types/action.js";
 import {ICapabilityInstance} from "@protorians/core";
-import {AlertState} from "./enum.js";
+import {AlertStatus} from "./enum.js";
 
 
-export interface ThemeAlertProps {
+export interface ThemeAlertOptions {
     variant?: LayerVariant;
     outline?: boolean;
     closer?: boolean;
-    collapsable?: boolean;
+    collapsible?: boolean;
     collapseSize?: number;
     direction?: AligningDirection;
     icon?: IWidgetNode<any, any>;
@@ -23,7 +23,7 @@ export interface ThemeAlertProps {
     unmounted?: (alerte: IThemeAlert) => void;
 }
 
-export interface IThemeAlertCapability {
+export interface IThemeAlertMethods {
     show: IThemeAlert;
     hide: IThemeAlert;
     destroy: IThemeAlert;
@@ -32,7 +32,8 @@ export interface IThemeAlertCapability {
     collapse: IThemeAlert;
 }
 
-export type IThemeAlertExtended = {
-    state: AlertState;
+export type IThemeAlertProperties = {
+    status: AlertStatus;
 }
-export type IThemeAlert = ICapabilityInstance<IThemeAlertCapability> & IThemeAlertExtended
+
+export type IThemeAlert = ICapabilityInstance<IThemeAlertMethods> & IThemeAlertProperties

@@ -1,4 +1,4 @@
-export enum AlertState {
+export enum AlertStatus {
     Shown = 'Shown',
     Hidden = 'Hidden',
     Expand = 'Expand',

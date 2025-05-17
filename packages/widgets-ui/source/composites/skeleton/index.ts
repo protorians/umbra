@@ -6,18 +6,18 @@ import {
     Layer,
     Style
 } from "@protorians/widgets";
-import {ThemeSkeletonProps} from "./type.js";
+import {ThemeSkeletonOptions} from "./type.js";
 import {ITheme} from "../../types/index.js";
 
 export function ThemeSkeleton(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeSkeletonOptions & ICommonAttributes>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>, ThemeSkeletonProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeSkeletonOptions & ICommonAttributes>, ThemeSkeletonOptions>(
         declarations, ['duration', 'delay']
     )
 

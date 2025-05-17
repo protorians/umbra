@@ -1,10 +1,11 @@
 import {
-    IKit,
-    IStyleSheet,
-    IStyleSheetDeclarations,
-    IWidgetNode, PopupType,
+    type IKit,
+    type IStyleSheetDeclarations,
+    type IWidgetNode,
+    PopupType,
     PositionX,
-    PositionY, ObjectElevation
+    PositionY,
+    ObjectElevation
 } from "@protorians/widgets";
 import {ModalStyleSections} from "./enum.js";
 import {IAnimetricSlimOptions} from "@protorians/animetric";
@@ -22,7 +23,7 @@ export interface IModalLayout {
 }
 
 export type IModalStyles = {
-    [K in ModalStyleSections]: IStyleSheetDeclarations | IStyleSheet | undefined;
+    [K in ModalStyleSections]: IStyleSheetDeclarations | undefined;
 }
 
 export interface IModalOptions extends Omit<PartialWithout<IModalLayout, 'children' | 'trigger'>, 'foreground' | 'background'> {

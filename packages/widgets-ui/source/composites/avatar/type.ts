@@ -1,7 +1,7 @@
 import {AligningDirection, IWidgetNode, ObjectRounded, ObjectSize} from "@protorians/widgets";
 
 
-export interface ThemeAvatarProps {
+export interface ThemeAvatarOptions {
     source?: string;
     direction?: AligningDirection;
     rounded?: ObjectRounded;

@@ -1,6 +1,6 @@
 import {AligningDirection, type IWidgetNode} from "@protorians/widgets";
 
-export type ThemeScrollAreaProps = {
+export type ThemeScrollAreaOptions = {
     size?: number | string;
     direction?: AligningDirection;
     hideScroll?: boolean;

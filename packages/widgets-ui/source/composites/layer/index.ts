@@ -6,20 +6,20 @@ import {
     Layer, Stack,
     Style
 } from "@protorians/widgets";
-import {ThemeLayerProps} from "./type.js";
+import {ThemeLayerOptions} from "./type.js";
 import {ITheme} from "../../types/index.js";
 import {LayerVariant} from "../../enums.js";
 import {createMultipleLayerGradient} from "../../utilities/index.js";
 
 export function ThemeLayer(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeLayerOptions & ICommonAttributes>
 ) {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>, ThemeLayerProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeLayerOptions & ICommonAttributes>, ThemeLayerOptions>(
         declarations, ['variant', 'outline', 'blurred'],
     );
     const variant = extended.variant || LayerVariant.Normal;

@@ -1,6 +1,6 @@
 import {AligningDirection, type IWidgetNode} from "@protorians/widgets";
 
-export type ThemeViewProps = {
+export type ThemeViewOptions = {
     title?: string;
     direction?: AligningDirection;
     helmet?: IWidgetNode<any, any>;

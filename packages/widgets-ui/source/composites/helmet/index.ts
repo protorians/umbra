@@ -1,4 +1,4 @@
-import {type ThemeHelmetProps} from "./type.js";
+import {type ThemeHelmetOptions} from "./type.js";
 import {
     AligningDirection,
     Color, Column,
@@ -16,13 +16,13 @@ import {LayerVariant} from "../../enums.js";
 
 export function ThemeHelmet(
     theme: ITheme,
-    declarations: IWidgetDeclaration<HTMLElement, ThemeHelmetProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeHelmetOptions & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeHelmetProps & ICommonAttributes>, ThemeHelmetProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeHelmetOptions & ICommonAttributes>, ThemeHelmetOptions>(
         declarations, ['variant', 'direction', 'childrenStyle', 'start', 'end', 'fixed']
     )
 

@@ -1,4 +1,4 @@
-import {type ThemeScrollAreaProps} from "./type.js";
+import {type ThemeScrollAreaOptions} from "./type.js";
 import {
     AligningDirection,
     Column,
@@ -11,13 +11,13 @@ import {
 
 
 export function ThemeScrollArea(
-    declarations: IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>
+    declarations: IWidgetDeclaration<HTMLElement, ThemeScrollAreaOptions & ICommonAttributes>
 ): IWidgetNode<any, any> {
 
     const {
         declaration,
         extended
-    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>, ThemeScrollAreaProps>(
+    } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeScrollAreaOptions & ICommonAttributes>, ThemeScrollAreaOptions>(
         declarations, ['direction', 'children', 'hideScroll', 'size']
     )
     const hideScroll = typeof extended.hideScroll === 'undefined' ? true : extended.hideScroll;

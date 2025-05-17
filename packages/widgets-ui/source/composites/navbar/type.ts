@@ -1,7 +1,7 @@
 import {IWidgetNode} from "@protorians/widgets";
 import {LayerVariant} from "../../enums.js";
 
-export type ThemeNavbarProps = {
+export type ThemeNavbarOptions = {
     variant?: LayerVariant;
     fixed?: boolean;
     children: IWidgetNode<HTMLButtonElement, any>[]
