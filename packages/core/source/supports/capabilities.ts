@@ -48,7 +48,7 @@ export function createCapability<T extends Record<string, any>, I>(options: ICap
     const signal = new Signal.Stack<T>();
     const initial = {} as ICapabilityInstance<T>;
     const callable = function (key: string, ...args: any[]) {
-        signal.dispatch(key, args as any);
+        signal.dispatch(key, args.length ? (args as any) : undefined);
         return signal.computed(key);
     };
     const handler = {
@@ -56,7 +56,7 @@ export function createCapability<T extends Record<string, any>, I>(options: ICap
             const value = Reflect.get(target, prop, receiver);
             if (typeof value === 'function') {
                 return function (...args: any[]) {
-                    return callable(prop, ...args)
+                    return callable(prop, ...args);
                 };
             }
             return value;
