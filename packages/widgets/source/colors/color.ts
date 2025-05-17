@@ -74,6 +74,15 @@ export class ColorScheme {
         }
     }
 
+    static switch(scheme: ColorSchemeType, target?: HTMLElement | undefined) {
+        scheme = scheme || this.detect();
+        const noUse = (target || document.documentElement).hasAttribute('theme:no-scheme')
+
+        if (!noUse) {
+            (target || document.documentElement).setAttribute('theme:scheme', `${scheme as string}`)
+        }
+    }
+
 
 }
 
@@ -173,18 +182,19 @@ export class ColorPalette {
             })
             .filter(v => typeof v !== 'undefined')
 
+
+        const stylesheets: IStyleSheetDeclarations = {};
         this.declarations[`--color-${key}` as IStyleSheetPropertyKey] = `light-dark(${
             parsed.map(({type}) =>
                 `var(--color-${type}-${key})`
             ).join(',')
         })`
-
-        this.stylesheet()?.sync({':root, :host': Style(this.declarations),})
+        stylesheets[':root, :host'] = Style(this.declarations);
+        this.stylesheet()
+            ?.sync(stylesheets)
 
         return `var(--color-${key})`;
     }
-
-
 }
 
 export const Color = new Proxy<IColorPaletteAlias>({} as IColorPaletteAlias, {
