@@ -1,13 +1,10 @@
 import {WidgetTheme, type IThemeSettings, LayerVariant, type IColoringLayer} from "@widgetui/core";
-import {
-    type ICommonAttributes,
-    type IWidgetDeclaration, IWidgetNode,
-} from "@protorians/widgets";
+import {IWidgetNode, Style,} from "@protorians/widgets";
 import {Color} from "@protorians/widgets";
 import {KatonModalAnimations} from "./animations/modal.js";
 import {
-    type ThemeAlertDialogProps,
-    type ThemeAlertProps,
+    IAccordionOptions,
+    type ThemeAlertDialogOptions,
 } from "@widgetui/core/composites";
 
 
@@ -115,16 +112,48 @@ export class KatonTheme extends WidgetTheme {
         }
     }
 
+    Accordion(declaration: IAccordionOptions): IWidgetNode<any, any> | undefined {
+        declaration.styles = declaration.styles || {};
+        declaration.styles.widget = {
+            borderRadius: this.settings.radius,
+            borderWidth: this.settings.borderWidth,
+            borderStyle: this.settings.borderStyle,
+            borderColor: Color.text_100_a1,
+            overflow: 'hidden',
+            ...(declaration.styles.widget||{}),
+        }
+        declaration.styles.item = {
+            '&:last-child > *': Style({
+                borderBottomWidth: '0'
+            }),
+            ...(declaration.styles.item||{}),
+        }
+        declaration.styles.trigger = {
+            paddingX: 1,
+            paddingY: .7,
+            borderBottomWidth: this.settings.borderWidth,
+            borderStyle: this.settings.borderStyle,
+            borderColor: Color.text_100_a1,
+            '& > button': Style({
+                backgroundColor: 'transparent',
+            }),
+            ...(declaration.styles.trigger||{}),
+        }
+        declaration.styles.content = {
+            backgroundColor: Color.tint_900,
+            borderBottomWidth: this.settings.borderWidth,
+            borderStyle: this.settings.borderStyle,
+            borderColor: Color.text_100_a1,
+            '& > *': Style({
+                padding: 1
+            }),
+            ...(declaration.styles.content||{}),
+        }
 
-    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IWidgetNode<any, any> | undefined {
-        return super.Alert({
-            ...declaration,
-            animateIn: KatonModalAnimations.entry,
-            animateOut: KatonModalAnimations.exit,
-        });
+        return super.Accordion(declaration);
     }
 
-    AlertDialog(declaration: ThemeAlertDialogProps): IWidgetNode<any, any> | undefined {
+    AlertDialog(declaration: ThemeAlertDialogOptions): IWidgetNode<any, any> | undefined {
         return super.AlertDialog({
             ...declaration,
             animateIn: KatonModalAnimations.entry,

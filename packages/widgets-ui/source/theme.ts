@@ -12,40 +12,42 @@ import {
 import {LayerVariant} from "./enums.js";
 import {
     ThemeAlert,
-    type ThemeAlertProps,
+    type ThemeAlertOptions,
     ThemeButton,
-    type ThemeButtonProps,
-    ThemeDialog, ThemeDialogProps,
+    type ThemeButtonOptions,
+    ThemeDialog, ThemeDialogOptions,
     ThemeHelmet,
-    type ThemeHelmetProps,
+    type ThemeHelmetOptions,
     ThemeLayer,
-    type ThemeLayerProps,
+    type ThemeLayerOptions,
     ThemeModal,
     ThemeNavbar,
-    type ThemeNavbarProps,
+    type ThemeNavbarOptions,
     ThemeProgress,
-    type ThemeProgressProps,
+    type ThemeProgressOptions,
     ThemeScrollArea,
-    type ThemeScrollAreaProps,
+    type ThemeScrollAreaOptions,
     ThemeSheet,
-    type ThemeSheetProps,
+    type ThemeSheetOptions,
     ThemeSkeleton,
-    type ThemeSkeletonProps,
+    type ThemeSkeletonOptions,
     ThemeView,
-    type ThemeViewProps
+    type ThemeViewOptions
 } from "./composites/index.js";
 import {IModalOptions} from "./kits/index.js";
 import {
     ThemeAlertDialog,
-    type ThemeAlertDialogProps,
+    type ThemeAlertDialogOptions,
     ThemeAspectRatio,
-    type ThemeAspectRatioProps,
+    type ThemeAspectRatioOptions,
     ThemeAvatar,
-    type ThemeAvatarProps
+    type ThemeAvatarOptions
 } from "./composites/index.js";
 import {type IAnimetricGroup, type IAnimetricSlimOptions, slimetric} from "@protorians/animetric";
-import {ThemeAvatarsProps} from "./composites/avarts/type.js";
-import {ThemeAvatars} from "./composites/avarts/index.js";
+import {ThemeAvatarsOptions} from "./composites/avatars/type.js";
+import {ThemeAvatars} from "./composites/avatars/index.js";
+import {ThemeAccordion} from "./composites/accordion/index.js";
+import {IAccordionOptions} from "./composites/accordion/type.js";
 
 
 export class WidgetTheme implements ITheme {
@@ -231,7 +233,6 @@ export class WidgetTheme implements ITheme {
 
     roundedResolves(rounded: ObjectRounded): string {
         switch (rounded) {
-
             case ObjectRounded.Small:
                 return '0.2rem';
 
@@ -255,27 +256,27 @@ export class WidgetTheme implements ITheme {
     }
 
 
-    Accordion(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Accordion(declaration: IAccordionOptions): IWidgetNode<any, any> | undefined {
+        return ThemeAccordion(declaration)
     }
 
-    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertProps>): IWidgetNode<any, any> | undefined {
+    Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertOptions>): IWidgetNode<any, any> | undefined {
         return ThemeAlert(this, declaration);
     }
 
-    AlertDialog(declaration: ThemeAlertDialogProps): IWidgetNode<any, any> | undefined {
+    AlertDialog(declaration: ThemeAlertDialogOptions): IWidgetNode<any, any> | undefined {
         return ThemeAlertDialog(this, declaration);
     }
 
-    AspectRatio(declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioProps & ICommonAttributes>): IWidgetNode<any, any> | undefined {
+    AspectRatio(declarations: IWidgetDeclaration<HTMLElement, ThemeAspectRatioOptions & ICommonAttributes>): IWidgetNode<any, any> | undefined {
         return ThemeAspectRatio(declarations);
     }
 
-    Avatar(declaration: ThemeAvatarProps): IWidgetNode<any, any> | undefined {
+    Avatar(declaration: ThemeAvatarOptions): IWidgetNode<any, any> | undefined {
         return ThemeAvatar(this, declaration);
     }
 
-    Avatars(declaration: ThemeAvatarsProps): IWidgetNode<any, any> | undefined {
+    Avatars(declaration: ThemeAvatarsOptions): IWidgetNode<any, any> | undefined {
         return ThemeAvatars(this, declaration);
     }
 
@@ -288,7 +289,7 @@ export class WidgetTheme implements ITheme {
     }
 
     Button(
-        declaration: IWidgetDeclaration<HTMLButtonElement, ThemeButtonProps & IButtonAttributes & IButtonAttributesBase>
+        declaration: IWidgetDeclaration<HTMLButtonElement, ThemeButtonOptions & IButtonAttributes & IButtonAttributesBase>
     ) {
         return ThemeButton(this, declaration)
     }
@@ -337,7 +338,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Dialog(declaration: ThemeDialogProps): IWidgetNode<any, any> | undefined {
+    Dialog(declaration: ThemeDialogOptions): IWidgetNode<any, any> | undefined {
         return ThemeDialog(this, declaration)
     }
 
@@ -353,7 +354,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Helmet(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeHelmetProps>) {
+    Helmet(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeHelmetOptions>) {
         return ThemeHelmet(this, declaration)
     }
 
@@ -377,7 +378,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Layer(declaration: IWidgetDeclaration<HTMLElement, ThemeLayerProps & ICommonAttributes>) {
+    Layer(declaration: IWidgetDeclaration<HTMLElement, ThemeLayerOptions & ICommonAttributes>) {
         return ThemeLayer(this, declaration)
     }
 
@@ -393,7 +394,7 @@ export class WidgetTheme implements ITheme {
         return ThemeModal(declaration)
     }
 
-    Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeNavbarProps>) {
+    Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeNavbarOptions>) {
         return ThemeNavbar(this, declaration)
     }
 
@@ -409,7 +410,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Progress(declaration: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressProps & ICommonAttributes>, 'children'>): IWidgetNode<any, any> | undefined {
+    Progress(declaration: Omit<IWidgetDeclaration<HTMLElement, ThemeProgressOptions & ICommonAttributes>, 'children'>): IWidgetNode<any, any> | undefined {
         return ThemeProgress(this, declaration);
     }
 
@@ -421,7 +422,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    ScrollArea(declaration: IWidgetDeclaration<HTMLElement, ThemeScrollAreaProps & ICommonAttributes>) {
+    ScrollArea(declaration: IWidgetDeclaration<HTMLElement, ThemeScrollAreaOptions & ICommonAttributes>) {
         return ThemeScrollArea(declaration)
     }
 
@@ -433,7 +434,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Sheet(declaration: IWidgetDeclaration<HTMLElement, Partial<ThemeSheetProps> & ICommonAttributes>) {
+    Sheet(declaration: IWidgetDeclaration<HTMLElement, Partial<ThemeSheetOptions> & ICommonAttributes>) {
         return ThemeSheet(declaration)
     }
 
@@ -441,7 +442,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Skeleton(declaration: IWidgetDeclaration<HTMLElement, ThemeSkeletonProps & ICommonAttributes>,) {
+    Skeleton(declaration: IWidgetDeclaration<HTMLElement, ThemeSkeletonOptions & ICommonAttributes>,) {
         return ThemeSkeleton(this, declaration)
     }
 
@@ -485,7 +486,7 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    View(declaration: IWidgetDeclaration<HTMLElement, ThemeViewProps & ICommonAttributes>,) {
+    View(declaration: IWidgetDeclaration<HTMLElement, ThemeViewOptions & ICommonAttributes>,) {
         return ThemeView(declaration)
     }
 }
