@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.3.2
+
+### Patch Changes
+
+- Fix signal dispatch handling for empty arguments
+
 ## 0.3.1
 
 ### Patch Changes

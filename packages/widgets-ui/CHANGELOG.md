@@ -1,5 +1,29 @@
 # @widgetui/core
 
+## 0.4.0
+
+### Minor Changes
+
+- Add ThemeAccordion composite for widget-based accordion
+
+## 0.3.1
+
+### Patch Changes
+
+- Add type definitions for avatars and accordion components
+
+## 0.3.0
+
+### Minor Changes
+
+- Refactor Props to Options for consistency
+
+## 0.2.3
+
+### Patch Changes
+
+- Fix signal dispatch handling for empty arguments
+
 ## 0.2.2
 
 ### Patch Changes

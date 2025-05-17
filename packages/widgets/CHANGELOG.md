@@ -1,5 +1,23 @@
 # @protorians/widgets
 
+## 0.6.0
+
+### Minor Changes
+
+- Refactor theme types and add Accordion support.
+
+## 0.5.3
+
+### Patch Changes
+
+- Add theme-specific color scheme overrides in core.css
+
+## 0.5.2
+
+### Patch Changes
+
+- Add color scheme switching and optimize stylesheet syncing
+
 ## 0.5.1
 
 ### Patch Changes

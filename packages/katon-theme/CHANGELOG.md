@@ -1,5 +1,16 @@
 # @widgetui/katon-theme
 
+## 0.2.0
+
+### Minor Changes
+
+- Refactor theme types and add Accordion support.
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/widgets@0.6.0
+
 ## 0.1.1
 
 ### Patch Changes
