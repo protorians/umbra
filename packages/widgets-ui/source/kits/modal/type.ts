@@ -14,8 +14,10 @@ import {PartialWithout} from "@protorians/core";
 
 export type IModalElevation = ObjectElevation.Float | ObjectElevation.Critical | ObjectElevation.Overlay;
 
+export type IModalCallable = ((modal: IModal) => IWidgetNode<any, any>);
+
 export interface IModalLayout {
-    children: IWidgetNode<any, any>;
+    children: IWidgetNode<any, any> | IModalCallable;
     trigger: IWidgetNode<any, any>;
     foreground: IWidgetNode<any, any>;
     background: IWidgetNode<any, any>;

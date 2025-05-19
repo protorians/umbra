@@ -7,7 +7,7 @@ import {
     IWidgetDeclaration, PopupType
 } from "@protorians/widgets";
 import {ThemeSheetOptions} from "./type.js";
-import {IModalOptions, ModalKit} from "../../kits/index.js";
+import {IModal, IModalOptions, ModalKit} from "../../kits/index.js";
 import {convertToArrayPosition} from "../../utilities/index.js";
 
 
@@ -32,10 +32,10 @@ export function ThemeSheet(
         ]
     )
 
-    return ModalKit.callable((): IModalOptions => {
+    return ModalKit.callable((modal: IModal): IModalOptions => {
         return {
-            children: extended.children!,
-            trigger: extended.trigger!,
+            children: (extended.children && typeof extended.children == 'function') ? extended.children(modal) : extended.children!,
+            trigger: (extended.trigger && typeof extended.trigger == 'function') ? extended.trigger(modal) : extended.trigger!,
             scoped: extended.scoped,
             locked: extended.locked,
             blurred: extended.blurred,
