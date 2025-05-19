@@ -35,7 +35,7 @@ export function ThemeSheet(
     return ModalKit.callable((modal: IModal): IModalOptions => {
         return {
             children: (extended.children && typeof extended.children == 'function') ? extended.children(modal) : extended.children!,
-            trigger: (extended.trigger && typeof extended.trigger == 'function') ? extended.trigger(modal) : extended.trigger!,
+            trigger: extended.trigger!,
             scoped: extended.scoped,
             locked: extended.locked,
             blurred: extended.blurred,
