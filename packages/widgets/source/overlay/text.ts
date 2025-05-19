@@ -152,7 +152,7 @@ export function SmallerText(declaration: IWidgetDeclaration<HTMLElement, ISpanAt
  * @param declaration
  * @constructor
  */
-export function SmallText(declaration: IWidgetDeclaration<HTMLElement, ISpanAttributes>): SmallTextWidget {
+export function SmallText(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): SmallTextWidget {
     return new SmallTextWidget(declaration)
 }
 
@@ -161,7 +161,7 @@ export function SmallText(declaration: IWidgetDeclaration<HTMLElement, ISpanAttr
  * @param declaration
  * @constructor
  */
-export function Text(declaration: IWidgetDeclaration<HTMLElement, ISpanAttributes>): TextWidget {
+export function Text(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): TextWidget {
     return new TextWidget(declaration)
 }
 
@@ -170,7 +170,7 @@ export function Text(declaration: IWidgetDeclaration<HTMLElement, ISpanAttribute
  * @param declaration
  * @constructor
  */
-export function LargeText(declaration: IWidgetDeclaration<HTMLElement, ISpanAttributes>): LargeTextWidget {
+export function LargeText(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): LargeTextWidget {
     return new LargeTextWidget(declaration)
 }
 
@@ -179,7 +179,7 @@ export function LargeText(declaration: IWidgetDeclaration<HTMLElement, ISpanAttr
  * @param declaration
  * @constructor
  */
-export function LargerText(declaration: IWidgetDeclaration<HTMLElement, ISpanAttributes>): LargerTextWidget {
+export function LargerText(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): LargerTextWidget {
     return new LargerTextWidget(declaration)
 }
 

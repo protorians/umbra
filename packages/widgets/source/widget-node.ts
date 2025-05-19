@@ -461,8 +461,8 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {this} The current instance with the updated context.
      */
     useContext(context?: IContext<any, any>): this {
-        // this._context = context;
-        this._context = this._context || context;
+        this._context = context;
+        // this._context = this._context || context;
         return this;
     }
 
@@ -509,7 +509,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
                 widget: this,
                 payload: this,
             })
-        } else this.mount((payload) => {
+        } else this.signal.listen('mount', (payload) => {
             callback(payload)
             return TreatmentQueueStatus.SnapOut
         })
