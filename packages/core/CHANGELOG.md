@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.3.3
+
+### Patch Changes
+
+- Sync
+
 ## 0.3.2
 
 ### Patch Changes

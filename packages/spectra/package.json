@@ -1,6 +1,6 @@
 {
   "name": "@protorians/spectra",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Document Object Spectra server side rendering",
   "main": "build/index.js",
   "type": "module",
