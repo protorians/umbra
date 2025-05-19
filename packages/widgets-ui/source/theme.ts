@@ -47,7 +47,9 @@ import {type IAnimetricGroup, type IAnimetricSlimOptions, slimetric} from "@prot
 import {ThemeAvatarsOptions} from "./composites/avatars/type.js";
 import {ThemeAvatars} from "./composites/avatars/index.js";
 import {ThemeAccordion} from "./composites/accordion/index.js";
-import {IAccordionOptions} from "./composites/accordion/type.js";
+import {IThemeAccordionOptions} from "./composites/accordion/type.js";
+import {ThemeBadge} from "./composites/badge/index.js";
+import {IThemeBadgeOptions} from "./composites/badge/type.js";
 
 
 export class WidgetTheme implements ITheme {
@@ -256,7 +258,7 @@ export class WidgetTheme implements ITheme {
     }
 
 
-    Accordion(declaration: IAccordionOptions): IWidgetNode<any, any> | undefined {
+    Accordion(declaration: IThemeAccordionOptions): IWidgetNode<any, any> | undefined {
         return ThemeAccordion(declaration)
     }
 
@@ -280,8 +282,8 @@ export class WidgetTheme implements ITheme {
         return ThemeAvatars(this, declaration);
     }
 
-    Badge(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Badge(declaration: IThemeBadgeOptions): IWidgetNode<any, any> | undefined {
+        return ThemeBadge(this, declaration);
     }
 
     Breadcrumb(declaration: any): IWidgetNode<any, any> | undefined {
