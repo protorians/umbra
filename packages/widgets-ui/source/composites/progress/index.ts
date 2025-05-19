@@ -24,8 +24,8 @@ export function ThemeProgress(
     )
     const variant = extended.variant || LayerVariant.Normal
     const coloring = theme[extended.outline
-        ? 'resolveColoringLayerOutlined'
-        : 'resolveColoringLayer'](variant);
+        ? 'outlineColoringResolves'
+        : 'coloringResolves'](variant);
     const size = extended.size || .5;
     const percentState = createState<number>(0)
     const variantState = createState<LayerVariant>(variant)
