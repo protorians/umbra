@@ -3,7 +3,7 @@ import {IWidgetNode, Style,} from "@protorians/widgets";
 import {Color} from "@protorians/widgets";
 import {KatonModalAnimations} from "./animations/modal.js";
 import {
-    IAccordionOptions,
+    IThemeAccordionOptions,
     type ThemeAlertDialogOptions,
 } from "@widgetui/core/composites";
 
@@ -108,11 +108,11 @@ export class KatonTheme extends WidgetTheme {
                 return {fore: 'tint-100', back: "text", edge: "tint-100-a1",}
 
             default:
-                return {fore: 'text', back: 'tint-100-a8', edge: 'tint-100',}
+                return {fore: 'text', back: 'tint-100', edge: 'tint-100',}
         }
     }
 
-    Accordion(declaration: IAccordionOptions): IWidgetNode<any, any> | undefined {
+    Accordion(declaration: IThemeAccordionOptions): IWidgetNode<any, any> | undefined {
         declaration.styles = declaration.styles || {};
         declaration.styles.widget = {
             borderRadius: this.settings.radius,
