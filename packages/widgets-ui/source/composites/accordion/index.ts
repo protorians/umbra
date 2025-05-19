@@ -1,25 +1,25 @@
 import {createCapability} from "@protorians/core";
 import {
-    IAccordionChild,
-    IAccordionEntries, IAccordionIndex,
-    IAccordionMethods,
-    IAccordionOptions,
-    IAccordionProperties
+    IThemeAccordionChild,
+    IThemeAccordionEntries, IThemeAccordionIndex,
+    IThemeAccordionMethods,
+    IThemeAccordionOptions,
+    IThemeAccordionProperties
 } from "./type.js";
 import {AligningDirection, Column, createRef, Stack, Style} from "@protorians/widgets";
 import {AccordionStatus, AccordionType} from "./enum.js";
 
 
 export function ThemeAccordion(
-    {type, defaultIndex, children, direction, styles}: IAccordionOptions
+    {type, defaultIndex, children, direction, styles}: IThemeAccordionOptions
 ) {
 
     type = typeof type === 'undefined' ? AccordionType.Single : type;
     direction = typeof direction == 'undefined' ? AligningDirection.Column : direction
 
     const isColumnDirection = direction.toLowerCase().includes('column')
-    const accordionEntries: IAccordionEntries = {}
-    const latest: Record<AccordionStatus, IAccordionIndex> = {} as Record<AccordionStatus, IAccordionIndex>;
+    const accordionEntries: IThemeAccordionEntries = {}
+    const latest: Record<AccordionStatus, IThemeAccordionIndex> = {} as Record<AccordionStatus, IThemeAccordionIndex>;
 
     return Stack({
         style: Style({
@@ -28,11 +28,11 @@ export function ThemeAccordion(
         }),
         children: [
 
-            children?.map(async (child: IAccordionChild) => {
+            children?.map(async (child: IThemeAccordionChild) => {
                 const {
                     capability,
                     current: accordion
-                } = createCapability<IAccordionMethods, IAccordionProperties>({
+                } = createCapability<IThemeAccordionMethods, IThemeAccordionProperties>({
                     methods: ['open', 'close', 'toggle', 'remove'],
                 });
                 const triggerRef = createRef();
