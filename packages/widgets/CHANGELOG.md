@@ -1,5 +1,11 @@
 # @protorians/widgets
 
+## 0.6.1
+
+### Patch Changes
+
+- Refactor widget context handling and text declaration types
+
 ## 0.6.0
 
 ### Minor Changes

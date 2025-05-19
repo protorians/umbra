@@ -1,5 +1,41 @@
 # @widgetui/core
 
+## 0.4.6
+
+### Patch Changes
+
+- Add ThemeBadge composite component and its type definition
+
+## 0.4.5
+
+### Patch Changes
+
+- Add Badge theme support and update Accordion typings
+
+## 0.4.4
+
+### Patch Changes
+
+- Modify modal and sheet types to support callable children
+
+## 0.4.3
+
+### Patch Changes
+
+- Refactor coloring resolution method names in progress component.
+
+## 0.4.2
+
+### Patch Changes
+
+- Disable hovered opacity styling for buttons
+
+## 0.4.1
+
+### Patch Changes
+
+- Refactor Accordion types to use 'ThemeAccordion' naming convention
+
 ## 0.4.0
 
 ### Minor Changes
