@@ -56,9 +56,9 @@ export function ThemeButton(
             color: Color[`${coloring.fore || 'text'}`],
             backgroundColor: coloring.back ? Color[`${coloring.back}`] : 'transparent',
             backdropFilter: 'blur(var(--widget-blurred))',
-            '&:hover': Style({
-                opacity: '.8',
-            }),
+            // '&:hover': Style({
+            //     opacity: '.8',
+            // }),
         })
     ;
 
