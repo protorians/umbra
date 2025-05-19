@@ -1,5 +1,11 @@
 # @widgetui/core
 
+## 0.4.8
+
+### Patch Changes
+
+- Simplify trigger property handling in sheet composite
+
 ## 0.4.7
 
 ### Patch Changes
