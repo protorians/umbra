@@ -47,17 +47,15 @@ export class Capability<T extends Record<string, any>> implements ICapability<T>
 export function createCapability<T extends Record<string, any>, I>(options: ICapabilityOptions<T>): ICapabilityContext<T, I> {
     const signal = new Signal.Stack<T>();
     const initial = {} as ICapabilityInstance<T>;
-    const callable = function (key: string, ...args: any[]) {
-        signal.dispatch(key, args.length ? (args as any) : undefined);
+    const callable = function (key: string, arg: any) {
+        signal.dispatch(key, arg);
         return signal.computed(key);
     };
     const handler = {
         get(target: any, prop: string, receiver: string) {
             const value = Reflect.get(target, prop, receiver);
             if (typeof value === 'function') {
-                return function (...args: any[]) {
-                    return callable(prop, ...args);
-                };
+                return function (arg: any) {return callable(prop, arg);};
             }
             return value;
         }
