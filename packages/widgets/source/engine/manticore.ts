@@ -200,10 +200,13 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
         if (widget.clientElement) {
             Object.keys(attributes || {}).forEach(
-                key =>
-                    (typeof attributes[key] !== "undefined")
-                        ? widget.clientElement?.setAttribute(unCamelCase(key), `${attributes[key]?.toString()}`)
-                        : widget.clientElement?.removeAttribute(unCamelCase(key))
+                key => {
+                    key = unCamelCase(key);
+                    if(attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])){
+                        widget.clientElement?.removeAttribute(key)
+                    }
+                    else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
+                }
             )
         }
 
