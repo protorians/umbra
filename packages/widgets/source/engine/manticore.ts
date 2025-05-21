@@ -139,6 +139,18 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         return this;
     }
 
+    focus(widget: IWidgetNode<E, A>): this {
+        widget.clientElement?.focus();
+        widget.signal.dispatch('focus', {root: this.widget, widget, payload: undefined}, widget.signal);
+        return this;
+    }
+
+    blur(widget: IWidgetNode<E, A>): this {
+        widget.clientElement?.blur();
+        widget.signal.dispatch('blur', {root: this.widget, widget, payload: undefined}, widget.signal);
+        return this;
+    }
+
     toggle(widget: IWidgetNode<E, A>, option?: ToggleOption): this {
         if (widget.locked) return this;
 

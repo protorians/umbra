@@ -62,6 +62,10 @@ export interface IEngine<E extends HTMLElement, A extends IAttributes> {
 
     toggle(widget: IWidgetNode<E, A>, option?: ToggleOption): this;
 
+    focus(widget: IWidgetNode<E, A>): this;
+
+    blur(widget: IWidgetNode<E, A>): this;
+
     data(widget: IWidgetNode<E, A>, dataset: IGlobalAttributes): this
 
     attribute(widget: IWidgetNode<E, A>, attributes: Partial<A>): this;
