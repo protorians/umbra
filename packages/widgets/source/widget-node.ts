@@ -133,7 +133,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * - `true`: The widget is ready and operational.
      * - `false`: The widget is not ready yet.
      */
-    protected _isReady: boolean = false;
+    protected _isConnected: boolean = false;
 
     /**
      * Represents a variable used to store a reference, which can either be an instance
@@ -234,7 +234,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : new SpectraElement(this.tag)
         this._fingerprint = `${MetricRandom.CreateAlpha(6).join('')}-${MetricRandom.Create(10).join('')}`;
         this._signal = new Signal.Stack;
-        this.mount(() => this._isReady = true)
+        this.mount(() => this._isConnected = true)
     }
 
     /**
@@ -304,6 +304,15 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      */
     get fingerprint(): string {
         return this._fingerprint;
+    }
+
+    /**
+     * Checks the connection state.
+     *
+     * @return {boolean} Returns true if the connection is established, otherwise false.
+     */
+    get isConnected(): boolean {
+        return this._isConnected;
     }
 
     /**
@@ -503,7 +512,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {this} Returns the current instance of the widget.
      */
     ready(callback: ICallable<E, A, IWidgetNode<E, A>>): this {
-        if (!this._isReady && this.context?.root) {
+        if (!this._isConnected && this.context?.root) {
             callback({
                 root: this.context?.root,
                 widget: this,

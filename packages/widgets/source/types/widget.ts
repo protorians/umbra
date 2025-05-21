@@ -123,6 +123,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     readonly element: IWidgetElement<E>;
 
+    get isConnected(): boolean;
+
     get fingerprint(): string;
 
     get tag(): string;
