@@ -504,6 +504,22 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     /**
+     * Unmounts the component and triggers the provided callback when the component is unmounted.
+     *
+     * @param {ICallable<E, A, undefined>} callback - A callable function to be invoked with the payload when the component is unmounted.
+     * @return {this} Returns the current instance for method chaining.
+     */
+    unmount(callback: ICallable<E, A, undefined>): this {
+        this._signal.listen('unmount', payload => {
+            if (this._mounted) {
+                this._mounted = false;
+                return callback(payload);
+            }
+        });
+        return this;
+    }
+
+    /**
      * Registers a callback to be executed when the widget is ready. If the widget is already ready,
      * the callback is invoked immediately. Otherwise, it defers execution until the widget has been
      * mounted and becomes ready.
@@ -522,22 +538,6 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             callback(payload)
             return TreatmentQueueStatus.SnapOut
         })
-        return this;
-    }
-
-    /**
-     * Unmounts the component and triggers the provided callback when the component is unmounted.
-     *
-     * @param {ICallable<E, A, undefined>} callback - A callable function to be invoked with the payload when the component is unmounted.
-     * @return {this} Returns the current instance for method chaining.
-     */
-    unmount(callback: ICallable<E, A, undefined>): this {
-        this._signal.listen('unmount', payload => {
-            if (this._mounted) {
-                this._mounted = false;
-                return callback(payload);
-            }
-        });
         return this;
     }
 
@@ -561,6 +561,29 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      */
     after(callback: ICallable<E, A, undefined>): this {
         this._signal.listen('after', callback);
+        return this;
+    }
+
+
+    /**
+     * Retrieves the value of a specific state from the client element if available.
+     *
+     * @param {string} state - The state name to look up in the client element.
+     * @return {(boolean|undefined)} The value of the specified state if defined, or undefined if the state is not defined or the client element is not available.
+     */
+    get(state: string): boolean | undefined {
+        return Environment.Client ? (this.clientElement && typeof this.clientElement[state] !== "undefined" ? this.clientElement[state] : undefined) : undefined;
+    }
+
+    /**
+     * Sets the specified state on the client element if running in a client environment.
+     *
+     * @param {string} state - The state value to be set on the client element.
+     * @return {this} The current instance for method chaining.
+     */
+    set(state: string): this {
+        if (Environment.Client && this.clientElement)
+            this.clientElement[state] = state;
         return this;
     }
 
@@ -639,6 +662,16 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             this._context?.engine?.lock(this);
             return TreatmentQueueStatus.SnapOut;
         });
+        return this;
+    }
+
+    focus(): this{
+        this.clientElement?.focus();
+        return this;
+    }
+
+    blur(): this{
+        this.clientElement?.blur();
         return this;
     }
 

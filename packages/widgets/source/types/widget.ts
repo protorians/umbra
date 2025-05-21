@@ -173,6 +173,10 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     unlock(): this;
 
+    focus(): this;
+
+    blur(): this;
+
     toggle(options?: ToggleOption): this;
 
     show(display?: Displaying): this;
@@ -194,6 +198,10 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
     before(callback: ICallable<E, A, undefined>): this;
 
     after(callback: ICallable<E, A, undefined>): this;
+
+    get(state: string): boolean | undefined;
+
+    set(state: string): this;
 
     // synchronize(component: IWidget<any, any>, type: keyof IGlobalEventMap, callback: ICallable<W, A, undefined>): this;
 
