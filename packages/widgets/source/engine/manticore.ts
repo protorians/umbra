@@ -407,6 +407,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     render<P extends IPropStack, S extends IStateStack>(widget: IWidgetNode<E, A>, context: IContext<P, S>): E | undefined {
+        if(widget.isConnected) return undefined;
+
         context.root = this.widget.context?.root || context.root || widget;
         widget
             .useContext(context)
