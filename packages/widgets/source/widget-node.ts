@@ -430,7 +430,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             right: 0,
             width: 0,
             height: 0,
-            ...Environment.Client ? this.clientElement?.getBoundingClientRect() : {},
+            ...(Environment.Client ? this.clientElement?.getBoundingClientRect().toJSON() : {}),
         }
     }
 
