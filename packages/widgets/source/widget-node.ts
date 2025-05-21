@@ -32,7 +32,7 @@ import {
     TreatmentQueueStatus,
     camelCase
 } from "@protorians/core";
-import {ToggleOption, ObjectElevation, WidgetsNativeProperty} from "./enums.js";
+import {ToggleOption, ObjectElevation, WidgetsNativeProperty, Displaying} from "./enums.js";
 import {Widgets} from "./widgets.js";
 import {StyleWidget} from "./style.js";
 import {ISpectraElement, SpectraElement} from "@protorians/spectra";
@@ -709,17 +709,16 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     /**
-     * Displays the current context or sets up a listener to display it upon mounting.
+     * Displays the current instance with the provided display options if applicable.
+     * If a context is not available, it listens for the `mount` event to initiate the display process.
      *
-     * If the context is available, it calls the show method on the engine with the current instance.
-     * If the context is not available, it listens for the 'mount' signal and displays the context once it's mounted.
-     *
-     * @return {this} Returns the current instance for method chaining.
+     * @param {Displaying} [display] - Optional parameter specifying display options or configuration.
+     * @return {this} The current instance for method chaining.
      */
-    show(): this {
-        if (this._context) this._context.engine?.show(this);
+    show(display?: Displaying): this {
+        if (this._context) this._context.engine?.show(this, display);
         else if (!this._context) this._signal.listen('mount', () => {
-            this._context?.engine?.show(this);
+            this._context?.engine?.show(this, display);
             return TreatmentQueueStatus.SnapOut;
         })
         return this;
