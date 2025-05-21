@@ -12,7 +12,7 @@ import type {IStateStack} from "./state.js";
 import type {IChildren} from "./children.js";
 import type {IStyleDeclaration, IStyleSheetDeclarations} from "./style.js";
 import type {IPrimitive, IStringToken} from "./value.js";
-import {ToggleOption} from "../enums.js";
+import {Displaying, ToggleOption} from "../enums.js";
 import {ISpectraElement} from "@protorians/spectra";
 
 
@@ -58,7 +58,7 @@ export interface IEngine<E extends HTMLElement, A extends IAttributes> {
 
     hide(widget: IWidgetNode<E, A>,): this;
 
-    show(widget: IWidgetNode<E, A>,): this;
+    show(widget: IWidgetNode<E, A>, display?: Displaying): this;
 
     toggle(widget: IWidgetNode<E, A>, option?: ToggleOption): this;
 
