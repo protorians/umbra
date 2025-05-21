@@ -20,7 +20,7 @@ import type {
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
 import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
-import {ToggleOption, ObjectElevation} from "../enums.js";
+import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
 export class Manticore<E extends HTMLElement, A extends IAttributes> implements IEngine<E, A> {
@@ -131,9 +131,9 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         return this;
     }
 
-    show(widget: IWidgetNode<E, A>,): this {
+    show(widget: IWidgetNode<E, A>, display?: Displaying): this {
         if (widget.locked) return this;
-        widget.style({display: 'none',})
+        widget.style({display: display || 'block',})
         this.attributeLess(widget, {ariaHidden: undefined,})
         widget.signal.dispatch('show', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
@@ -346,7 +346,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             (widget.element as HTMLElement)?.addEventListener(type, ev => {
                 if (widget.locked) return;
                 const payload: IGlobalEventPayload<T> = {type, event: ev};
-                if(typeof callback !== 'function') return;
+                if (typeof callback !== 'function') return;
                 const r = callback({root: this.widget, widget, payload})
                 widget.signal.dispatch('listen', {root: this.widget, widget, payload}, widget.signal);
                 if (r === TreatmentQueueStatus.Cancel) ev.preventDefault()

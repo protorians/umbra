@@ -1,8 +1,8 @@
 import type {IChildren} from "./children.js";
 import type {IPrimitives, IPrimitive, IStringToken, IFunctioningPrimitives} from "./value.js";
 import type {IAttributes} from "./attributes.js";
-import type { IMeasure} from "./measure.js";
-import {ToggleOption, ObjectElevation} from "../enums.js";
+import type {IMeasure} from "./measure.js";
+import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {ISignalStack, IUiTarget, TreatmentQueueStatus} from "@protorians/core";
 import {IStateStack} from "./state.js";
 import {IEngine} from "./engine.js";
@@ -173,7 +173,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     toggle(options?: ToggleOption): this;
 
-    show(): this;
+    show(display?: Displaying): this;
 
     hide(): this;
 
