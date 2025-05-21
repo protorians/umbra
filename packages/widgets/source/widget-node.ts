@@ -665,13 +665,35 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this;
     }
 
-    focus(): this{
-        this.clientElement?.focus();
+    /**
+     * Sets the focus on the current context's engine if available. If the context
+     * is not available, it listens for the 'mount' signal to set the focus once
+     * the context becomes available.
+     *
+     * @return {this} Returns the instance of the current object for method chaining.
+     */
+    focus(): this {
+        if (this._context) this._context.engine?.focus(this);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.focus(this);
+            return TreatmentQueueStatus.SnapOut;
+        });
         return this;
     }
 
-    blur(): this{
-        this.clientElement?.blur();
+    /**
+     * Triggers a blur effect or action on the current instance.
+     * If a context is available, it directly invokes the blur method on the corresponding engine.
+     * If the context is not available, it sets up a listener for the 'mount' signal to ensure the blur action is executed when the context becomes available.
+     *
+     * @return {this} Returns the current instance to allow method chaining.
+     */
+    blur(): this {
+        if (this._context) this._context.engine?.blur(this);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.blur(this);
+            return TreatmentQueueStatus.SnapOut;
+        });
         return this;
     }
 

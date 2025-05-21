@@ -265,6 +265,10 @@ export interface IWidgetSignalMap<E extends HTMLElement, A extends IAttributes> 
 
     unmount: ICallablePayload<E, A, undefined>;
 
+    focus: ICallablePayload<E, A, undefined>;
+
+    blur: ICallablePayload<E, A, undefined>;
+
     adopted: ICallablePayload<E, A, IWidgetNode<E, A> | undefined>;
 
     before: ICallablePayload<E, A, undefined>;
