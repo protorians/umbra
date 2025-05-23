@@ -6,7 +6,7 @@ import type {
 } from "./types/index.js";
 import {RelativeUnit} from "./enums.js";
 import {RemMetric} from "./metric.js";
-import {Environment, unCamelCase, IDictionary, Dictionary} from "@protorians/core";
+import {Environment, unCamelCase, IDictionary, Dictionary, MetricRandom} from "@protorians/core";
 
 
 /**
@@ -48,6 +48,8 @@ export class StyleWidget implements IStyleSheet {
      */
     protected _repository: HTMLStyleElement | undefined = undefined;
 
+    protected _related: IWidgetNode<any, any> | undefined;
+
     /**
      * Represents a collection of rules stored as an array of strings.
      *
@@ -65,9 +67,9 @@ export class StyleWidget implements IStyleSheet {
      * This variable is used to target specific elements or groups of elements
      * within a DOM structure for styling or manipulation purposes.
      *
-     * Default Value: ':root' (selects the root element of the document, typically the <html> element in an HTML document).
+     * Default Value: '.globals' (selects the root element of the document, typically the <html> element in an HTML document).
      */
-    protected _selector: string = ':root';
+    protected _selector: string = '.globals';
 
     /**
      * Indicates whether the current state or entity is locked.
@@ -78,6 +80,8 @@ export class StyleWidget implements IStyleSheet {
      * Default Value: false.
      */
     protected locked: boolean = false;
+
+    protected _associates: Map<object, IStyleSheet> = new Map<object, IStyleSheet>();
 
     /**
      * Represents a declaration of style sheets.
@@ -108,6 +112,7 @@ export class StyleWidget implements IStyleSheet {
      */
     constructor(public readonly options: IStyleOptions = {} as IStyleOptions) {
         this.locked = options.lock || false;
+        this._selector = options.fingerprint || '.globals';
     }
 
     /**
@@ -276,10 +281,10 @@ export class StyleWidget implements IStyleSheet {
     }
 
     /**
-     * Binds a widget to the current instance, setting up synchronization and style merging.
+     * Binds the given widget to the current instance, applying its properties and synchronizing its state.
      *
-     * @param {IWidgetNode<any, any>} widget - The widget to be bound. It should provide a unique fingerprint and properties for binding.
-     * @return {this} The current instance, allowing for method chaining.
+     * @param {IWidgetNode<any, any>} widget - The widget to be bound, providing its properties and state to synchronize.
+     * @return {this} Returns the current instance for method chaining after applying the widget's properties and synchronizing state.
      */
     bind(widget: IWidgetNode<any, any>): this {
         this._selector = `.${widget.fingerprint}`;
@@ -291,6 +296,7 @@ export class StyleWidget implements IStyleSheet {
             this.sync();
         })
 
+        this._related = widget;
         return this.merge(widget.props.style).sync();
     }
 
@@ -316,6 +322,49 @@ export class StyleWidget implements IStyleSheet {
     update<K extends keyof IStyleSheetDeclarations>(key: K, value: IStyleSheetDeclarations[K]): this {
         this.declarations[key] = value;
         return this.sync();
+    }
+
+
+    /**
+     * Associates a given set of stylesheet declarations with this instance.
+     * If the declarations are not already associated, a new style widget is created and synchronized.
+     * This method also updates the related object's class name when applicable.
+     *
+     * @param {IStyleSheetDeclarations} declarations The stylesheet declarations to be associated with this instance.
+     * @return {this} Returns the instance for method chaining.
+     */
+    associate(declarations: IStyleSheetDeclarations): this {
+        if (!(this._associates.get(declarations))) {
+            const fingerprint = `${this._selector}.${MetricRandom.CreateAlpha(7).join('')}-${MetricRandom.Create(10).join('')}`
+            const style = new StyleWidget({attach: true, lock: false, fingerprint});
+
+            style.merge(declarations).sync()
+            this._associates.set(declarations, style)
+            this._related?.className(fingerprint.split('.').join(' '));
+        }
+        return this;
+    }
+
+    /**
+     * Retrieves the associated IStyleSheet for the given IStyleSheetDeclarations.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The style sheet declarations to find the associated style sheet for.
+     * @return {IStyleSheet | undefined} The associated IStyleSheet if found, otherwise undefined.
+     */
+    associated(declarations: IStyleSheetDeclarations): IStyleSheet | undefined {
+        return this._associates.get(declarations);
+    }
+
+    /**
+     * Removes the association between the provided declarations and the current instance.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The declarations to be unassociated from the current instance.
+     * @return {this} The current instance after unassociating the provided declarations.
+     */
+    unassociate(declarations: IStyleSheetDeclarations): this {
+        const exists = this._associates.get(declarations);
+        if (exists) this._associates.delete(declarations);
+        return this;
     }
 }
 
