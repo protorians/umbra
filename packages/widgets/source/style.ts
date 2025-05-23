@@ -363,7 +363,11 @@ export class StyleWidget implements IStyleSheet {
      */
     unassociate(declarations: IStyleSheetDeclarations): this {
         const exists = this._associates.get(declarations);
-        if (exists) this._associates.delete(declarations);
+        if (exists) {
+            this._associates.delete(declarations);
+            // this._related?.className(fingerprint.split('.').join(' '));
+        }
+        console.warn('exists', exists, declarations)
         return this;
     }
 }
