@@ -245,6 +245,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     computedStyle(token: keyof IStyleDeclaration): string | undefined;
 
+    clone(): this;
+
     // render(): this;
 }
 

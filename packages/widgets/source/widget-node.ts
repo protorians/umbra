@@ -1032,6 +1032,12 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this;
     }
 
+
+    clone(): this {
+        return new (this as any).constructor({...this.props, ...this.attributes});
+    }
+
+
     /**
      * Appends a child node or target to the current instance.
      * This method is used to add additional widget elements or UI targets to the current instance.
