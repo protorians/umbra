@@ -1,7 +1,7 @@
 {
   "displayName": "Protorians:ArcaneCore",
   "name": "@protorians/arcane-core",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Protorians Arcane Core",
   "type": "module",
   "main": "build/index.js",

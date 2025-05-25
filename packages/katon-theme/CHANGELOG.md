@@ -1,5 +1,18 @@
 # @widgetui/katon-theme
 
+## 0.2.3
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/animetric@0.1.3
+  - @protorians/colorimetric@0.0.25
+  - @protorians/core@0.3.5
+  - @protorians/shortcuts@0.0.21
+  - @protorians/widgets@0.6.4
+  - @widgetui/core@0.4.10
+
 ## 0.2.2
 
 ### Patch Changes

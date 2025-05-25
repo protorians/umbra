@@ -1,5 +1,13 @@
 # @protorians/spectra
 
+## 0.0.8
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/core@0.3.5
+
 ## 0.0.7
 
 ### Patch Changes
