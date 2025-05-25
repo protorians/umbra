@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.3.4
+
+### Patch Changes
+
+- Simplify callable function argument handling.
+
 ## 0.3.3
 
 ### Patch Changes

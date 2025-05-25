@@ -1,5 +1,23 @@
 # @protorians/widgets
 
+## 0.6.3
+
+### Patch Changes
+
+- Add focus and blur support for widget context handling
+- Add focus and blur methods to widget engine API
+- Update `show` method to accept optional display parameter
+- Add focus, blur, get, and set methods to widget types
+- Refactor attribute handling for widget client elements
+- Prevent rendering of connected widgets
+- Add `Displaying` enum and optional parameter to `show` method
+- Update `show` method to support optional display options
+- Refine client element bounding rect handling.
+- Add association methods for stylesheet declarations.
+- Add `clone` method to widget node and its interface
+- Refactor `unassociate` to include debug logging.
+- Refactor debug logging in style.ts
+
 ## 0.6.2
 
 ### Patch Changes

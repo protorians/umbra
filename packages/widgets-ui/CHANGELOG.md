@@ -1,5 +1,20 @@
 # @widgetui/core
 
+## 0.4.9
+
+### Patch Changes
+
+- Add `ThemeSelect` composite widget implementation
+- Add positioning utility and types for widget support
+- Update `children` type in `ThemeNavbarOptions`
+- Refactor alert composite and merge theme stylesheets
+- Refactor alert-dialog action mapping for improved readability
+- Refine button styling logic and remove unused backdrop filter.
+- Add flex properties to layer composite styles
+- Remove unnecessary console warning from dialogBox method
+- Rename SelectOptions to Select in theme types
+- Add styling and customization improvements to Select and Accordion
+
 ## 0.4.8
 
 ### Patch Changes
