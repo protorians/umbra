@@ -4,5 +4,5 @@ import {LayerVariant} from "../../enums.js";
 export type ThemeNavbarOptions = {
     variant?: LayerVariant;
     fixed?: boolean;
-    children: IWidgetNode<HTMLButtonElement, any>[]
+    children: IWidgetNode<HTMLElement, any>[]
 }
