@@ -59,8 +59,6 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
     }
 
     @Structurable protected dialogBox(){
-        console.warn('DialogBox', this)
-
         return Stack({
             children: 'test'
         })
