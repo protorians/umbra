@@ -40,6 +40,7 @@ export function ThemeAlert(
     extended.collapseSize = extended.collapsible ? extended.collapseSize || 80 : undefined;
 
     declaration.style = Style({})
+        .merge(theme.stylesheets)
         .merge(declaration.style)
         .merge({
             display: 'flex',
@@ -85,7 +86,8 @@ export function ThemeAlert(
             updateState(AlertStatus.Hidden);
         }
         return instance;
-    })
+    });
+
 
     capability.apply('destroy', () => {
         if (extended.animateOut && widget)
@@ -99,7 +101,7 @@ export function ThemeAlert(
             updateState(AlertStatus.Destroyed);
         }
         return instance;
-    })
+    });
 
     capability.apply('expand', () => {
         if (widget && extended.collapsible && contentRef.current) {
@@ -109,7 +111,7 @@ export function ThemeAlert(
             updateState(AlertStatus.Expand);
         }
         return instance;
-    })
+    });
 
     capability.apply('collapse', () => {
         if (widget && extended.collapsible && contentRef.current) {
