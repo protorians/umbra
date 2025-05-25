@@ -78,7 +78,7 @@ export interface IThemeCompositeScheme {
     RadioGroup: IThemeComposite<any>;
     Resizable: IThemeComposite<any>;
     ScrollArea: IThemeComposite<any>;
-    SelectOptions: IThemeComposite<any>;
+    Select: IThemeComposite<any>;
     Separator: IThemeComposite<any>;
     Sheet: IThemeComposite<any>;
     Sidebar: IThemeComposite<any>;
