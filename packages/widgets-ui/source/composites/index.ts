@@ -1,5 +1,9 @@
 export * from "./modal/index.js"
 
+export * from "./select/type.js"
+export * from "./select/enum.js"
+export * from "./select/index.js"
+
 export * from "./accordion/type.js"
 export * from "./accordion/enum.js"
 export * from "./accordion/index.js"

@@ -11,6 +11,7 @@ import {
 } from "@protorians/widgets";
 import {LayerVariant} from "./enums.js";
 import {
+    IThemeSelectOptions,
     ThemeAlert,
     type ThemeAlertOptions,
     ThemeButton,
@@ -26,7 +27,7 @@ import {
     ThemeProgress,
     type ThemeProgressOptions,
     ThemeScrollArea,
-    type ThemeScrollAreaOptions,
+    type ThemeScrollAreaOptions, ThemeSelect,
     ThemeSheet,
     type ThemeSheetOptions,
     ThemeSkeleton,
@@ -46,8 +47,8 @@ import {
 import {type IAnimetricGroup, type IAnimetricSlimOptions, slimetric} from "@protorians/animetric";
 import {ThemeAvatarsOptions} from "./composites/avatars/type.js";
 import {ThemeAvatars} from "./composites/avatars/index.js";
-import {ThemeAccordion} from "./composites/accordion/index.js";
-import {IThemeAccordionOptions} from "./composites/accordion/type.js";
+import {ThemeAccordion} from "./composites/index.js";
+import {IThemeAccordionOptions} from "./composites/index.js";
 import {ThemeBadge} from "./composites/badge/index.js";
 import {IThemeBadgeOptions} from "./composites/badge/type.js";
 
@@ -428,8 +429,8 @@ export class WidgetTheme implements ITheme {
         return ThemeScrollArea(declaration)
     }
 
-    SelectOptions(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Select(declaration: IThemeSelectOptions): IWidgetNode<any, any> | undefined {
+        return ThemeSelect(declaration)
     }
 
     Separator(declaration: any): IWidgetNode<any, any> | undefined {
