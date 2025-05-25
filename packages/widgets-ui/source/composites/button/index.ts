@@ -31,15 +31,12 @@ export function ThemeButton(
         extended.variant == LayerVariant.Link
     );
 
-    declaration.style = Style({
-        ...theme.stylesheets.declarations
-        
-    })
+    declaration.style = Style({...theme.stylesheets.declarations})
         .merge({
             display: 'flex',
             alignItems: 'center',
             borderRadius: theme.settings.radiusMin || '0',
-            borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
+            borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : (theme.settings.borderWidth || 0),
             padding: '.6rem 1rem',
             borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
             justifyContent: 'space-between',
@@ -55,7 +52,6 @@ export function ThemeButton(
         .merge({
             color: Color[`${coloring.fore || 'text'}`],
             backgroundColor: coloring.back ? Color[`${coloring.back}`] : 'transparent',
-            backdropFilter: 'blur(var(--widget-blurred))',
             // '&:hover': Style({
             //     opacity: '.8',
             // }),
