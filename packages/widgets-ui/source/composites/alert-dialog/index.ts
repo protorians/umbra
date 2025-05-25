@@ -16,12 +16,14 @@ export function ThemeAlertDialog(
         children: declarations.children,
         actions: (dialog: IModal) => {
             return [
-                ...(Object.values(declarations.actions || {}) as IThemeAlertDialogAction[]).map((action) => {
-                    return action.trigger.listen('click', () => {
-                        dialog.close();
-                        action.callable(dialog);
-                    })
-                }),
+                ...(Object.values(declarations.actions || {}) as IThemeAlertDialogAction[]).map(
+                    (action) => {
+                        return action.trigger.listen('click', () => {
+                            dialog.close();
+                            action.callable(dialog);
+                        })
+                    }
+                ),
             ]
         }
     })
