@@ -26,9 +26,7 @@ export function ThemeBadge(
     })
 
     return children.ready(({widget}) => {
-        console.log('Badge', value, coloring, _variant);
-        widget.content(badgeWidget)
-
+        widget.content(badgeWidget);
         if (floating) {
             widget.style({position: 'relative',})
             badgeWidget.style({
