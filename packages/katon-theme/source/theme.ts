@@ -1,9 +1,9 @@
 import {WidgetTheme, type IThemeSettings, LayerVariant, type IColoringLayer} from "@widgetui/core";
-import {IWidgetNode, Style,} from "@protorians/widgets";
+import {IStyleSheet, IWidgetNode, Style,} from "@protorians/widgets";
 import {Color} from "@protorians/widgets";
 import {KatonModalAnimations} from "./animations/modal.js";
 import {
-    IThemeAccordionOptions,
+    IThemeAccordionOptions, IThemeSelectOptions, IThemeSelectStyles,
     type ThemeAlertDialogOptions,
 } from "@widgetui/core/composites";
 
@@ -29,6 +29,21 @@ export class KatonTheme extends WidgetTheme {
         settings.shadow = `0 0 1rem rgba(0,0,0,.1)`;
 
         return settings;
+    }
+
+    get stylesheets(): IStyleSheet {
+        this._stylesheet = this._stylesheet || Style({
+            backdropFilter: `blur(${this.settings.blurred||0})`,
+            boxSizing: 'border-box',
+            boxShadow: '0 0 .3rem rgba(0, 0, 0, 0.05)',
+            borderRadius: this.settings.radiusMin,
+            borderWidth: this.settings.borderWidth,
+            borderStyle: this.settings.borderStyle,
+            borderColor: this.settings.borderColor,
+            backgroundColor: Color.tint_100_a8,
+        })
+
+        return this._stylesheet;
     }
 
     outlineColoringResolves(color: LayerVariant): IColoringLayer {
@@ -71,7 +86,6 @@ export class KatonTheme extends WidgetTheme {
         }
     }
 
-
     coloringResolves(color: LayerVariant): IColoringLayer {
         switch (color) {
             case LayerVariant.Text:
@@ -108,46 +122,44 @@ export class KatonTheme extends WidgetTheme {
                 return {fore: 'tint-100', back: "text", edge: "tint-100-a1",}
 
             default:
-                return {fore: 'text', back: 'tint-100', edge: 'tint-100',}
+                return {fore: 'text', back: 'tint-100-a8', edge: 'tint-100',}
         }
     }
 
     Accordion(declaration: IThemeAccordionOptions): IWidgetNode<any, any> | undefined {
         declaration.styles = declaration.styles || {};
         declaration.styles.widget = {
-            borderRadius: this.settings.radius,
-            borderWidth: this.settings.borderWidth,
-            borderStyle: this.settings.borderStyle,
-            borderColor: Color.text_100_a1,
+            ...this.stylesheets.declarations,
+            backgroundColor: 'transparent',
             overflow: 'hidden',
-            ...(declaration.styles.widget||{}),
+            ...(declaration.styles.widget || {}),
         }
         declaration.styles.item = {
             '&:last-child > *': Style({
                 borderBottomWidth: '0'
             }),
-            ...(declaration.styles.item||{}),
+            ...(declaration.styles.item || {}),
         }
         declaration.styles.trigger = {
+            ...this.stylesheets.declarations,
+            borderRadius: '0',
+            borderWidth: '0',
             paddingX: 1,
             paddingY: .7,
-            borderBottomWidth: this.settings.borderWidth,
-            borderStyle: this.settings.borderStyle,
-            borderColor: Color.text_100_a1,
-            '& > button': Style({
-                backgroundColor: 'transparent',
-            }),
-            ...(declaration.styles.trigger||{}),
+            borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
+            userSelect: 'none',
+            '-webkit-user-select': 'none',
+            '& > button': Style({backgroundColor: 'transparent',}),
+            ...(declaration.styles.trigger || {}),
         }
         declaration.styles.content = {
-            backgroundColor: Color.tint_900,
-            borderBottomWidth: this.settings.borderWidth,
+            borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
             borderStyle: this.settings.borderStyle,
             borderColor: Color.text_100_a1,
             '& > *': Style({
                 padding: 1
             }),
-            ...(declaration.styles.content||{}),
+            ...(declaration.styles.content || {}),
         }
 
         return super.Accordion(declaration);
@@ -161,5 +173,61 @@ export class KatonTheme extends WidgetTheme {
         });
     }
 
+
+    Select(declaration: IThemeSelectOptions): IWidgetNode<any, any> | undefined {
+        declaration.styles = {...declaration.styles} as IThemeSelectStyles;
+
+        declaration.styles.widget = {
+            padding: '0',
+            minWidth: '192px',
+            ...declaration.styles.widget,
+        }
+
+        declaration.styles.handler = {
+            alignItems: 'center',
+            ...this.stylesheets.declarations,
+            paddingX: .8,
+            paddingY: .5,
+            ...declaration.styles.handler,
+        }
+
+        declaration.styles.arrow = {
+            paddingX: .8,
+            paddingY: .5,
+            ...declaration.styles.arrow,
+        }
+
+        declaration.styles.options = {
+            ...this.stylesheets.declarations,
+            borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
+            borderRadius: this.settings.radiusMin,
+            overflow: 'auto',
+            maxHeight: '30vh',
+            ...declaration.styles.options,
+        }
+
+        declaration.styles.option = {
+            ...this.stylesheets.declarations,
+            paddingX: .8,
+            paddingY: .5,
+            gap: .5,
+            borderRadius: '0',
+            borderWidth: '0',
+            borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
+            ':last-child': Style({
+                borderBottomWidth: '0',
+            }),
+            ...declaration.styles.option,
+        }
+
+        declaration.styles.selected = {
+            color: Color.text,
+            backgroundColor: Color.one_a1,
+            borderColor: Color.one_a2,
+            ...declaration.styles.selected,
+        }
+
+        return super.Select(declaration);
+    }
 }
 
