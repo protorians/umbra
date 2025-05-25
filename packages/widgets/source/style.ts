@@ -366,8 +366,8 @@ export class StyleWidget implements IStyleSheet {
         if (exists) {
             this._associates.delete(declarations);
             // this._related?.className(fingerprint.split('.').join(' '));
+            console.warn('exists', exists)
         }
-        console.warn('exists', exists, declarations)
         return this;
     }
 }
