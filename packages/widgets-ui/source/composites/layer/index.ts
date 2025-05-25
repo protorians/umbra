@@ -50,6 +50,9 @@ export function ThemeLayer(
     return Stack({
         style: {
             position: "relative",
+            flex: '1 1 auto',
+            width: '100%',
+            flexDirection: 'column',
         },
         children: [
             Layer({
