@@ -70,9 +70,10 @@ export class Application<RouterScheme extends IRouterBaseScheme> implements IApp
 
         this.config.router
             .signal
-            .listen('navigate', ({route, params}) => {
+            .listen('navigate', ({route, params, props}) => {
                 document.title = `${this.config.title || document.title}`;
-                const widget = route.view.construct(params);
+
+                const widget = route.view.construct({...props, ...params});
 
                 if (
                     widget &&
@@ -91,6 +92,7 @@ export class Application<RouterScheme extends IRouterBaseScheme> implements IApp
 
                     const context = this.main.context;
                     context.root = widget;
+                    context.props = props;
                     WidgetBuilder(widget, this.main.context)
 
                     this.main.element.replaceWith(widget.element);

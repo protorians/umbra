@@ -2,10 +2,18 @@
   <dictionary name="project">
     <words>
       <w>akwaba</w>
+      <w>animetric</w>
       <w>builddir</w>
       <w>cachedir</w>
+      <w>fnames</w>
+      <w>katon</w>
       <w>outdir</w>
+      <w>pipelinedir</w>
+      <w>protorians</w>
+      <w>slimetric</w>
       <w>sourcedir</w>
+      <w>vmax</w>
+      <w>vmin</w>
     </words>
   </dictionary>
 </component>

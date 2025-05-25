@@ -8,6 +8,7 @@ export type IPackage = {
   version: string;
   description: string;
   main: string;
+  type: "commonjs" | "module"
   bin: IPackageNode
   scripts: IPackageNode
   dependencies: IPackageNode

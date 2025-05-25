@@ -1,5 +1,34 @@
-@keyframes widget-ui-pulse-opacity {
+@keyframes widget-ui-pulse-opacity-animation {
     50% {
         opacity: 1;
     }
 }
+
+@keyframes widget-ui-position-nomadic-tl-animation {
+    50% {
+        top: -50%;
+        left: -50%;
+    }
+}
+
+@keyframes widget-ui-position-nomadic-tr-animation {
+    50% {
+        top: -50%;
+        left: 150%;
+    }
+}
+
+@keyframes widget-ui-position-nomadic-bl-animation {
+    50% {
+        top: 150%;
+        left: -50%;
+    }
+}
+
+@keyframes widget-ui-position-nomadic-br-animation {
+    50% {
+        top: 150%;
+        left: 150%;
+    }
+}
+

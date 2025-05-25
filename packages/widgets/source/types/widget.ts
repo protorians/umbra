@@ -1,8 +1,8 @@
 import type {IChildren} from "./children.js";
 import type {IPrimitives, IPrimitive, IStringToken, IFunctioningPrimitives} from "./value.js";
 import type {IAttributes} from "./attributes.js";
-import type { IMockupMeasure} from "./mockup.js";
-import {ToggleOption, WidgetElevation} from "../enums.js";
+import type {IMeasure} from "./measure.js";
+import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {ISignalStack, IUiTarget, TreatmentQueueStatus} from "@protorians/core";
 import {IStateStack} from "./state.js";
 import {IEngine} from "./engine.js";
@@ -123,6 +123,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     readonly element: IWidgetElement<E>;
 
+    get isConnected(): boolean;
+
     get fingerprint(): string;
 
     get tag(): string;
@@ -149,7 +151,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     get signal(): ISignalStack<IWidgetSignalMap<E, A>>;
 
-    get measure(): IMockupMeasure;
+    get measure(): IMeasure;
 
     get stylesheet(): IStyleSheet;
 
@@ -171,13 +173,17 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     unlock(): this;
 
+    focus(): this;
+
+    blur(): this;
+
     toggle(options?: ToggleOption): this;
 
-    show(): this;
+    show(display?: Displaying): this;
 
     hide(): this;
 
-    elevate(elevation?: WidgetElevation): this;
+    elevate(elevation?: ObjectElevation): this;
 
     // replaceWith(component: IWidget<any, any>): this;
 
@@ -187,9 +193,15 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     unmount(callback: ICallable<E, A, undefined>): this;
 
+    ready(callback: ICallable<E, A, IWidgetNode<E, A>>): this;
+
     before(callback: ICallable<E, A, undefined>): this;
 
     after(callback: ICallable<E, A, undefined>): this;
+
+    get(state: string): boolean | undefined;
+
+    set(state: string): this;
 
     // synchronize(component: IWidget<any, any>, type: keyof IGlobalEventMap, callback: ICallable<W, A, undefined>): this;
 
@@ -209,6 +221,12 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     className(token: IStringToken): this;
 
+    removeClassName(token: IStringToken): this;
+
+    replaceClassName(oldToken: IStringToken, token: IStringToken): this;
+
+    clearClassName(): this;
+
     value(data: IPrimitive): this;
 
     html(code: string): this;
@@ -226,6 +244,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
     stase(state: boolean): this;
 
     computedStyle(token: keyof IStyleDeclaration): string | undefined;
+
+    clone(): this;
 
     // render(): this;
 }
@@ -246,6 +266,10 @@ export interface IWidgetSignalMap<E extends HTMLElement, A extends IAttributes> 
     mount: ICallablePayload<E, A, IWidgetNode<E, A>>;
 
     unmount: ICallablePayload<E, A, undefined>;
+
+    focus: ICallablePayload<E, A, undefined>;
+
+    blur: ICallablePayload<E, A, undefined>;
 
     adopted: ICallablePayload<E, A, IWidgetNode<E, A> | undefined>;
 
@@ -348,7 +372,7 @@ export type INativeProperties<E extends HTMLElement, A extends IAttributes> = {
     /**
      * ZIndex Elevation
      */
-    elevate?: WidgetElevation;
+    elevate?: ObjectElevation;
 
     // /**
     //  * Namespace Attributes

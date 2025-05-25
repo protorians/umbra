@@ -169,3 +169,8 @@ export function destroyInstance<T>(instance: T | null | undefined): undefined {
     instance = undefined;
     return instance;
 }
+
+
+export function randomWithin<T>(provider: T[]): T | undefined {
+    return (provider.length > 1) ? provider[Math.floor(Math.random() * provider.length)] : undefined;
+}

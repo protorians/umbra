@@ -32,6 +32,7 @@ export type IStyleSettings = {
 export type IStyleOptions = {
     attach?: boolean;
     lock?: boolean;
+    fingerprint?: string;
 }
 
 // export type IStyleDeclarationController = ISignalController<Partial<IStyleDeclaration>>
@@ -69,7 +70,7 @@ export type IStyleSheetCascade = {
 
 export type IStyleSheetPropertyKey = `--${string}`
 
-export type IStyleSheetDeclarations = Partial<IStyleDeclaration> | IStyleSheetCascade
+export type IStyleSheetDeclarations = Partial<IStyleDeclaration> | IStyleSheetCascade;
 
 export interface IStyleSheet {
     declarations: IStyleSheetDeclarations;
@@ -95,6 +96,11 @@ export interface IStyleSheet {
 
     update<K extends keyof IStyleSheetDeclarations>(key: K, value: IStyleSheetDeclarations[K]): this
 
+    associate(declarations: IStyleSheetDeclarations): this;
+
+    associated(declarations: IStyleSheetDeclarations): IStyleSheet | undefined;
+
+    unassociate(declarations: IStyleSheetDeclarations): this;
 }
 
 

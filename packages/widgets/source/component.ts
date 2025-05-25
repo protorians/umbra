@@ -1,7 +1,6 @@
 import type {
     IComponentCallable,
     IComponentElement,
-    IMockupSheet,
     IWidgetNode,
     IComponentConstruct,
     IPropStack,
@@ -11,6 +10,7 @@ import {WidgetException} from "./errors/index.js";
 import {WidgetBuilder, ContextWidget} from "./widget-node.js";
 import {extractProps} from "./props.js";
 import {unCamelCase, Environment, lcFirstLetter} from "@protorians/core";
+import {ISpectraElement} from "@protorians/spectra";
 
 
 export type IComponentInstances = {
@@ -24,7 +24,7 @@ export class Components {
 export function Component(
     identifier: string,
     callable: IComponentCallable,
-): typeof HTMLElement | IMockupSheet<any> | undefined {
+): typeof HTMLElement | ISpectraElement | undefined {
     const name: string = unCamelCase(lcFirstLetter(identifier));
 
     if (!name.includes('-')) {

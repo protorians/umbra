@@ -29,7 +29,7 @@ export function Button(declaration: IWidgetDeclaration<HTMLButtonElement, IButto
 
     props.declaration.listen = {
         ...props.declaration.listen,
-        click: props.extended.onPress,
+        click: props.extended?.onPress,
     }
 
     if (props.extended.onPressStart) props.declaration.listen.mousedown = props.extended.onPressStart;

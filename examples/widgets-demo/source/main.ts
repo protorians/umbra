@@ -12,11 +12,12 @@ import {
     Text
 } from "@protorians/widgets"
 import {$ui} from "@protorians/core";
-import {Theme} from "@/theme/main";
-import {FieldsetText} from "./components/fieldset";
+import {Theme} from "@/theme/main.js";
+import {FieldsetText} from "./components/fieldset.js";
 import {LayerVariant} from "@widgetui/core";
-import {hiddenWidget, showWidget} from "@/helpers/widget-visibility";
-import {opacityHeightTransition} from "@/helpers/widget-transition-style";
+import {hiddenWidget, showWidget} from "@/helpers/widget-visibility.js";
+import {opacityHeightTransition} from "@/helpers/widget-transition-style.js";
+import {FormController} from "@protorians/widgets";
 
 /**
  *
@@ -27,6 +28,54 @@ Mount('AppMain', () => {
     const listRef = createRef()
     const stateWidget = createState<IWidgetNode<any, any> | undefined>(undefined)
     const stateNumber = createState<number>(0)
+
+    const addHandler = (label: string) => {
+
+        console.warn('list', listRef.current)
+
+        listRef.current
+            ?.content(
+                Row({
+                    style: {
+                        gap: 1,
+                        alignItems: 'center',
+                    },
+                    children: [
+                        Layer({
+                            children: ItalicText({className: 'fas fa-check-circle fa-2x'})
+                        }),
+                        Column({
+                            style: {
+                                flex: '1 1 auto',
+                            },
+                            children: [
+                                Text({
+                                    children: label
+                                }),
+                                SmallerText({
+                                    style: {
+                                        opacity: '.5',
+                                    },
+                                    children: (Date.now())
+                                }),
+                            ]
+                        }),
+                        Layer({
+                            children: ItalicText({
+                                style: {
+                                    color: Color.text,
+                                    cursor: 'pointer',
+                                    '&:hover': Style({
+                                        color: Color.error
+                                    })
+                                },
+                                className: 'fas fa-times-circle fa-lg'
+                            })
+                        }),
+                    ]
+                })
+            )
+    }
 
     return Column({
         signal: {
@@ -128,11 +177,16 @@ Mount('AppMain', () => {
 
                                     if (widget.element) {
                                         payload.event.preventDefault()
-                                        const form = widget.element as HTMLFormElement
-                                        const target = new FormData(form)
+                                        const {task} = FormController.getPayload<any>(widget)
 
-                                        for (const [name, value] of target.entries()) {
-                                            console.log('->', name, value,)
+                                        console.warn('FormData', task)
+
+                                        if (task) {
+                                            addHandler(task)
+                                            showWidget(helmetRef.current)(listRef.current)
+                                            if(document.activeElement instanceof HTMLInputElement){
+                                                document.activeElement.value = ''
+                                            }
                                         }
 
                                     }
@@ -161,11 +215,6 @@ Mount('AppMain', () => {
                                                     label: 'Add task',
                                                     name: 'task'
                                                 }),
-                                                FieldsetText({
-                                                    icon: 'fas fa-plus',
-                                                    label: 'Add task',
-                                                    name: 'task'
-                                                }),
                                             ]
                                         }),
                                         Theme.Button({
@@ -173,7 +222,8 @@ Mount('AppMain', () => {
                                             children: SmallText({
                                                 children: 'New task',
                                             }),
-                                            onPress: () => {}
+                                            onPress: () => {
+                                            }
                                         })
                                     ]
                                 }),
@@ -203,45 +253,6 @@ Mount('AppMain', () => {
                                     ]
                                 }),
 
-                                Row({
-                                    style: {
-                                        gap: 1,
-                                        alignItems: 'center',
-                                    },
-                                    children: [
-                                        Layer({
-                                            children: ItalicText({className: 'fas fa-check-circle fa-2x'})
-                                        }),
-                                        Column({
-                                            style: {
-                                                flex: '1 1 auto',
-                                            },
-                                            children: [
-                                                Text({
-                                                    children: 'Task title'
-                                                }),
-                                                SmallerText({
-                                                    style: {
-                                                        opacity: '.5',
-                                                    },
-                                                    children: '00:00'
-                                                }),
-                                            ]
-                                        }),
-                                        Layer({
-                                            children: ItalicText({
-                                                style: {
-                                                    color: Color.text,
-                                                    cursor: 'pointer',
-                                                    '&:hover': Style({
-                                                        color: Color.error
-                                                    })
-                                                },
-                                                className: 'fas fa-times-circle fa-lg'
-                                            })
-                                        }),
-                                    ]
-                                }),
                             ]
                         }),
 
