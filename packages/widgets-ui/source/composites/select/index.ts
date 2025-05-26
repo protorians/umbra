@@ -155,7 +155,8 @@ export function ThemeSelect(
 
         if (item && item.child) {
             setValue(value);
-            selectRef.current?.clear().content(item.child.clientElement?.cloneNode(true));
+            selectRef.current?.clear().content(item.child.clone());
+            // selectRef.current?.clear().content(item.child.clientElement?.cloneNode(true));
             if (listen?.change) listen.change(current);
             if (!multiple) current.close()
             current.options();
