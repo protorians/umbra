@@ -1034,7 +1034,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
 
 
     clone(): this {
-        return new (this as any).constructor({...this.props, ...this.attributes});
+        return new (this as any).constructor(structuredClone({...this.props, ...this.attributes}));
     }
 
 
