@@ -59,7 +59,7 @@ export function fixExponent(x: number) {
 }
 
 export function slugify(str: string): string {
-  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.replace(/^\s+|\s+$/g, '');
   str = str.toLowerCase();
 
   const from = "ãàáäâáº½èéëêìíïîõòóöôùúüûñç·/_,:;";
@@ -128,7 +128,62 @@ export function snapSequence(rex: RegExp, input: string): string {
     return input.replace(rex, () => `$${++x}`);
 }
 
+/**
+ * Parses a sequence string, replacing placeholders in the format `$<number>`
+ * with corresponding values from the provided dictionary.
+ *
+ * @param {string} sequence - The input sequence string containing placeholders to be replaced.
+ * @param {(string|number)[]} dictionary - An array of values used to replace placeholders in the sequence.
+ */
 export function parseSequence(sequence: string, dictionary: (string | number)[]): string {
     let x = 0;
     return sequence.replace(/\$\d+/g, () => `${dictionary[x++] || ""}`);
+}
+
+/**
+ * Converts a string to kebab-case
+ * @example kebabCase('helloWorld') // -> 'hello-world'
+ */
+export function kebabCase(value: string): string {
+  return unCamelCase(camelCase(value), '-');
+}
+
+/**
+ * Converts a string to snake_case
+ * @example snakeCase('helloWorld') // -> 'hello_world'
+ */
+export function snakeCase(value: string): string {
+  return unCamelCase(camelCase(value), '_');
+}
+
+/**
+ * Capitalizes each word in a string
+ * @example capitalize('hello world') // -> 'Hello World'
+ */
+export function capitalize(value: string): string {
+  return value.split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+/**
+ * Truncates a string to a given length
+ * @example truncate('Hello world', 5) // -> 'Hello...'
+ */
+export function truncate(value: string, length: number, suffix: string = '...'): string {
+  if (value.length <= length) return value;
+  return value.slice(0, length) + suffix;
+}
+
+/**
+ * Pads a string with a character to a given length
+ * @example 
+ * pad('123', 5) // '00123'
+ * pad('123', 5, '-', true) // -> '123--'
+ */
+export function pad(value: string, length: number, char: string = '0', right: boolean = false): string {
+  if (value.length >= length) return value;
+  
+  const padding = char.repeat(length - value.length);
+  return right ? value + padding : padding + value;
 }
