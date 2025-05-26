@@ -147,6 +147,8 @@ export class KatonTheme extends WidgetTheme {
             paddingX: 1,
             paddingY: .7,
             borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
+            borderColor: Color.text_100_a1,
+            boxShadow: 'none',
             userSelect: 'none',
             '-webkit-user-select': 'none',
             '& > button': Style({backgroundColor: 'transparent',}),
