@@ -1,5 +1,12 @@
 # @widgetui/katon-theme
 
+## 0.2.4
+
+### Patch Changes
+
+- Update theme styles to include border color and disable shadow
+- Update theme to include border color and disable shadow
+
 ## 0.2.3
 
 ### Patch Changes
