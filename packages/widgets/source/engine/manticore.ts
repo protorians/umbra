@@ -16,7 +16,8 @@ import type {
     IPrimitive,
     ISignalableCallbackMap,
     IWidgetSignalMap,
-    IStyleSheetDeclarations, IGlobalEventCallableMap
+    IStyleSheetDeclarations,
+    IGlobalEventCallableMap,
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
 import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
@@ -72,13 +73,33 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     enable(widget: IWidgetNode<E, A>,): this {
-        widget.stylesheet.remove('opacity');
+        this.stase(widget, false)
+        widget.callable({
+            client: (element) => {
+                element.removeAttribute('disabled');
+                element.style.removeProperty('opacity')
+            },
+            server: (element) => {
+                element.attribute({disabled: null});
+                element.style({opacity: undefined});
+            }
+        })
         widget.signal.dispatch('enable', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     disable(widget: IWidgetNode<E, A>,): this {
-        widget.stylesheet.update('opacity', '.3');
+        this.stase(widget, true)
+        widget.callable({
+            client: (element) => {
+                element.setAttribute('disabled', 'disabled');
+                element.style.opacity = '.3';
+            },
+            server: (element) => {
+                element.attribute({disabled: 'disabled'});
+                element.style({opacity: '.3'});
+            }
+        })
         widget.signal.dispatch('disable', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
@@ -411,7 +432,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     stase(widget: IWidgetNode<E, A>, state: boolean): this {
-        this.attributeLess(widget, {inert: state,})
+        this.attributeLess(widget, {inert: state ? String(state) : undefined,})
+        this.disable(widget)
         return this
     }
 
