@@ -214,10 +214,9 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             Object.keys(attributes || {}).forEach(
                 key => {
                     key = unCamelCase(key);
-                    if(attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])){
+                    if (attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])) {
                         widget.clientElement?.removeAttribute(key)
-                    }
-                    else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
+                    } else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
                 }
             )
         }
@@ -422,11 +421,15 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     render<P extends IPropStack, S extends IStateStack>(widget: IWidgetNode<E, A>, context: IContext<P, S>): E | undefined {
-        if(widget.isConnected) return undefined;
+        if (widget.isConnected) return undefined;
 
         context.root = this.widget.context?.root || context.root || widget;
         widget
             .useContext(context)
+
+        widget.signal.dispatch('construct', {root: context.root || widget, widget, payload: undefined}, widget.signal)
+
+        widget
             .stylesheet
             .merge((widget.constructor as typeof WidgetNode<E, A>).style || {})
 
@@ -440,6 +443,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             .listen('unmount', () => {
                 (widget.constructor as typeof WidgetNode<E, A>).unmount(widget);
             })
+
+        widget.signal.dispatch('before', {root: context.root || widget, widget, payload: undefined}, widget.signal)
 
         if (widget.props.signal) this.signals(widget, widget.props.signal)
 
@@ -463,8 +468,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
         if (widget.props.elevate) this.elevate(widget, widget.props.elevate)
 
-        widget.signal.dispatch('construct', {root: context.root || widget, widget, payload: undefined}, widget.signal)
-
+        widget.signal.dispatch('after', {root: context.root || widget, widget, payload: undefined}, widget.signal)
 
         return this.element;
     }
