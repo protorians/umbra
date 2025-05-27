@@ -34,31 +34,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     ) {
     }
 
-    // construct(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('construct', callback)
-    //     return this;
-    // }
-    //
-    // mount(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('mount', callback)
-    //     return this;
-    // }
-    //
-    // unmount(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('unmount', callback)
-    //     return this;
-    // }
-    //
-    // before(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('before', callback)
-    //     return this;
-    // }
-    //
-    // after(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('after', callback)
-    //     return this;
-    // }
-
     clear(widget: IWidgetNode<E, A>,): this {
         if (widget.clientElement) widget.clientElement.innerHTML = ''
         else if (widget.serverElement) widget.serverElement.children('')
