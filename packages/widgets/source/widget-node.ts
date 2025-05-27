@@ -20,7 +20,7 @@ import type {
     IStyleSheetDeclarations,
     IWidgetDeclaration,
     IWidgetElement,
-    IWidgetNode,
+    IWidgetNode, IWidgetSideCallableOptions,
     IWidgetSignalMap,
 } from "./types/index.js";
 import {
@@ -312,7 +312,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {boolean} Returns true if the connection is established, otherwise false.
      */
     get isConnected(): boolean {
-        return this._isConnected;
+        return this._isConnected || ((Environment.Client && this.clientElement) ? this.clientElement.isConnected : false);
     }
 
     /**
@@ -1046,15 +1046,39 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {this} The current instance for method chaining.
      */
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this {
-        if (Environment.Client) {
-            if (Array.isArray(children))
-                children.forEach(child => this.clientElement?.append(child))
+        if (Array.isArray(children))
+            children.forEach(child => this.element?.append(child))
 
-            else if (children instanceof WidgetNode) {
-                this.clientElement?.append(children.element)
-                children.useContext(this._context)
-            }
+        else if (children instanceof WidgetNode) {
+            this.element?.append(children.element)
+            children.useContext(this._context)
         }
+        return this;
+    }
+
+    prepend(children: IWidgetNode<any, any> | IUiTarget<any>): this {
+
+        if (Array.isArray(children))
+            children.forEach(child => this.element?.prepend(child))
+
+        else if (children instanceof WidgetNode) {
+            this.element?.prepend(children.element)
+            children.useContext(this._context)
+        }
+
+        return this;
+    }
+
+
+    /**
+     * Configures a callable function for client or server environments based on the provided options.
+     *
+     * @param {IWidgetSideCallableOptions<E>} callable - The options object specifying client and server callable functions.
+     * @return {this} The current instance of the object for chaining.
+     */
+    callable(callable: IWidgetSideCallableOptions<E>): this {
+        if (Environment.Client && this.clientElement && callable.client) callable.client(this.clientElement)
+        if (!Environment.Client && this.serverElement && callable.server) callable.server(this.serverElement)
         return this;
     }
 
