@@ -239,7 +239,7 @@ export interface IButtonAttributes extends IInputableAttributes {
 }
 
 export interface IButtonAttributesBase extends IInputableAttributes {
-    onPress: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'click'>>;
+    onPress?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'click'>>;
     onPressStart?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mousedown'>>;
     onPressEnd?: ICallable<HTMLButtonElement, IButtonAttributes, IGlobalEventPayload<'mouseup'>>;
 }
@@ -295,6 +295,7 @@ export interface IInputableAttributes extends ICommonAttributes, IInputableCommo
     // src?: string; // Input image type
     step?: number;
     value?: string;
+    accept?: string;
 }
 
 export interface IFormAttributes extends ICommonAttributes {

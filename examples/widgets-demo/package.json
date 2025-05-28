@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@protorians/core": "^0.2.9",
+    "@protorians/core": "workspace:",
     "@protorians/widgets": "workspace:",
-    "@widgetui/core": "^0.0.10",
+    "@widgetui/core": "workspace:",
     "@widgetui/katon-theme": "workspace:"
   },
   "peerDependencies": {

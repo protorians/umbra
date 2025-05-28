@@ -1,6 +1,6 @@
 {
   "name": "@protorians/colorimetric",
-  "version": "0.0.21",
+  "version": "0.0.25",
   "description": "Color Manager",
   "main": "./build/index.js",
   "type": "module",

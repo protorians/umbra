@@ -1,0 +1,20 @@
+{
+  "name": "vauban-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vauban dev",
+    "build": "vauban build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@protorians/vauban": "workspace:",
+    "@protorians/widgets": "workspace:",
+    "@widgetui/katon-theme": "workspace:",
+    "typescript": "5.8.3"
+  }
+}

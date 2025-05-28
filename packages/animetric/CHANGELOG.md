@@ -1,5 +1,44 @@
 # @protorians/animetric
 
+## 0.1.4
+
+### Patch Changes
+
+- Add README translations and new string utility functions
+
+## 0.1.3
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/core@0.3.5
+
+## 0.1.2
+
+### Patch Changes
+
+- Sync
+- Updated dependencies
+  - @protorians/core@0.3.3
+
+## 0.1.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
+## 0.1.0
+
+### Minor Changes
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.3.0
+
 ## 0.0.21
 
 ### Patch Changes
@@ -97,29 +136,3 @@
 - patching
 - Updated dependencies
   - @protorians/core@0.2.3
-
-## 0.1.0
-
-### Minor Changes
-
-- Patch version
-- 0d0a854: Fix bugs
-
-### Patch Changes
-
-- Patch version
-- Updated dependencies
-- Updated dependencies
-  - @protorians/core@0.3.0
-
-## 1.0.0
-
-### Major Changes
-
-- 8762789: Up version
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [d247435]
-  - @protorians/core@1.0.0

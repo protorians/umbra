@@ -1,25 +1,25 @@
-import {createCapabilities, createCapability} from "../capability.js";
+import {createWidgetCapabilities, createWidgetCapability} from "../capability.js";
 import type {IAttributes, ISizeCapabilityScheme} from "../types/index.js";
-import {Sizer} from "../enums.js";
+import {ObjectSize} from "../enums.js";
 import {StyleWidget} from "../style.js";
 
 
 
-export const SurfaceSizeCapability = createCapability<HTMLElement, IAttributes, string>(
+export const SurfaceSizeCapability = createWidgetCapability<HTMLElement, IAttributes, string>(
   'surface',
-  ({payload}) => {
+  ({payload}): string => {
     let value: string = '960px';
     switch (payload) {
-      case Sizer.XS:
+      case ObjectSize.ExtraSmall:
         value = '320px';
         break;
-      case Sizer.S:
+      case ObjectSize.Small:
         value = '768px';
         break;
-      case Sizer.L:
+      case ObjectSize.Large:
         value = '1024px';
         break;
-      case Sizer.XL:
+      case ObjectSize.ExtraLarge:
         value = '1280px';
         break;
     }
@@ -27,21 +27,21 @@ export const SurfaceSizeCapability = createCapability<HTMLElement, IAttributes, 
   }
 )
 
-export const TextSizeCapability = createCapability<HTMLElement, IAttributes, string>(
+export const TextSizeCapability = createWidgetCapability<HTMLElement, IAttributes, string>(
   'text',
   ({payload}) => {
     let value: string = '16px';
     switch (payload) {
-      case Sizer.XS:
+      case ObjectSize.ExtraSmall:
         value = '8px';
         break;
-      case Sizer.S:
+      case ObjectSize.Small:
         value = '12px';
         break;
-      case Sizer.L:
+      case ObjectSize.Large:
         value = '20px';
         break;
-      case Sizer.XL:
+      case ObjectSize.ExtraLarge:
         value = '24px';
         break;
     }
@@ -49,12 +49,12 @@ export const TextSizeCapability = createCapability<HTMLElement, IAttributes, str
   }
 )
 
-export const BitSizeCapability = createCapability<HTMLElement, IAttributes, number>(
+export const BitSizeCapability = createWidgetCapability<HTMLElement, IAttributes, number>(
   'unit',
   ({payload}) => `${StyleWidget.unit(payload)}`
 )
 
-export const SizeCapabilities = createCapabilities<ISizeCapabilityScheme>()
+export const SizeCapabilities = createWidgetCapabilities<ISizeCapabilityScheme>()
   .attach<'surface'>(SurfaceSizeCapability)
   .attach<'text'>(TextSizeCapability)
   .attach<'unit'>(BitSizeCapability)

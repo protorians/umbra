@@ -1,5 +1,189 @@
 # @widgetui/core
 
+## 0.4.11
+
+### Patch Changes
+
+- Refactor select content handling to use child.clone()
+- Refactor select component for focus, styles, and keyboard support
+- Add flexWrap to alert actions container
+
+## 0.4.10
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/animetric@0.1.3
+  - @protorians/colorimetric@0.0.25
+  - @protorians/core@0.3.5
+  - @protorians/shortcuts@0.0.21
+  - @protorians/widgets@0.6.4
+
+## 0.4.9
+
+### Patch Changes
+
+- Add `ThemeSelect` composite widget implementation
+- Add positioning utility and types for widget support
+- Update `children` type in `ThemeNavbarOptions`
+- Refactor alert composite and merge theme stylesheets
+- Refactor alert-dialog action mapping for improved readability
+- Refine button styling logic and remove unused backdrop filter.
+- Add flex properties to layer composite styles
+- Remove unnecessary console warning from dialogBox method
+- Rename SelectOptions to Select in theme types
+- Add styling and customization improvements to Select and Accordion
+
+## 0.4.8
+
+### Patch Changes
+
+- Simplify trigger property handling in sheet composite
+
+## 0.4.7
+
+### Patch Changes
+
+- Sync
+- Updated dependencies
+  - @protorians/colorimetric@0.0.24
+  - @protorians/animetric@0.1.2
+  - @protorians/shortcuts@0.0.20
+  - @protorians/widgets@0.6.2
+  - @protorians/core@0.3.3
+
+## 0.4.6
+
+### Patch Changes
+
+- Add ThemeBadge composite component and its type definition
+
+## 0.4.5
+
+### Patch Changes
+
+- Add Badge theme support and update Accordion typings
+
+## 0.4.4
+
+### Patch Changes
+
+- Modify modal and sheet types to support callable children
+
+## 0.4.3
+
+### Patch Changes
+
+- Refactor coloring resolution method names in progress component.
+
+## 0.4.2
+
+### Patch Changes
+
+- Disable hovered opacity styling for buttons
+
+## 0.4.1
+
+### Patch Changes
+
+- Refactor Accordion types to use 'ThemeAccordion' naming convention
+
+## 0.4.0
+
+### Minor Changes
+
+- Add ThemeAccordion composite for widget-based accordion
+
+## 0.3.1
+
+### Patch Changes
+
+- Add type definitions for avatars and accordion components
+
+## 0.3.0
+
+### Minor Changes
+
+- Refactor Props to Options for consistency
+
+## 0.2.3
+
+### Patch Changes
+
+- Fix signal dispatch handling for empty arguments
+
+## 0.2.2
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/colorimetric@0.0.23
+  - @protorians/animetric@0.1.1
+  - @protorians/shortcuts@0.0.19
+  - @protorians/widgets@0.5.1
+  - @protorians/core@0.3.1
+
+## 0.2.1
+
+### Patch Changes
+
+    - Refactor type definitions in aspect-ratio composite
+
+## 0.2.0
+
+### Minor Changes
+
+    - Refactor ThemeAspectRatio to support extended declarations [1ba24ec155ff15d7b84ddb0e4bdeae52752be4c5]
+    - Enhance Avatar component with borderless option and refactor. [28621b9ebd4a6a6707c2986f05a64a2013d7d1f5]
+    - Refactor Layer to use Stack and enhance style handling [eb6a3b85f06bb0486827f825a37f4b67f8a82169]
+    - Refactor scroll-area to handle single child properly [be9d980d57651c7ae2ae52300be2b34e9a898d82]
+    - Add new theme properties and Avatars component configuration [bb92ed4b1bb7496e0ebfb62e4dc33b402feb49b5]
+    - Add support for ThemeAvatars and extend theme properties [5d9b8a1729a8ebdc95a3ecc9e9dc8713b1a77c6b]
+    - Combine changeset commands into a single 'version' script. [ec65f7751ebf8f8fdba449446e4eda10654bed61]
+    - Add ThemeAvatars composite component and type definition [970094cf11cfe154277f15304a480ebed76a4ae8]
+
+## 0.1.0
+
+### Minor Changes
+
+    - Refactor theme settings and enhance alert handling.
+    - Rename and extend theme interface methods, add animation support
+    - Refactor theme utilities and enhance widget handling.
+    - Add outline and blurred props to ThemeLayer.
+    - Refactor to use ObjectElevation instead of WidgetElevation.
+    - Update button styling and resolve coloring method changes
+    - Add ThemeAvatar composite to widgets-ui package
+    - Add ThemeAspectRatio composite to widgets-ui package
+    - Refactor alert-dialog component to streamline props and actions
+    - Refactor alert component with enhanced capabilities
+    - Refactor widget context handling in state management
+    - Add utility functions for creating gradient layers
+    - Add ILayerGradient interface in gradient types
+    - Add IThemeAction interface to define theme-related actions
+    - Rename and add keyframe animations for widget positioning.
+    - Update signal types and add computed method to dispatcher
+    - Add computed caching to Signal Stack
+    - Add utility function to get a random element from an array
+    - Add new exports for capabilities and file modules
+    - Add Capability class and types for extensible signal handling
+    - Add utility function to read Blob files as data URLs
+    - Rename WidgetElevation to ObjectElevation for clarity
+    - Fix incorrect method call in defuse function
+    - Refactor size capabilities to use updated naming conventions.
+    - Refactor elevation enum and improve callback safety
+    - Add AlertState enum to define alert component states
+    - Refactor size enums and update related references
+    - Rename capability-related types and classes for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/animetric@0.1.0
+  - @protorians/widgets@0.5.0
+  - @protorians/core@0.3.0
+
 ## 0.0.15
 
 ### Patch Changes
@@ -169,19 +353,3 @@
   - @protorians/core@0.3.0
   - @protorians/shortcuts@0.1.0
   - @protorians/widgets@0.4.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @protorians/shortcuts@1.0.0
-  - @protorians/widgets@1.0.0
-  - @protorians/core@1.0.0

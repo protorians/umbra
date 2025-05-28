@@ -1,5 +1,35 @@
 # @protorians/colorimetric
 
+## 0.0.25
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/core@0.3.5
+
+## 0.0.24
+
+### Patch Changes
+
+- Sync
+- Updated dependencies
+  - @protorians/core@0.3.3
+
+## 0.0.23
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
+## 0.0.22
+
+### Patch Changes
+
+- Fixing
+
 ## 0.0.21
 
 ### Patch Changes
@@ -110,14 +140,3 @@
 - Updated dependencies
 - Updated dependencies
   - @protorians/core@0.3.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [d247435]
-  - @protorians/core@1.0.0

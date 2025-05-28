@@ -1,5 +1,5 @@
 import {Color, Column, IInputType, Input, ItalicText, Row, Style} from "@protorians/widgets";
-import {Theme} from "@/theme/main";
+import {Theme} from "@/theme/main.js";
 
 
 export type FieldsetTextProps = {

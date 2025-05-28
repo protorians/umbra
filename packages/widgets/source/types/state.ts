@@ -22,6 +22,8 @@ export interface IState<T> {
 
     bind<E extends HTMLElement, A extends IAttributes>(widget: IWidgetNode<E, A>): this;
 
+    prune(data?: T): this;
+
     reset(): this;
 }
 
@@ -29,4 +31,10 @@ export interface IState<T> {
 export interface IStateWatcher<T>{
     readonly state: IState<T>;
     readonly callable: IStateCallable<T>;
+}
+
+export type IStateUnwrapped<T> = T extends IState<infer U> ? U : T;
+
+export type IStatelessProps<Props> = {
+    [key in keyof Props]: IStateUnwrapped<Props[keyof Props]>
 }

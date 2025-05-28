@@ -24,6 +24,6 @@ export class RefWidget<E extends HTMLElement, A extends IAttributes> implements 
     }
 }
 
-export function createRef<E extends HTMLElement, A extends IAttributes>() {
+export function createRef<E extends HTMLElement, A extends IAttributes>(): IRef<E, A> {
     return new RefWidget<E, A>();
 }

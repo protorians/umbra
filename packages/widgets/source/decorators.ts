@@ -4,7 +4,7 @@ import {
     IEncapsulatorOptions,
     IWidgetCollection,
     IWidgetNode, IEncapsulator,
-    IEncapsulatorConfigs,
+    IEncapsulatorConfigs, IEncapsulatorStack,
 } from "./types/index.js";
 import {ViewWidget} from "./view.js";
 import {extractComponentName} from "./helpers/index.js";
@@ -43,8 +43,23 @@ const Make = {
                 return (new target(store)) as IWidgetNode<any, any>;
             }
         }
+    },
+
+    configs(target: any) {
+        const _static = (target.constructor as any);
+        const id: string = _static.name || _static.constructor.name;
+        const stack = (target._configs || _static._configs) as IEncapsulatorStack;
+        const configs: IEncapsulatorConfigs = stack.get(id) || structuredClone(_static._default_configs || {structures: []})
+
+        return {
+            configs,
+            id,
+            stack,
+            static: _static,
+        }
     }
 }
+
 
 /**
  * Widget integrator decorator
@@ -102,12 +117,9 @@ export function Mountable() {
  * @description Enable a widget integrator property to host layout structure
  */
 export function Structurable(target: any, name: string) {
-    const configs = (target._configs || target.constructor._configs) as IEncapsulatorConfigs | undefined;
-
-    if (configs) {
-        if (!Array.isArray(configs?.structures)) configs.structures = [];
-        configs?.structures.push(name);
-    }
+    const make = Make.configs(target)
+    make.configs.structures?.push(name)
+    make.stack.set(make.id, {...make.configs});
 }
 
 
@@ -117,9 +129,10 @@ export function Structurable(target: any, name: string) {
  */
 export function Property() {
     return function (target: any, name: string) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.propertiees = target.constructor._configs.propertiees || [];
-        target.constructor._configs.propertiees.push(name);
+        const make = Make.configs(target)
+        make.configs.properties = make.configs.properties || [];
+        make.configs.properties.push(name);
+        make.stack.set(make.id, {...make.configs});
     }
 }
 
@@ -129,9 +142,10 @@ export function Property() {
  */
 export function State() {
     return function (target: any, name: string) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.states = target.constructor._configs.states || [];
-        target.constructor._configs.states.push(name);
+        const make = Make.configs(target)
+        make.configs.states = make.configs.states || [];
+        make.configs.states.push(name);
+        make.stack.set(make.id, {...make.configs});
     }
 }
 
@@ -141,8 +155,9 @@ export function State() {
  */
 export function Optionator(options: IEncapsulatorOptions) {
     return function (target: any) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.options = options;
+        const make = Make.configs(target)
+        make.configs.options = options;
+        make.stack.set(make.id, {...make.configs});
     }
 }
 
@@ -152,8 +167,9 @@ export function Optionator(options: IEncapsulatorOptions) {
  */
 export function Override() {
     return function (target: any, name: string) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.main = name;
+        const make = Make.configs(target);
+        make.configs.main = name;
+        make.stack.set(make.id, {...make.configs});
     }
 }
 
@@ -163,8 +179,9 @@ export function Override() {
  */
 export function Bootstrapper() {
     return function (target: any, name: string) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.bootstrapper = name;
+        const make = Make.configs(target);
+        make.configs.bootstrapper = name;
+        make.stack.set(make.id, {...make.configs});
     }
 }
 
@@ -174,7 +191,8 @@ export function Bootstrapper() {
  */
 export function Defuser() {
     return function (target: any, name: string) {
-        target.constructor._configs = {...(target.constructor._configs || {})} as IEncapsulatorConfigs;
-        target.constructor._configs.defuser = name;
+        const make = Make.configs(target);
+        make.configs.defuser = name;
+        make.stack.set(make.id, {...make.configs});
     }
 }

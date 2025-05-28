@@ -189,6 +189,7 @@ export interface IAnimetric extends IAnimetricController {
 export interface IAnimetricGroup extends IAnimetricController{
     readonly timelines: IAnimetric[];
     readonly options?: Partial<IAnimetricBaseOptions> & IAnimetricGroupOptions;
+    signal: ISignalStack<IAnimetricSignalMap>;
 
     replay(delay?: number): this;
 

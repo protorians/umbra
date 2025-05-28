@@ -7,8 +7,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/core/~cjs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/core/~esm" />
       <excludeFolder url="file://$MODULE_DIR$/packages/widgets/~esm" />
-      <excludeFolder url="file://$MODULE_DIR$/examples/vauban-demo/.vauban" />
-      <excludeFolder url="file://$MODULE_DIR$/examples/vauban-demo/build" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/vauban-example/.vauban" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/vauban-example/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

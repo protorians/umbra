@@ -1,5 +1,111 @@
 # @widgetui/katon-theme
 
+## 0.2.4
+
+### Patch Changes
+
+- Update theme styles to include border color and disable shadow
+- Update theme to include border color and disable shadow
+- Update theme styles and fix selector syntax
+
+
+## 0.2.3
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/animetric@0.1.3
+  - @protorians/colorimetric@0.0.25
+  - @protorians/core@0.3.5
+  - @protorians/shortcuts@0.0.21
+  - @protorians/widgets@0.6.4
+  - @widgetui/core@0.4.10
+
+## 0.2.2
+
+### Patch Changes
+
+- Sync
+- Updated dependencies
+  - @protorians/colorimetric@0.0.24
+  - @widgetui/core@0.4.7
+  - @protorians/animetric@0.1.2
+  - @protorians/shortcuts@0.0.20
+  - @protorians/widgets@0.6.2
+  - @protorians/core@0.3.3
+
+## 0.2.1
+
+### Patch Changes
+
+- Refactor accordion options to use IThemeAccordionOptions.
+
+## 0.2.0
+
+### Minor Changes
+
+- Refactor theme types and add Accordion support.
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/widgets@0.6.0
+
+## 0.1.1
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/colorimetric@0.0.23
+  - @widgetui/core@0.2.2
+  - @protorians/animetric@0.1.1
+  - @protorians/shortcuts@0.0.19
+  - @protorians/widgets@0.5.1
+  - @protorians/core@0.3.1
+
+## 0.1.0
+
+### Minor Changes
+
+- - Refactor theme settings and enhance alert handling.
+  - Rename and extend theme interface methods, add animation support
+  - Refactor theme utilities and enhance widget handling.
+  - Add outline and blurred props to ThemeLayer.
+  - Refactor to use ObjectElevation instead of WidgetElevation.
+  - Update button styling and resolve coloring method changes
+  - Add ThemeAvatar composite to widgets-ui package
+  - Add ThemeAspectRatio composite to widgets-ui package
+  - Refactor alert-dialog component to streamline props and actions
+  - Refactor alert component with enhanced capabilities
+  - Refactor widget context handling in state management
+  - Add utility functions for creating gradient layers
+  - Add ILayerGradient interface in gradient types
+  - Add IThemeAction interface to define theme-related actions
+  - Rename and add keyframe animations for widget positioning.
+  - Update signal types and add computed method to dispatcher
+  - Add computed caching to Signal Stack
+  - Add utility function to get a random element from an array
+  - Add new exports for capabilities and file modules
+  - Add Capability class and types for extensible signal handling
+  - Add utility function to read Blob files as data URLs
+  - Rename WidgetElevation to ObjectElevation for clarity
+  - Fix incorrect method call in defuse function
+  - Refactor size capabilities to use updated naming conventions.
+  - Refactor elevation enum and improve callback safety
+  - Add AlertState enum to define alert component states
+  - Refactor size enums and update related references
+  - Rename capability-related types and classes for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @widgetui/core@0.1.0
+  - @protorians/animetric@0.1.0
+  - @protorians/widgets@0.5.0
+  - @protorians/core@0.3.0
+
 ## 0.0.14
 
 ### Patch Changes
@@ -182,20 +288,3 @@
   - @protorians/shortcuts@0.1.0
   - @protorians/widgets@0.4.0
   - @widgetui/core@0.1.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @widgetui/core@1.0.0
-  - @protorians/shortcuts@1.0.0
-  - @protorians/widgets@1.0.0
-  - @protorians/core@1.0.0

@@ -1,24 +1,24 @@
-import type {ICapability} from "./capability.js";
+import type {IWidgetCapability} from "./capability.js";
 
-export type ICapabilitiesScheme = {
+export type IWidgetCapabilitiesScheme = {
   [K: string]: any
 }
 
-export type ICapabilitiesMap<C> = {
-  [K in keyof C]: ICapability<any, any, any>
+export type IWidgetCapabilitiesMap<C> = {
+  [K in keyof C]: IWidgetCapability<any, any, any>
 }
 
-export interface ICapabilities<C> {
+export interface IWidgetCapabilities<C> {
 
-  get scheme(): Partial<ICapabilitiesMap<C>>;
+  get scheme(): Partial<IWidgetCapabilitiesMap<C>>;
 
-  attach<K extends keyof C>(capability: ICapability<any, any, C[K]>): this;
+  attach<K extends keyof C>(capability: IWidgetCapability<any, any, C[K]>): this;
 
-  override<K extends keyof C>(capability: ICapability<any, any, C[K]>): this;
+  override<K extends keyof C>(capability: IWidgetCapability<any, any, C[K]>): this;
 
   detach(name: keyof C): this;
 
-  capability<K extends keyof C>(name: K): ICapability<any, any, C[K]> | undefined;
+  capability<K extends keyof C>(name: K): IWidgetCapability<any, any, C[K]> | undefined;
 
   has(name: keyof C): boolean;
 }

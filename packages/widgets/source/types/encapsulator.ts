@@ -31,3 +31,5 @@ export interface IEncapsulator {
     defuse<E extends HTMLElement, A extends IAttributes>(payload: ICallablePayload<E, A, undefined>): void;
     construct<T extends Object>(props: T): IWidgetNode<any, any>;
 }
+
+export type IEncapsulatorStack = Map<string, IEncapsulatorConfigs>;

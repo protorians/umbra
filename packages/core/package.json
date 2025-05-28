@@ -1,13 +1,14 @@
 {
   "name": "@protorians/core",
   "displayName": "Protorians Core",
-  "version": "0.2.14",
+  "version": "0.3.6",
   "description": "Protorians Core",
   "main": "./~esm/index.js",
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=~esm && tsc -p cjs.tsconfig.json && ts-add-js-extension --dir=~cjs"
+    "build": "tsc -p esm.tsconfig.json && ts-add-js-extension --dir=~esm && tsc -p cjs.tsconfig.json && ts-add-js-extension --dir=~cjs",
+    "test": "jest"
   },
   "exports": {
     ".": {

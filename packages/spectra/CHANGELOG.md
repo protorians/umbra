@@ -1,5 +1,35 @@
 # @protorians/spectra
 
+## 0.0.8
+
+### Patch Changes
+
+- Sync version
+- Updated dependencies
+  - @protorians/core@0.3.5
+
+## 0.0.7
+
+### Patch Changes
+
+- Sync
+- Updated dependencies
+  - @protorians/core@0.3.3
+
+## 0.0.6
+
+### Patch Changes
+
+- Up version to publish on NPMJS
+- Updated dependencies
+  - @protorians/core@0.3.1
+
+## 0.0.5
+
+### Patch Changes
+
+- Fixing
+
 ## 0.0.4
 
 ### Patch Changes

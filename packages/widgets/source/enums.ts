@@ -135,14 +135,6 @@ export enum TextAligning {
     Justify = 'justify',
 }
 
-export enum Sizer {
-    XS = 'x-small',
-    S = 'small',
-    M = 'medium',
-    L = 'large',
-    XL = 'x-large',
-}
-
 export enum AbsoluteUnit {
     Cm = 'cm',
     Mm = 'mm',
@@ -164,22 +156,38 @@ export enum RelativeUnit {
     Percent = '%',
 }
 
-export enum WidgetsNativeProperty {
-    Signal = 'signal',
-    Stase = 'stase',
-    Ref = 'ref',
-    Children = 'children',
-    Style = 'style',
-    ClassName = 'className',
-    Data = 'data',
-    Nsa = 'nsa',
-    On = 'on',
-    Listen = 'listen',
-    Features = 'features',
-    Elevate = 'elevate',
+export enum ObjectFit {
+    Cover = 'cover',
+    Contain = 'contain',
+    Fill = 'fill',
+    ScaleDown = 'scale-down',
+    None = 'none',
 }
 
-export enum WidgetElevation {
+export enum ObjectSize {
+    ExtraSmall = 'x-small',
+    Small = 'small',
+    Medium = 'medium',
+    Large = 'large',
+    ExtraLarge = 'x-large',
+}
+
+export enum ObjectSizeScale {
+    Icon = 1,
+    Heading = 2,
+    Box = 4,
+    Screen = 20,
+}
+
+export enum ObjectRounded {
+    None = 'none',
+    Small = 'small',
+    Medium = 'medium',
+    Large = 'large',
+    Full = 'full',
+}
+
+export enum ObjectElevation {
     None = 0,
     Base = 9,
     Standard = 49,
@@ -277,4 +285,56 @@ export enum AriaLiveRegionRole {
     Marquee = "marquee",
     Status = "status",
     Timer = "timer",
+}
+
+
+
+export enum Displaying {
+  Block = "block",
+  Inline = "inline",
+  InlineBlock = "inline-block",
+  Flex = "flex",
+  InlineFlex = "inline-flex",
+  Grid = "grid",
+  InlineGrid = "inline-grid",
+  FlowRoot = "flow-root",
+
+  None = "none",
+  Contents = "contents",
+
+  BlockFlex = "block flex",
+  BlockFlow = "block flow",
+  BlockFlowRoot = "block flow-root",
+  BlockGrid = "block grid",
+  InlineFlexMulti = "inline flex",
+  InlineFlow = "inline flow",
+  InlineFlowRoot = "inline flow-root",
+  InlineGridMulti = "inline grid",
+
+  Table = "table",
+  TableRow = "table-row",
+  ListItem = "list-item",
+
+  Inherit = "inherit",
+  Initial = "initial",
+  Revert = "revert",
+  RevertLayer = "revert-layer",
+  Unset = "unset",
+}
+
+
+
+export enum WidgetsNativeProperty {
+    Signal = 'signal',
+    Stase = 'stase',
+    Ref = 'ref',
+    Children = 'children',
+    Style = 'style',
+    ClassName = 'className',
+    Data = 'data',
+    Nsa = 'nsa',
+    On = 'on',
+    Listen = 'listen',
+    Features = 'features',
+    Elevate = 'elevate',
 }

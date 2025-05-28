@@ -3,6 +3,15 @@
 :root, :host {
     color-scheme: var(--widget-color-scheme);
 }
+
+*[theme\:scheme="dark"] {
+    --widget-color-scheme: dark !important;
+}
+
+*[theme\:scheme="light"] {
+    --widget-color-scheme: light !important;
+}
+
 html, body {
     height: 100%;
 }
