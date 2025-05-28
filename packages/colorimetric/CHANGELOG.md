@@ -1,5 +1,13 @@
 # @protorians/colorimetric
 
+## 0.0.26
+
+### Patch Changes
+
+- Sync versions
+- Updated dependencies
+  - @protorians/core@0.3.8
+
 ## 0.0.25
 
 ### Patch Changes

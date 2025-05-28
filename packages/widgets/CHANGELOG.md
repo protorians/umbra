@@ -1,5 +1,16 @@
 # @protorians/widgets
 
+## 0.6.6
+
+### Patch Changes
+
+- Sync versions
+- Updated dependencies
+  - @protorians/colorimetric@0.0.26
+  - @protorians/animetric@0.1.5
+  - @protorians/spectra@0.0.9
+  - @protorians/core@0.3.8
+
 ## 0.6.5
 
 ### Patch Changes
@@ -20,9 +31,8 @@
 - Add support for associateSelector in stylesheet management
 - Add utility types for unwrapping state and props
 - Refactor `useStateless` to enforce `IStatelessProps` typing
-- Add detachEvent method to widget-node  
+- Add detachEvent method to widget-node
 - Add `detachEvent` method to handle widget event removal
-
 
 ## 0.6.4
 
