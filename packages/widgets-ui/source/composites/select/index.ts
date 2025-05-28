@@ -43,7 +43,6 @@ export function ThemeSelect(
         if (multiple) {
             current.value = Array.isArray(current.value) ? current.value : [];
             if (!current.value.includes(value)) current.value.push(value);
-            // else console.log('Exists already', multiple, value)
             else current.value = current.value.filter(v => v !== value);
         } else if (!multiple && !Array.isArray(value))
             current.value = value;
@@ -167,7 +166,6 @@ export function ThemeSelect(
             if (event.key === 'Enter' || event.key === ' ') {
                 const option = options[walker.index] || undefined;
                 if (option) current.select(option.value);
-                console.log('Enter Select now', walker.index, option)
             }
         }
     }
