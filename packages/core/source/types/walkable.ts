@@ -4,8 +4,10 @@ export type IWalkableListActionCallback<T> = (payload: IWalkableListActionPayloa
 
 export interface IWalkableListActionPayload<T> {
     item: T;
+    old: T | undefined;
     type: WalkableAction;
     index: number;
+    oldIndex: number|undefined;
 }
 
 export interface IWalkableListAction<T> {
@@ -26,6 +28,12 @@ export interface IWalkableList<T> {
     get actions(): Map<WalkableAction, IWalkableListActionCallback<T>>;
 
     get index(): number;
+
+    get current(): T | undefined;
+
+    get oldIndex(): number | undefined;
+
+    get old(): T | undefined;
 
     update(list: T[]): this;
 

@@ -17,6 +17,7 @@ export class WalkableList<T> implements IWalkableList<T> {
 
     protected _actions: Map<WalkableAction, IWalkableListActionCallback<T>> = new Map();
     protected _index: number = 0;
+    protected _oldIndex: number | undefined;
 
     constructor(
         protected _list: T[] = [],
@@ -59,6 +60,18 @@ export class WalkableList<T> implements IWalkableList<T> {
      */
     get index(): number {
         return this._index;
+    }
+
+    get current(): T | undefined {
+        return this.item(this._index);
+    }
+
+    get oldIndex(): number | undefined {
+        return this._oldIndex;
+    }
+
+    get old(): T | undefined {
+        return this._oldIndex ? this.item(this._oldIndex) : undefined;
     }
 
     /**
@@ -121,8 +134,10 @@ export class WalkableList<T> implements IWalkableList<T> {
 
         const item = this.item(index);
         if (item) {
+            this._oldIndex = this._index;
+            const old = this.item(this._oldIndex);
             this._index = adjustNumber(index, 0, this._list.length - 1);
-            (this._actions.get(type))?.({type, item, index: this.index});
+            (this._actions.get(type))?.({type, item, old, index: this.index, oldIndex: this._oldIndex});
         }
         return this;
     }
