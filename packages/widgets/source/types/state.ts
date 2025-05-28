@@ -32,3 +32,9 @@ export interface IStateWatcher<T>{
     readonly state: IState<T>;
     readonly callable: IStateCallable<T>;
 }
+
+export type IStateUnwrapped<T> = T extends IState<infer U> ? U : T;
+
+export type IStatelessProps<Props> = {
+    [key in keyof Props]: IStateUnwrapped<Props[keyof Props]>
+}
