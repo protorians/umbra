@@ -160,6 +160,7 @@ export function ThemeAlert(
             Stack({
                 style: Style({
                     gap: theme.settings.gap,
+                    flexWrap: 'wrap',
                 }),
                 children: extended.actions?.map(action => {
                     return action.trigger
