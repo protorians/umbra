@@ -1,5 +1,18 @@
 # @widgetui/katon-theme
 
+## 0.2.5
+
+### Patch Changes
+
+- Sync versions
+- Updated dependencies
+  - @protorians/colorimetric@0.0.26
+  - @widgetui/core@0.4.12
+  - @protorians/animetric@0.1.5
+  - @protorians/shortcuts@0.0.22
+  - @protorians/widgets@0.6.6
+  - @protorians/core@0.3.8
+
 ## 0.2.4
 
 ### Patch Changes
@@ -7,7 +20,6 @@
 - Update theme styles to include border color and disable shadow
 - Update theme to include border color and disable shadow
 - Update theme styles and fix selector syntax
-
 
 ## 0.2.3
 
