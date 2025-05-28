@@ -82,6 +82,8 @@ export interface IStyleSheet {
 
     get selector(): string;
 
+    get associateSelector(): string | undefined;
+
     clear(): this;
 
     parse(declaration: IStyleSheetDeclarations | undefined, selector?: string): string | undefined;

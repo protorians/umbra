@@ -81,7 +81,25 @@ export class StyleWidget implements IStyleSheet {
      */
     protected locked: boolean = false;
 
+    /**
+     * A Map object used to associate a specific object with its corresponding IStyleSheet instance.
+     * This allows for linking objects to their respective stylesheets, enabling customized or dynamic styling.
+     *
+     * Key: An object, typically representing a component or entity requiring a stylesheet.
+     * Value: An instance of IStyleSheet associated with the given object.
+     */
     protected _associates: Map<object, IStyleSheet> = new Map<object, IStyleSheet>();
+
+    /**
+     * A variable representing a CSS selector string used to associate
+     * a specific element within the DOM. This selector may be employed
+     * for querying or binding purposes in the context of DOM manipulation.
+     *
+     * If undefined, there is no specified association.
+     *
+     * Type: string | undefined
+     */
+    protected _associateSelector: string | undefined;
 
     /**
      * Represents a declaration of style sheets.
@@ -169,6 +187,15 @@ export class StyleWidget implements IStyleSheet {
      */
     get selector(): string {
         return this._selector;
+    }
+
+    /**
+     * Retrieves the value of the associate selector.
+     *
+     * @return {string | undefined} The current value of the associate selector, or undefined if not set.
+     */
+    get associateSelector(): string | undefined {
+        return this._associateSelector
     }
 
     /**
@@ -335,7 +362,8 @@ export class StyleWidget implements IStyleSheet {
      */
     associate(declarations: IStyleSheetDeclarations): this {
         if (!(this._associates.get(declarations))) {
-            const fingerprint = `${this._selector}.${MetricRandom.CreateAlpha(7).join('')}-${MetricRandom.Create(10).join('')}`
+            this._associateSelector = this._associateSelector || `${MetricRandom.CreateAlpha(7).join('')}-${MetricRandom.Create(10).join('')}`;
+            const fingerprint = `${this._selector}.${this._associateSelector}`
             const style = new StyleWidget({attach: true, lock: false, fingerprint});
 
             style.merge(declarations).sync()
@@ -363,10 +391,9 @@ export class StyleWidget implements IStyleSheet {
      */
     unassociate(declarations: IStyleSheetDeclarations): this {
         const exists = this._associates.get(declarations);
-        if (exists) {
+        if (exists && this._associateSelector) {
             this._associates.delete(declarations);
-            // this._related?.className(fingerprint.split('.').join(' '));
-            console.warn('exists', exists)
+            this._related?.removeClassName(this._associateSelector);
         }
         return this;
     }
