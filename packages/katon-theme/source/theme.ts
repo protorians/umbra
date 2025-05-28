@@ -40,7 +40,7 @@ export class KatonTheme extends WidgetTheme {
             borderWidth: this.settings.borderWidth,
             borderStyle: this.settings.borderStyle,
             borderColor: this.settings.borderColor,
-            backgroundColor: Color.tint_100_a8,
+            backgroundColor: Color.tint_100,
         })
 
         return this._stylesheet;
@@ -122,7 +122,7 @@ export class KatonTheme extends WidgetTheme {
                 return {fore: 'tint-100', back: "text", edge: "tint-100-a1",}
 
             default:
-                return {fore: 'text', back: 'tint-100-a8', edge: 'tint-100',}
+                return {fore: 'text', back: 'tint-100-a9', edge: 'tint-100',}
         }
     }
 
@@ -216,7 +216,7 @@ export class KatonTheme extends WidgetTheme {
             borderRadius: '0',
             borderWidth: '0',
             borderBottomWidth: `calc(${this.settings.borderWidth} / 2)`,
-            ':last-child': Style({
+            '&:last-child': Style({
                 borderBottomWidth: '0',
             }),
             ...declaration.styles.option,
@@ -224,11 +224,16 @@ export class KatonTheme extends WidgetTheme {
 
         declaration.styles.selected = {
             color: Color.text,
-            backgroundColor: Color.one_a1,
+            backgroundColor: Color.one_a2,
             borderColor: Color.one_a2,
             ...declaration.styles.selected,
         }
 
+        declaration.styles.focused = {
+            color: Color.text,
+            backgroundColor: Color.one_a1,
+            ...declaration.styles.focused,
+        }
         return super.Select(declaration);
     }
 }
