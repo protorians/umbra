@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.3.7
+
+### Patch Changes
+
+- Update default length parameter in pad function to 2
+
 ## 0.3.6
 
 ### Patch Changes

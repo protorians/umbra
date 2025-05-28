@@ -181,7 +181,7 @@ export function truncate(value: string, length: number, suffix: string = '...'):
  * pad('123', 5) // '00123'
  * pad('123', 5, '-', true) // -> '123--'
  */
-export function pad(value: string | number, length: number, char: string = '0', right: boolean = false): string {
+export function pad(value: string | number, length: number = 2, char: string = '0', right: boolean = false): string {
     value = String(value);
     if (value.length >= length) return value;
 
