@@ -6,6 +6,8 @@
 
 - Update theme styles to include border color and disable shadow
 - Update theme to include border color and disable shadow
+- Update theme styles and fix selector syntax
+
 
 ## 0.2.3
 
@@ -286,20 +288,3 @@
   - @protorians/shortcuts@0.1.0
   - @protorians/widgets@0.4.0
   - @widgetui/core@0.1.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @widgetui/core@1.0.0
-  - @protorians/shortcuts@1.0.0
-  - @protorians/widgets@1.0.0
-  - @protorians/core@1.0.0

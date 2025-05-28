@@ -1,5 +1,15 @@
 # @protorians/core
 
+## 0.3.6
+
+### Patch Changes
+
+- Add new utility string functions and improve existing ones
+- Add utility functions for number validation and adjustment
+- Add exports for enums and walkable-list
+- Refactor `pad` to support numeric input.
+- Add support for tracking old index and item in WalkableList
+
 ## 0.3.5
 
 ### Patch Changes
@@ -145,9 +155,3 @@
 ### Patch Changes
 
 - Patch version
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change

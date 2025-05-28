@@ -1,5 +1,11 @@
 # @protorians/animetric
 
+## 0.1.4
+
+### Patch Changes
+
+- Add README translations and new string utility functions
+
 ## 0.1.3
 
 ### Patch Changes

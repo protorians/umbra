@@ -1,5 +1,29 @@
 # @protorians/widgets
 
+## 0.6.5
+
+### Patch Changes
+
+- Add comprehensive documentation for widgets library
+- Add French localization for widgets package README
+- Use structuredClone for deep copying in widget-node
+- Refactor Manticore engine signal handling and cleanup.
+- Refactor widget state handling in `enable` and `disable`.
+- Add `prepend` and `callable` methods to WidgetNode
+- Move `StateWidget` and `StateWidgetWatcher` for state management
+- Add `useStateful` hook for stateful widget composite management
+- Add useStateless hook for handling stateless widget composite logic
+- Add return type IState<T> to createState function
+- Refactor hooks index: modularize state management classes.
+- Remove commented-out lifecycle methods from manticore.ts
+- Add explicit return type to createRef function
+- Add support for associateSelector in stylesheet management
+- Add utility types for unwrapping state and props
+- Refactor `useStateless` to enforce `IStatelessProps` typing
+- Add detachEvent method to widget-node  
+- Add `detachEvent` method to handle widget event removal
+
+
 ## 0.6.4
 
 ### Patch Changes
@@ -263,17 +287,3 @@
   - @protorians/animetric@0.1.0
   - @protorians/colorimetric@0.1.0
   - @protorians/core@0.3.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @protorians/core@1.0.0

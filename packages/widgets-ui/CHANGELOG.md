@@ -1,5 +1,13 @@
 # @widgetui/core
 
+## 0.4.11
+
+### Patch Changes
+
+- Refactor select content handling to use child.clone()
+- Refactor select component for focus, styles, and keyboard support
+- Add flexWrap to alert actions container
+
 ## 0.4.10
 
 ### Patch Changes
@@ -345,19 +353,3 @@
   - @protorians/core@0.3.0
   - @protorians/shortcuts@0.1.0
   - @protorians/widgets@0.4.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @protorians/shortcuts@1.0.0
-  - @protorians/widgets@1.0.0
-  - @protorians/core@1.0.0
