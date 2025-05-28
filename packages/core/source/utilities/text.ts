@@ -177,13 +177,14 @@ export function truncate(value: string, length: number, suffix: string = '...'):
 
 /**
  * Pads a string with a character to a given length
- * @example 
+ * @example
  * pad('123', 5) // '00123'
  * pad('123', 5, '-', true) // -> '123--'
  */
-export function pad(value: string, length: number, char: string = '0', right: boolean = false): string {
-  if (value.length >= length) return value;
-  
-  const padding = char.repeat(length - value.length);
-  return right ? value + padding : padding + value;
+export function pad(value: string | number, length: number, char: string = '0', right: boolean = false): string {
+    value = String(value);
+    if (value.length >= length) return value;
+
+    const padding = char.repeat(length - value.length);
+    return right ? value + padding : padding + value;
 }
