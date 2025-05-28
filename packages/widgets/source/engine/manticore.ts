@@ -367,7 +367,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         return this;
     }
 
-
     ons(
         widget: IWidgetNode<E, A>,
         listeners: Partial<IGlobalEventCallableMap<E, A>>
@@ -391,9 +390,17 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 const payload = {type, event: ev};
                 const returned = callback({root: this.widget, widget, payload})
                 widget.signal.dispatch('on', {root: this.widget, widget, payload}, widget.signal);
-                if (returned === TreatmentQueueStatus.Cancel) ev.stopPropagation()
-                if (returned === TreatmentQueueStatus.Exit) ev.stopImmediatePropagation()
+                if (returned === TreatmentQueueStatus.Cancel) ev.preventDefault()
+                if (returned === TreatmentQueueStatus.Exit) ev.stopPropagation()
+                if (returned === TreatmentQueueStatus.SnapOut) ev.stopImmediatePropagation()
             } : null;
+        }
+        return this;
+    }
+
+    detachEvent<T extends keyof IGlobalEventMap>(widget: IWidgetNode<E, A>, type: T): this {
+        if (Environment.Client && widget.element) {
+            widget.element['on' + type] = null;
         }
         return this;
     }
