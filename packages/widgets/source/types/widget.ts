@@ -237,6 +237,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     on<T extends keyof IGlobalEventMap>(type: T, callback: ICallable<E, A, IGlobalEventPayload<T>> | null): this;
 
+    detachEvent<T extends keyof IGlobalEventMap>(type: T): this;
+
     prepend(children: IWidgetNode<any, any> | IUiTarget<any>): this;
 
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this;

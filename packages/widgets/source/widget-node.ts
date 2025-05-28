@@ -1032,6 +1032,15 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this;
     }
 
+    detachEvent<T extends keyof IGlobalEventMap>(type: T): this {
+        if (this._context) this._context.engine?.detachEvent(this, type);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.detachEvent(this, type);
+            return TreatmentQueueStatus.SnapOut;
+        })
+        return this;
+    }
+
 
     clone(): this {
         return new (this as any).constructor(structuredClone({...this.props, ...this.attributes}));
