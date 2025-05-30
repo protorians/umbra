@@ -1,5 +1,11 @@
 # @protorians/colorimetric
 
+## 0.0.27
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
 ## 0.0.26
 
 ### Patch Changes

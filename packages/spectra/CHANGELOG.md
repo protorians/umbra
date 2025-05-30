@@ -1,5 +1,11 @@
 # @protorians/spectra
 
+## 0.0.10
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
 ## 0.0.9
 
 ### Patch Changes

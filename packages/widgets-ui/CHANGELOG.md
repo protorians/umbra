@@ -1,5 +1,18 @@
 # @widgetui/core
 
+## 0.4.13
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.1.0
+  - @protorians/animetric@0.2.0
+  - @protorians/widgets@0.7.0
+
 ## 0.4.12
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @protorians/core
 
+## 0.4.0
+
+### Minor Changes
+
+- Breaking Change
+- Refactor utilities into distinct namespaces for clarity
+
+
 ## 0.3.8
 
 ### Patch Changes

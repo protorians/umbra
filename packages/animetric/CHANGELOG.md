@@ -1,5 +1,11 @@
 # @protorians/animetric
 
+## 0.1.6
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
 ## 0.1.5
 
 ### Patch Changes

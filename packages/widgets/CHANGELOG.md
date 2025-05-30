@@ -1,5 +1,18 @@
 # @protorians/widgets
 
+## 0.6.7
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.1.0
+  - @protorians/animetric@0.2.0
+  - @protorians/spectra@0.1.0
+
 ## 0.6.6
 
 ### Patch Changes

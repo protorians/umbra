@@ -1,5 +1,19 @@
 # @widgetui/katon-theme
 
+## 0.2.6
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.1.0
+  - @widgetui/core@0.5.0
+  - @protorians/animetric@0.2.0
+  - @protorians/widgets@0.7.0
+
 ## 0.2.5
 
 ### Patch Changes
