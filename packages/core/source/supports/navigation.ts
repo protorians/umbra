@@ -6,7 +6,11 @@ import type {
   INavigationOptions,
   IEventDispatcher
 } from "../types";
-import {ObjectURLParams, URLParamsObject, updateObject, AscendingDOMPath} from "../utilities";
+import {HtmlUtility, ObjectUtility, UrlUtility} from "../utilities";
+import paramsObject = UrlUtility.paramsObject;
+import update = ObjectUtility.update;
+import ascendingPath = HtmlUtility.ascendingPath;
+import urlParams = UrlUtility.urlParams;
 
 /**
  * Système de navigation
@@ -41,11 +45,11 @@ export class Navigation<Scheme> implements INavigation<Scheme> {
 
     if (this.options.useHashtagParser) {
 
-      return URLParamsObject<T>((location.hash || location.search || '').split('?')[1] || '');
+      return paramsObject<T>((location.hash || location.search || '').split('?')[1] || '');
 
     } else {
 
-      return URLParamsObject<T>(location.search);
+      return paramsObject<T>(location.search);
 
     }
 
@@ -62,7 +66,7 @@ export class Navigation<Scheme> implements INavigation<Scheme> {
 
   setOptions(options: INavigationOptions<Scheme>): this {
 
-    this.options = updateObject<INavigationOptions<Scheme>>(this.options, options)
+    this.options = update<INavigationOptions<Scheme>>(this.options, options)
 
     this.emitter.dispatch('options', this)
 
@@ -151,7 +155,7 @@ export class Navigation<Scheme> implements INavigation<Scheme> {
 
       } else {
 
-        return AscendingDOMPath<HTMLElement>(ev.target as HTMLElement, parent =>
+        return ascendingPath<HTMLElement>(ev.target as HTMLElement, parent =>
 
           parent.tagName == 'A' || parent.hasAttribute('navigate:view')
         )
@@ -213,7 +217,7 @@ export class Navigation<Scheme> implements INavigation<Scheme> {
 
     const hasProps = Object.keys(props || {}).length;
 
-    const query = hasProps ? `?${ObjectURLParams(props || {})}` : '';
+    const query = hasProps ? `?${urlParams(props || {})}` : '';
 
 
     if (currentRoute != routeName) {

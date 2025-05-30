@@ -1,6 +1,6 @@
-import {randomWithin} from "@protorians/core";
 import {Color, Layer} from "@protorians/widgets";
 import {ILayerGradient} from "../types/gradient.js";
+import {ObjectUtility} from "@protorians/core";
 
 export function createLayerGradient(
     {
@@ -29,7 +29,7 @@ export function createLayerGradient(
             mount: ({widget}) => {
                 if (animated) {
                     widget.style({
-                        animationName: randomWithin([
+                        animationName: ObjectUtility.randomWithin([
                             'widget-ui-position-nomadic-tl-animation',
                             'widget-ui-position-nomadic-tr-animation',
                             'widget-ui-position-nomadic-bl-animation',

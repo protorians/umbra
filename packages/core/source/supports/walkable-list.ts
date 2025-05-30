@@ -5,7 +5,8 @@ import type {
     IWalkableListOptions
 } from "../types/walkable";
 import {WalkableAction} from "../enums";
-import {adjustNumber} from "../utilities";
+import {NumberUtility} from "../utilities";
+import adjustNumber = NumberUtility.adjust;
 
 /**
  * Represents a walkable list that supports various actions, navigation, and optional looping.

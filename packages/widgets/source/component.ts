@@ -9,7 +9,7 @@ import type {
 import {WidgetException} from "./errors/index.js";
 import {WidgetBuilder, ContextWidget} from "./widget-node.js";
 import {extractProps} from "./props.js";
-import {unCamelCase, Environment, lcFirstLetter} from "@protorians/core";
+import {Environment, TextUtility} from "@protorians/core";
 import {ISpectraElement} from "@protorians/spectra";
 
 
@@ -25,7 +25,7 @@ export function Component(
     identifier: string,
     callable: IComponentCallable,
 ): typeof HTMLElement | ISpectraElement | undefined {
-    const name: string = unCamelCase(lcFirstLetter(identifier));
+    const name: string = TextUtility.unCamelCase(TextUtility.lcFirstLetter(identifier));
 
     if (!name.includes('-')) {
         throw (new WidgetException('Component names must have at least one capital letter after the first character.')).show()

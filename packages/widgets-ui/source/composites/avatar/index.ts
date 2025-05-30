@@ -2,7 +2,7 @@ import {ThemeAvatarOptions} from "./type.js";
 import {Color, Image, IWidgetNode, ObjectRounded, ObjectSize, Stack} from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
 import {getObjectSize} from "../../utilities/index.js";
-import {readBlobFile} from "@protorians/core";
+import { FileUtility } from "@protorians/core";
 
 export function ThemeAvatar(
     theme: ITheme,
@@ -35,7 +35,7 @@ export function ThemeAvatar(
                             await fetch(source)
                                 .then(response => response.blob())
                                 .then(async (blob) => {
-                                    const src = await readBlobFile(blob)
+                                    const src = await FileUtility.readBlob(blob)
                                     if (src) widget
                                         .clear()
                                         .content(Image({src: src.toString()}))

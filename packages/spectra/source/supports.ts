@@ -1,3 +1,4 @@
+import {HtmlUtility, TextUtility } from "@protorians/core";
 import type {
     ISpectraElement,
     ISpectraAttributes, ISpectraAttributesBlueprint,
@@ -8,7 +9,6 @@ import type {
     ISpectraStyleKeys, ISpectraStyleValue,
     ISpectraStyleValues
 } from "./types.js";
-import {camelCase, safeString, unCamelCase} from "@protorians/core";
 
 
 export class SpectraElement implements ISpectraElement {
@@ -40,7 +40,7 @@ export class SpectraElement implements ISpectraElement {
     get attributes(): ISpectraAttributes {
         const attribs = {}
         for (let [key, value] of this._blueprint.attributes.entries()) {
-            if (!key.startsWith('data-')) attribs[unCamelCase(key)] = value;
+            if (!key.startsWith('data-')) attribs[TextUtility.unCamelCase(key)] = value;
         }
         return attribs;
     }
@@ -49,7 +49,7 @@ export class SpectraElement implements ISpectraElement {
         const dataset = {}
         for (let [key, value] of this._blueprint.attributes.entries()) {
             if (key.startsWith('data-'))
-                dataset[unCamelCase(key).substring('data-'.length)] = value;
+                dataset[TextUtility.unCamelCase(key).substring('data-'.length)] = value;
         }
         return dataset;
     }
@@ -112,7 +112,7 @@ export class SpectraElement implements ISpectraElement {
 
     data(dataset: ISpectraAttributes): this {
         for (let [key, value] of Object.entries(dataset)) {
-            key = `data-${camelCase(key)}`
+            key = `data-${TextUtility.camelCase(key)}`
             if (typeof value !== 'undefined') this._blueprint.attributes.set(key, value?.toString());
             else this._blueprint.attributes.delete(key);
         }
@@ -181,7 +181,7 @@ export async function spectraAttributesRender(attributes: ISpectraAttributesBlue
         resolve(
             [...attributes.entries()].map(
                 ([key, value]) =>
-                    value ? `${unCamelCase(key)}="${safeString(value.toString())}"` : ''
+                    value ? `${TextUtility.unCamelCase(key)}="${HtmlUtility.escape(value.toString())}"` : ''
             ).join(" ")
         );
     })
@@ -192,7 +192,7 @@ export async function spectraStyleRender(attributes: ISpectraStyleBlueprint): Pr
         resolve(
             [...attributes.entries()].map(
                 ([key, value]) =>
-                    value ? `${key}:${safeString(value.toString())}` : ''
+                    value ? `${key}:${HtmlUtility.escape(value.toString())}` : ''
             ).join("; ")
         );
     })
@@ -201,7 +201,7 @@ export async function spectraStyleRender(attributes: ISpectraStyleBlueprint): Pr
 export async function spectraClassnameRender(classList: ISpectraClassListBlueprint): Promise<string> {
     return new Promise<string>(async (resolve) => {
         resolve(
-            [...classList.values()].map(safeString).join(" ")
+            [...classList.values()].map(HtmlUtility.escape).join(" ")
         );
     })
 }

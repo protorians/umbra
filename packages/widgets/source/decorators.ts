@@ -12,14 +12,14 @@ import {View, Widget} from "./collections.js";
 import {WidgetException} from "./errors/index.js";
 import {WidgetNode} from "./widget-node.js";
 import {Mount} from "./component.js";
-import {ucFirstLetter} from "@protorians/core";
+import { TextUtility } from "@protorians/core";
 
 const Make = {
     composable: {
         view: {
             initialize(target: any, collection?: IWidgetCollection | IViewCollection, collectionKey?: string) {
                 const identifier = extractComponentName(target.name, collectionKey)
-                const id = ucFirstLetter(identifier);
+                const id = TextUtility.ucFirstLetter(identifier);
                 collection = (collection || View) as IWidgetCollection;
                 if (collection[id]) throw (new WidgetException(`This composable < ${id} > has already been defined`)).show()
                 collection[id] = (props: any) => this.definition<any>(target, props)
@@ -87,11 +87,11 @@ export function Mountable() {
     return function (target: any) {
         const name = extractComponentName(target.name)
         if (target.prototype instanceof ViewWidget) {
-            Mount(`View${ucFirstLetter(name)}`, (props) =>
+            Mount(`View${TextUtility.ucFirstLetter(name)}`, (props) =>
                 Make.composable.view.definition(target, props) || (new WidgetNode({children: ''}))
             );
         } else if (target.prototype instanceof WidgetNode) {
-            Mount(`Widget${ucFirstLetter(name)}`, (store) =>
+            Mount(`Widget${TextUtility.ucFirstLetter(name)}`, (store) =>
                 Make.composable.widget.definition(target, store)
             )
         }

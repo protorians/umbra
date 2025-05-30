@@ -55,7 +55,7 @@ pnpm add @protorians/core
 
 ### Signals
 
-Signals are a powerful event handling system that allows you to create, dispatch, and listen for events in your application. The library provides two main interfaces for signals:
+Signals are a powerful event handling system that allows you to create, dispatch, and listen for events in your application. Protorians Core provides two main interfaces for signals:
 
 - **SignalStack**: A stack-based event system for registering listeners and dispatching events.
 - **SignalController**: A reactive state management system that allows you to track and respond to state changes.
@@ -150,29 +150,30 @@ if (Environment.Client) {
 ## Basic Usage
 
 ```typescript
-import { 
-  Signal, 
-  Dictionary, 
-  Collection, 
-  Environment,
-  Text,
-  Number,
-  Object
+import {
+    Signal,
+    Dictionary,
+    Collection,
+    Environment,
+    NumberUtility,
+    TextUtility,
+    ObjectUtility,
 } from '@protorians/core';
+
 
 // Create a signal stack
 const signal = new Signal.Stack<{
-  update: { value: number };
+    update: { value: number };
 }>();
 
 // Listen for events
-signal.listen('update', ({ value }) => {
-  console.log(`Value updated to ${value}`);
+signal.listen('update', ({value}) => {
+    console.log(`Value updated to ${value}`);
 });
 
 // Create a dictionary
 const dict = new Dictionary<{
-  count: number;
+    count: number;
 }>();
 
 // Set initial value
@@ -180,22 +181,20 @@ dict.set('count', 0);
 
 // Update the value and dispatch an event
 function increment() {
-  const currentCount = dict.get('count');
-  dict.set('count', currentCount + 1);
-  signal.dispatch('update', { value: currentCount + 1 });
+    const currentCount = dict.get('count');
+    dict.set('count', currentCount + 1);
+    signal.dispatch('update', {value: currentCount + 1});
 }
 
 // Use text utilities
-const slug = Text.slugify('Hello World!'); // 'hello-world'
-const truncated = Text.truncate('This is a long text', 10); // 'This is a...'
+const slug = TextUtility.slugify('Hello World!'); // 'hello-world'
+const truncated = TextUtility.truncate('This is a long text', 10); // 'This is a...'
 
 // Use number utilities
-const formatted = Number.format(1234.56, 2); // '1,234.56'
-const random = Number.random(1, 100); // Random number between 1 and 100
+const formatted = NumberUtility.isNumber(1234.56); // true
 
-// Use object utilities
-const merged = Object.merge({ a: 1 }, { b: 2 }); // { a: 1, b: 2 }
-const picked = Object.pick({ a: 1, b: 2, c: 3 }, ['a', 'c']); // { a: 1, c: 3 }
+// Use array utilities
+const merged = ObjectUtility.unWrapArray([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 ## Advanced Features
@@ -218,12 +217,12 @@ const signal = new Signal.Stack<{
 // Add a listener with high priority
 signal.listen('calculate', ({ a, b }) => {
   return a + b;
-}, { index: 0 });
+});
 
 // Add a listener with lower priority
 signal.listen('calculate', ({ a, b }) => {
   console.log(`Calculating ${a} + ${b}`);
-}, { index: 1 });
+});
 
 // Dispatch and get the computed result
 signal.dispatch('calculate', { a: 5, b: 3 });
@@ -311,54 +310,34 @@ console.log(newDict.get('foo')); // 'hello'
 
 ### Utilities
 
-The library provides a rich set of utilities for common operations:
-
-- **Text**: String manipulation utilities.
-- **Number**: Number formatting and manipulation utilities.
-- **Object**: Object manipulation utilities.
-- **Date**: Date formatting and manipulation utilities.
-- **URL**: URL parsing and manipulation utilities.
-- **HTML**: HTML manipulation utilities.
+Protorians Core provides a rich set of utilities for common operations:
 
 ```typescript
-import { 
-  Text, 
-  Number, 
-  Object, 
-  Date, 
-  URL, 
-  HTML 
+import {
+    HTMLUtility,
+    NumberUtility,
+    TextUtility,
+    ObjectUtility,
 } from '@protorians/core';
 
 // Text utilities
-const camelCase = Text.camelCase('hello-world'); // 'helloWorld'
-const kebabCase = Text.kebabCase('helloWorld'); // 'hello-world'
-const capitalize = Text.capitalize('hello'); // 'Hello'
+const camelCase = TextUtility.camelCase('hello-world'); // 'helloWorld'
+const kebabCase = TextUtility.kebabCase('helloWorld'); // 'hello-world'
+const capitalize = TextUtility.capitalize('hello'); // 'Hello'
 
 // Number utilities
-const clamp = Number.clamp(150, 0, 100); // 100
-const pad = Number.pad(5, 3); // '005'
-const isEven = Number.isEven(4); // true
+const clamp = NumberUtility.clamp(150, 0, 100); // 100
+const pad = NumberUtility.pad(5, 3); // '005'
+const isEven = NumberUtility.isEven(4); // true
 
 // Object utilities
-const clone = Object.clone({ a: 1, b: { c: 2 } }); // Deep clone
-const isEqual = Object.isEqual({ a: 1 }, { a: 1 }); // true
-const omit = Object.omit({ a: 1, b: 2, c: 3 }, ['b']); // { a: 1, c: 3 }
-
-// Date utilities
-const format = Date.format(new Date(), 'YYYY-MM-DD'); // '2023-05-15'
-const addDays = Date.addDays(new Date(), 5); // Date 5 days in the future
-const isLeapYear = Date.isLeapYear(2024); // true
-
-// URL utilities
-const parse = URL.parse('https://example.com/path?query=value');
-const buildQuery = URL.buildQuery({ a: 1, b: 'test' }); // 'a=1&b=test'
-const joinPath = URL.joinPath('/base', 'path', 'to', 'resource'); // '/base/path/to/resource'
+const clone = ObjectUtility.clone({a: 1, b: {c: 2}}); // Object clone
+const omit = ObjectUtility.omit({a: 1, b: 2, c: 3}, ['b']); // { a: 1, c: 3 }
 
 // HTML utilities
-const escape = HTML.escape('<div>Hello</div>'); // '&lt;div&gt;Hello&lt;/div&gt;'
-const unescape = HTML.unescape('&lt;div&gt;Hello&lt;/div&gt;'); // '<div>Hello</div>'
-const stripTags = HTML.stripTags('<p>Hello <b>World</b></p>'); // 'Hello World'
+const escape = HTMLUtility.escape('<div>Hello</div>'); // '&lt;div&gt;Hello&lt;/div&gt;'
+const unescape = HTMLUtility.unescape('&lt;div&gt;Hello&lt;/div&gt;'); // '<div>Hello</div>'
+const stripTags = HTMLUtility.stripTags('<p>Hello <b>World</b></p>'); // 'Hello World'
 ```
 
 ## API Reference
@@ -415,7 +394,7 @@ The Dictionary class provides a type-safe key-value store.
 
 ### Utilities
 
-The library provides various utility modules for common operations.
+Protorians Core provides various utility modules for common operations.
 
 #### Text
 

@@ -1,5 +1,5 @@
 import type {IColoringLayer, ITheme, IThemeSettings} from "./types/index.js";
-import {$ui, Environment, IUiTarget, unCamelCase} from "@protorians/core";
+import {$ui, Environment, IUiTarget, TextUtility} from "@protorians/core";
 import {
     Color,
     IButtonAttributes, IButtonAttributesBase,
@@ -137,7 +137,7 @@ export class WidgetTheme implements ITheme {
         if (repo) {
             const style: string[] = []
             Object.entries(this.settings).forEach(([key, value]) => {
-                style.push(`--widget-${unCamelCase(key)}: ${value}`);
+                style.push(`--widget-${TextUtility.unCamelCase(key)}: ${value}`);
             });
             repo.innerHTML = `${this.selector}{${style.join(';')}}`;
         }

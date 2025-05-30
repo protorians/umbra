@@ -20,7 +20,7 @@ import type {
     IGlobalEventCallableMap,
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
-import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
+import {Callable, Environment, type ISignalStackCallable, TextUtility, TreatmentQueueStatus} from "@protorians/core";
 import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
@@ -209,7 +209,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (widget.clientElement) {
             Object.keys(attributes || {}).forEach(
                 key => {
-                    key = unCamelCase(key);
+                    key = TextUtility.unCamelCase(key);
                     if (attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])) {
                         widget.clientElement?.removeAttribute(key)
                     } else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
@@ -220,7 +220,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (widget.serverElement) {
             Object.keys(attributes || {}).forEach(key => {
                 const attrib = {};
-                attrib[unCamelCase(key)] = attributes[key];
+                attrib[TextUtility.unCamelCase(key)] = attributes[key];
                 widget.serverElement?.attribute(attrib)
             })
         }

@@ -6,7 +6,7 @@ import type {
 } from "./types/index.js";
 import {RelativeUnit} from "./enums.js";
 import {RemMetric} from "./metric.js";
-import {Environment, unCamelCase, IDictionary, Dictionary, MetricRandom} from "@protorians/core";
+import {Environment, IDictionary, Dictionary, MetricRandom, TextUtility} from "@protorians/core";
 
 
 /**
@@ -225,10 +225,10 @@ export class StyleWidget implements IStyleSheet {
         if (aliases) {
             aliases
                 .map(alias =>
-                    accumulate.push(`${unCamelCase(alias.toString())}:${value}`)
+                    accumulate.push(`${TextUtility.unCamelCase(alias.toString())}:${value}`)
                 )
         } else {
-            accumulate.push(`${key.startsWith('--') ? key : unCamelCase(key)}:${value}`);
+            accumulate.push(`${key.startsWith('--') ? key : TextUtility.unCamelCase(key)}:${value}`);
         }
 
         return accumulate.join(';');

@@ -29,8 +29,8 @@ import {
     IUiTarget,
     MetricRandom,
     Signal,
+    TextUtility,
     TreatmentQueueStatus,
-    camelCase
 } from "@protorians/core";
 import {ToggleOption, ObjectElevation, WidgetsNativeProperty, Displaying} from "./enums.js";
 import {Widgets} from "./widgets.js";
@@ -377,7 +377,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : [...this.serverElement?.blueprint.attributes.entries() || []]
                 .filter(x => x.toString().startsWith('data-'))
 
-        for (const [key, value] of entries) dataset[camelCase(key)] = value;
+        for (const [key, value] of entries) dataset[TextUtility.camelCase(key)] = value;
 
         return dataset;
     }
