@@ -150,29 +150,30 @@ if (Environment.Client) {
 ## Utilisation de base
 
 ```typescript
-import { 
-  Signal, 
-  Dictionary, 
-  Collection, 
-  Environment,
-  Text,
-  Number,
-  Object
+import {
+    Signal,
+    Dictionary,
+    Collection,
+    Environment,
+    NumberUtility,
+    TextUtility,
+    ObjectUtility,
 } from '@protorians/core';
+
 
 // Créer une pile de signaux
 const signal = new Signal.Stack<{
-  update: { value: number };
+    update: { value: number };
 }>();
 
 // Écouter les événements
-signal.listen('update', ({ value }) => {
-  console.log(`Valeur mise à jour à ${value}`);
+signal.listen('update', ({value}) => {
+    console.log(`Valeur mise à jour à ${value}`);
 });
 
 // Créer un dictionnaire
 const dict = new Dictionary<{
-  count: number;
+    count: number;
 }>();
 
 // Définir une valeur initiale
@@ -180,22 +181,20 @@ dict.set('count', 0);
 
 // Mettre à jour la valeur et dispatcher un événement
 function increment() {
-  const currentCount = dict.get('count');
-  dict.set('count', currentCount + 1);
-  signal.dispatch('update', { value: currentCount + 1 });
+    const currentCount = dict.get('count');
+    dict.set('count', currentCount + 1);
+    signal.dispatch('update', {value: currentCount + 1});
 }
 
 // Utiliser les utilitaires de texte
-const slug = Text.slugify('Bonjour le monde !'); // 'bonjour-le-monde'
-const truncated = Text.truncate('Ceci est un texte long', 10); // 'Ceci est u...'
+const slug = TextUtility.slugify('Bonjour le monde !'); // 'bonjour-le-monde'
+const truncated = TextUtility.truncate('Ceci est un texte long', 10); // 'Ceci est u...'
 
 // Utiliser les utilitaires de nombre
-const formatted = Number.format(1234.56, 2); // '1 234,56'
-const random = Number.random(1, 100); // Nombre aléatoire entre 1 et 100
+const formatted = NumberUtility.isNumber(1234.56); // true
 
 // Utiliser les utilitaires d'objet
-const merged = Object.merge({ a: 1 }, { b: 2 }); // { a: 1, b: 2 }
-const picked = Object.pick({ a: 1, b: 2, c: 3 }, ['a', 'c']); // { a: 1, c: 3 }
+const merged = ObjectUtility.unWrapArray([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 ## Fonctionnalités avancées
@@ -313,52 +312,32 @@ console.log(newDict.get('foo')); // 'hello'
 
 La bibliothèque fournit un riche ensemble d'utilitaires pour les opérations courantes :
 
-- **Texte** : Utilitaires de manipulation de chaînes.
-- **Nombre** : Utilitaires de formatage et de manipulation de nombres.
-- **Objet** : Utilitaires de manipulation d'objets.
-- **Date** : Utilitaires de formatage et de manipulation de dates.
-- **URL** : Utilitaires d'analyse et de manipulation d'URL.
-- **HTML** : Utilitaires de manipulation HTML.
-
 ```typescript
-import { 
-  Text, 
-  Number, 
-  Object, 
-  Date, 
-  URL, 
-  HTML 
+import {
+    HTMLUtility,
+    NumberUtility,
+    TextUtility,
+    ObjectUtility,
 } from '@protorians/core';
 
 // Utilitaires de texte
-const camelCase = Text.camelCase('hello-world'); // 'helloWorld'
-const kebabCase = Text.kebabCase('helloWorld'); // 'hello-world'
-const capitalize = Text.capitalize('hello'); // 'Hello'
+const camelCase = TextUtility.camelCase('hello-world'); // 'helloWorld'
+const kebabCase = TextUtility.kebabCase('helloWorld'); // 'hello-world'
+const capitalize = TextUtility.capitalize('hello'); // 'Hello'
 
 // Utilitaires de nombre
-const clamp = Number.clamp(150, 0, 100); // 100
-const pad = Number.pad(5, 3); // '005'
-const isEven = Number.isEven(4); // true
+const clamp = NumberUtility.clamp(150, 0, 100); // 100
+const pad = NumberUtility.pad(5, 3); // '005'
+const isEven = NumberUtility.isEven(4); // true
 
 // Utilitaires d'objet
-const clone = Object.clone({ a: 1, b: { c: 2 } }); // Clone profond
-const isEqual = Object.isEqual({ a: 1 }, { a: 1 }); // true
-const omit = Object.omit({ a: 1, b: 2, c: 3 }, ['b']); // { a: 1, c: 3 }
-
-// Utilitaires de date
-const format = Date.format(new Date(), 'YYYY-MM-DD'); // '2023-05-15'
-const addDays = Date.addDays(new Date(), 5); // Date 5 jours dans le futur
-const isLeapYear = Date.isLeapYear(2024); // true
-
-// Utilitaires d'URL
-const parse = URL.parse('https://example.com/path?query=value');
-const buildQuery = URL.buildQuery({ a: 1, b: 'test' }); // 'a=1&b=test'
-const joinPath = URL.joinPath('/base', 'path', 'to', 'resource'); // '/base/path/to/resource'
+const clone = ObjectUtility.clone({a: 1, b: {c: 2}}); // Object clone
+const omit = ObjectUtility.omit({a: 1, b: 2, c: 3}, ['b']); // { a: 1, c: 3 }
 
 // Utilitaires HTML
-const escape = HTML.escape('<div>Hello</div>'); // '&lt;div&gt;Hello&lt;/div&gt;'
-const unescape = HTML.unescape('&lt;div&gt;Hello&lt;/div&gt;'); // '<div>Hello</div>'
-const stripTags = HTML.stripTags('<p>Hello <b>World</b></p>'); // 'Hello World'
+const escape = HTMLUtility.escape('<div>Hello</div>'); // '&lt;div&gt;Hello&lt;/div&gt;'
+const unescape = HTMLUtility.unescape('&lt;div&gt;Hello&lt;/div&gt;'); // '<div>Hello</div>'
+const stripTags = HTMLUtility.stripTags('<p>Hello <b>World</b></p>'); // 'Hello World'
 ```
 
 ## Référence API
@@ -417,7 +396,7 @@ La classe Dictionary fournit un magasin clé-valeur typé.
 
 La bibliothèque fournit divers modules d'utilitaires pour les opérations courantes.
 
-#### Texte
+#### Text
 
 - `camelCase(str)` : Convertit une chaîne en camelCase
 - `kebabCase(str)` : Convertit une chaîne en kebab-case
@@ -425,11 +404,10 @@ La bibliothèque fournit divers modules d'utilitaires pour les opérations coura
 - `capitalize(str)` : Met en majuscule la première lettre
 - `truncate(str, length, suffix)` : Tronque une chaîne
 - `slugify(str)` : Convertit une chaîne en slug URL-friendly
-- `trim(str)` : Supprime les espaces blancs
 - `trimSpace(str)` : Supprime et normalise les espaces blancs
 - `pad(str, length, char)` : Remplit une chaîne à une longueur spécifique
 
-#### Nombre
+#### Number
 
 - `format(num, decimals, decimalSeparator, thousandsSeparator)` : Formate un nombre
 - `random(min, max)` : Génère un nombre aléatoire
@@ -439,7 +417,7 @@ La bibliothèque fournit divers modules d'utilitaires pour les opérations coura
 - `isOdd(num)` : Vérifie si un nombre est impair
 - `round(num, decimals)` : Arrondit un nombre à un nombre spécifique de décimales
 
-#### Objet
+#### Object
 
 - `clone(obj)` : Clone profondément un objet
 - `merge(obj1, obj2)` : Fusionne deux objets
@@ -463,7 +441,7 @@ La bibliothèque fournit divers modules d'utilitaires pour les opérations coura
 | **Types de collection** | `ICollection<T>` | Interface pour les collections avec des types d'élément génériques |
 | | `ICollectionCallable<T>` | Type pour les fonctions de callback de collection |
 | **Types d'environnement** | `IEnvironment` | Interface pour la détection d'environnement |
-| **Types d'utilitaires** | `ITextUtilities` | Interface pour les utilitaires de texte |
+| **Utility Types** | `ITextUtilities` | Interface pour les utilitaires de texte |
 | | `INumberUtilities` | Interface pour les utilitaires de nombre |
 | | `IObjectUtilities` | Interface pour les utilitaires d'objet |
 | | `IDateUtilities` | Interface pour les utilitaires de date |
