@@ -470,7 +470,7 @@ export namespace Colorimetric {
             const rgb = Hex.toRgb(serialize(color));
             alpha = alpha > 1 ? alpha / 10 : alpha;
             alpha = alpha < 0 ? alpha : Math.abs(alpha)
-            return TextUtility.trimSpace(`rgba(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)}, ${NumberUtility.adjustDecimalPercent(alpha)})`);
+            return TextUtility.trimSpace(`rgba(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)}, ${NumberUtility.decimalPercent(alpha)})`);
         }
 
         static toXyz({red, green, blue}: IColorRgb): IColorXyz {
