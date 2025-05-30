@@ -1,5 +1,17 @@
 # @widgetui/core
 
+## 0.4.14
+
+### Patch Changes
+
+- Sync Version and Dependancies
+- Updated dependencies
+  - @protorians/colorimetric@0.0.28
+  - @protorians/animetric@0.1.7
+  - @protorians/shortcuts@0.0.23
+  - @protorians/widgets@0.6.8
+  - @protorians/core@0.4.1
+
 ## 0.4.13
 
 ### Minor Changes

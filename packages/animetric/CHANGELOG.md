@@ -1,5 +1,13 @@
 # @protorians/animetric
 
+## 0.1.7
+
+### Patch Changes
+
+- Sync Version and Dependancies
+- Updated dependencies
+  - @protorians/core@0.4.1
+
 ## 0.1.6
 
 ### Minor Changes

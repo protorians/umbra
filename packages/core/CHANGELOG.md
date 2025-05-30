@@ -1,12 +1,17 @@
 # @protorians/core
 
+## 0.4.1
+
+### Patch Changes
+
+- Sync Version and Dependancies
+
 ## 0.4.0
 
 ### Minor Changes
 
 - Breaking Change
 - Refactor utilities into distinct namespaces for clarity
-
 
 ## 0.3.8
 
