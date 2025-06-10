@@ -20,7 +20,7 @@ import type {
     IGlobalEventCallableMap,
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
-import {Callable, Environment, type ISignalStackCallable, TextUtility, TreatmentQueueStatus} from "@protorians/core";
+import {Environment, type ISignalStackCallable, TextUtility, TreatmentQueueStatus} from "@protorians/core";
 import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
@@ -81,14 +81,14 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
     lock(widget: IWidgetNode<E, A>,): this {
         widget.locked = true;
-        widget.disable();
+        this.disable(widget);
         widget.signal.dispatch('lock', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     unlock(widget: IWidgetNode<E, A>,): this {
         widget.locked = false;
-        widget.enable();
+        this.enable(widget);
         widget.signal.dispatch('unlock', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
@@ -237,13 +237,13 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 this.render(children, this.widget.context || new ContextWidget(widget))
                 widget.element.append(children.element);
                 children.useContext(this.widget.context || widget.context);
-                Callable.safe(() => {
+                // Callable.safe(() => {
                     children.signal.dispatch('mount', {
                         root: this.widget,
                         widget: children,
                         payload: widget
                     }, children.signal);
-                })
+                // });
 
             } else if (typeof children === 'string' || typeof children === 'number') {
                 if (Environment.Client) {
