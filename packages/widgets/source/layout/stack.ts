@@ -1,5 +1,12 @@
 import {Composable, Mountable} from "../decorators.js";
-import type {IAttributes, ICommonAttributes, IWidgetDeclaration, IWidgetNode} from "../types/index.js";
+import type {
+  IAttributes,
+  IColumnAttributes,
+  ICommonAttributes,
+  IRowAttributes,
+  IWidgetDeclaration,
+  IWidgetNode
+} from "../types/index.js";
 import {WidgetNode} from "../widget-node.js";
 import {widgetAligningDirectionFeature, widgetAligningFeature,} from "../helpers/index.js";
 import {AligningProperty} from "../enums.js";
@@ -36,7 +43,7 @@ export class StackWidget extends WidgetNode<HTMLElement, ICommonAttributes> {
  */
 @Mountable()
 @Composable(Widget, 'Stack')
-export class RowStackWidget extends WidgetNode<HTMLHeadElement, ICommonAttributes> {
+export class RowStackWidget extends WidgetNode<HTMLHeadElement, IRowAttributes> {
   get tag(): string {
     return 'div'
   };
@@ -60,7 +67,7 @@ export class RowStackWidget extends WidgetNode<HTMLHeadElement, ICommonAttribute
  */
 @Mountable()
 @Composable(Widget, 'Stack')
-export class ColumnStackWidget extends WidgetNode<HTMLHeadElement, ICommonAttributes> {
+export class ColumnStackWidget extends WidgetNode<HTMLHeadElement, IColumnAttributes> {
   get tag(): string {
     return 'div'
   };
@@ -93,7 +100,7 @@ export function Stack(declaration: IWidgetDeclaration<HTMLElement, ICommonAttrib
  * @param declaration
  * @constructor
  */
-export function Row(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): RowStackWidget {
+export function Row(declaration: IWidgetDeclaration<HTMLElement, IRowAttributes>): RowStackWidget {
   return new RowStackWidget(declaration)
 }
 
@@ -102,7 +109,7 @@ export function Row(declaration: IWidgetDeclaration<HTMLElement, ICommonAttribut
  * @param declaration
  * @constructor
  */
-export function Column(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): ColumnStackWidget {
+export function Column(declaration: IWidgetDeclaration<HTMLElement, IColumnAttributes>): ColumnStackWidget {
   return new ColumnStackWidget(declaration)
 }
 
