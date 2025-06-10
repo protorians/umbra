@@ -234,7 +234,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : new SpectraElement(this.tag)
         this._fingerprint = `${MetricRandom.CreateAlpha(6).join('')}-${MetricRandom.Create(10).join('')}`;
         this._signal = new Signal.Stack;
-        this.mount(() => this._isConnected = true)
+        this.mount(() => this._isConnected = true);
     }
 
     /**
