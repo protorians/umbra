@@ -174,14 +174,23 @@ export interface IColumnAttributes extends ICommonAttributes {
 
 export interface IGridAttributes extends ICommonAttributes {
     grid?: string;
-    gridTemplateRows?: string;
-    gridTemplateColumns?: string;
-    gridTemplateAreas?: string;
-    gridAutoRows?: string;
-    gridAutoColumns?: string;
-    gridAutoFlow?: string;
-    gridRowGap?: string;
-    gridColumnGap?: string;
+    gap?: string;
+    area?: string;
+    column?: string;
+    columnStart?: string;
+    columnEnd?: string;
+    row?: string;
+    rowStart?: string;
+    rowEnd?: string;
+    template?: string;
+    templateRows?: string;
+    templateColumns?: string;
+    templateAreas?: string;
+    autoRows?: string;
+    autoColumns?: string;
+    autoFlow?: string;
+    rowGap?: string;
+    columnGap?: string;
 }
 
 export interface ILinkAttributes extends ICommonAttributes {
