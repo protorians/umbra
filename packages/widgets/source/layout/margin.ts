@@ -6,8 +6,8 @@ export function Margin({children, ratio, y, x, size}: IEdgeInsetAttributes) {
     return children.style({margin: `${v}px ${h}px`});
 }
 
-Margin.XS = (children: IWidgetNode<any, any>) => Margin({ratio: 0.25, children});
-Margin.SM = (children: IWidgetNode<any, any>) => Margin({ratio: 0.5, children});
-Margin.MD = (children: IWidgetNode<any, any>) => Margin({ratio: 1, children});
-Margin.LG = (children: IWidgetNode<any, any>) => Margin({ratio: 2, children});
-Margin.XL = (children: IWidgetNode<any, any>) => Margin({ratio: 4, children});
+Margin.xs = (children: IWidgetNode<any, any>) => Margin({ratio: 0.25, children});
+Margin.sm = (children: IWidgetNode<any, any>) => Margin({ratio: 0.5, children});
+Margin.md = (children: IWidgetNode<any, any>) => Margin({ratio: 1, children});
+Margin.lg = (children: IWidgetNode<any, any>) => Margin({ratio: 2, children});
+Margin.xl = (children: IWidgetNode<any, any>) => Margin({ratio: 4, children});

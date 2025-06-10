@@ -6,8 +6,8 @@ export function Padding({children, ratio, y, x, size}: IEdgeInsetAttributes) {
     return children.style({padding: `${v}px ${h}px`});
 }
 
-Padding.XS = (children: IWidgetNode<any, any>) => Padding({ratio: 0.25, children});
-Padding.SM = (children: IWidgetNode<any, any>) => Padding({ratio: 0.5, children});
-Padding.MD = (children: IWidgetNode<any, any>) => Padding({ratio: 1, children});
-Padding.LG = (children: IWidgetNode<any, any>) => Padding({ratio: 2, children});
-Padding.XL = (children: IWidgetNode<any, any>) => Padding({ratio: 4, children});
+Padding.xs = (children: IWidgetNode<any, any>) => Padding({ratio: 0.25, children});
+Padding.sm = (children: IWidgetNode<any, any>) => Padding({ratio: 0.5, children});
+Padding.md = (children: IWidgetNode<any, any>) => Padding({ratio: 1, children});
+Padding.lg = (children: IWidgetNode<any, any>) => Padding({ratio: 2, children});
+Padding.xl = (children: IWidgetNode<any, any>) => Padding({ratio: 4, children});
