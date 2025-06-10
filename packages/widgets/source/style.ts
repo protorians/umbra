@@ -2,7 +2,12 @@ import type {
     IStyleOptions,
     IStyleSettings,
     IStyleSheet,
-    IStyleSheetDeclarations, IStyleAliasDictionary, IWidgetNode,
+    IStyleSheetDeclarations,
+    IStyleAliasDictionary,
+    IWidgetNode,
+    IStyleSheetPseudoClasses,
+    IStyleSheetPseudoElements,
+    IStyleSheetAtRules, IStyleSheetStrictCascade,
 } from "./types/index.js";
 import {RelativeUnit} from "./enums.js";
 import {RemMetric} from "./metric.js";
@@ -59,7 +64,7 @@ export class StyleWidget implements IStyleSheet {
      * It is initialized as an empty array by default and can be updated
      * dynamically to include specific rule definitions as needed.
      */
-    protected _rules: string[] = [];
+    protected _definitions: string[] = [];
 
     /**
      * Represents a CSS selector string.
@@ -177,8 +182,8 @@ export class StyleWidget implements IStyleSheet {
      *
      * @return {string} A string representation of all rules separated by newline characters.
      */
-    get rules(): string {
-        return this._rules.join("\n");
+    get definitions(): string {
+        return this._definitions.join("\n");
     }
 
     /**
@@ -204,7 +209,7 @@ export class StyleWidget implements IStyleSheet {
      * @return {this} The current instance of the object for method chaining.
      */
     clear(): this {
-        this._rules = [];
+        this._definitions = [];
         this.declarations = {};
         return this;
     }
@@ -257,7 +262,7 @@ export class StyleWidget implements IStyleSheet {
                 ? `${selector.replace(/&/gi, this._selector)}`
                 : this._selector;
 
-            this._rules.push(`${selector}{${cumulate.join(';')}}`)
+            this._definitions.push(`${selector}{${cumulate.join(';')}}`)
 
         } else if (selector) {
             return `${this.parseProperty(selector, declaration)}`
@@ -296,13 +301,13 @@ export class StyleWidget implements IStyleSheet {
     sync(declarations?: IStyleSheetDeclarations): this {
         if (this.locked) return this;
 
-        this._rules = [];
+        this._definitions = [];
 
         const merged = this.merge(declarations || {}).declarations;
         this.parse(merged as IStyleSheetDeclarations, undefined)
 
         if (this.repository && (this.options.attach === true || typeof this.options.attach === 'undefined')) {
-            this.repository.innerHTML = this._rules.join("\n");
+            this.repository.innerHTML = this._definitions.join("\n");
         }
         return this;
     }
@@ -349,6 +354,201 @@ export class StyleWidget implements IStyleSheet {
     update<K extends keyof IStyleSheetDeclarations>(key: K, value: IStyleSheetDeclarations[K]): this {
         this.declarations[key] = value;
         return this.sync();
+    }
+
+    /**
+     * Adds hover state styles to the current declaration block.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to apply specifically to the hover state.
+     * @return {this} The instance of the class to allow method chaining.
+     */
+    hover(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&:hover': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds focus-specific styles to the stylesheet.
+     * The provided declarations will be applied when the element is in a focused state.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to apply for the focus state.
+     * @return {this} The current instance with the updated focus styles.
+     */
+    focus(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&:focus-with': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Applies a blur effect by adding styles to handle focus-out events.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to be applied when the element loses focus.
+     * @return {this} The current instance with the applied blur styles.
+     */
+    blur(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&:focusout': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Applies autofill-specific CSS declarations to the current style configuration.
+     *
+     * @param {IStyleSheetDeclarations} declarations - An object containing CSS declarations to be applied for autofill pseudo-classes.
+     * @return {this} The instance of the class, allowing for method chaining.
+     */
+    autofill(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&:is(:-webkit-autofill, :autofill)': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds pseudo-class based style declarations to the style sheet.
+     *
+     * @param {IStyleSheetPseudoClasses | IStyleSheetPseudoClasses[]} state - The pseudo-class or an array of pseudo-classes to apply the declarations to.
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to be applied to the specified pseudo-classes.
+     * @return {this} The current instance of the style sheet with the applied declarations.
+     */
+    when(state: IStyleSheetPseudoClasses | IStyleSheetPseudoClasses[], declarations: IStyleSheetDeclarations): this {
+        const accumulate: IStyleSheetDeclarations = {};
+        (Array.isArray(state) ? state : [state]).forEach(s => accumulate[`&:${s}`] = Style(declarations));
+        this.merge(accumulate);
+        return this;
+    }
+
+    /**
+     * Adds an `::after` pseudo-element with the specified style declarations to the current style.
+     *
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to be applied to the `::after` pseudo-element.
+     * @return {this} The current instance with the updated styles.
+     */
+    after(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&::after': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds styles to the `::before` pseudo-element of the current element.
+     *
+     * @param {IStyleSheetDeclarations} declarations - An object containing the CSS declarations to apply to the `::before` pseudo-element.
+     * @return {this} Returns the current instance for chaining purposes.
+     */
+    before(declarations: IStyleSheetDeclarations): this {
+        this.merge({'&::before': Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds pseudo-elements styles to the stylesheet by applying the given declarations.
+     *
+     * @param {IStyleSheetPseudoElements | IStyleSheetPseudoElements[]} state - The pseudo-element(s) to apply styles to. Can be a single pseudo-element or an array of pseudo-elements.
+     * @param {IStyleSheetDeclarations} declarations - The style declarations to apply to the specified pseudo-element(s).
+     * @return {this} The updated stylesheet instance with the added pseudo-element styles.
+     */
+    isole(state: IStyleSheetPseudoElements | IStyleSheetPseudoElements[], declarations: IStyleSheetDeclarations): this {
+        const accumulate: IStyleSheetDeclarations = {};
+        (Array.isArray(state) ? state : [state]).forEach(s => accumulate[`&::${s}`] = Style(declarations));
+        this.merge(accumulate);
+        return this;
+    }
+
+
+    /**
+     * Defines a set of keyframes for animations by merging the provided style declarations.
+     *
+     * @param {string} name - The name of the keyframes animation.
+     * @param {IStyleSheetStrictCascade} declarations - The style declarations to include within the keyframes.
+     * @return {this} The current instance for method chaining.
+     */
+    keyframes(name: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@keyframes ${name}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds a CSS `@supports` rule to the current style object with the provided directive and declarations.
+     *
+     * @param {string} directive - A CSS condition written as a string that is tested within the `@supports` rule.
+     * @param {IStyleSheetStrictCascade} declarations - An object containing CSS declarations that are applied if the condition in the directive is met.
+     * @return {this} The current style object, allowing for method chaining.
+     */
+    supports(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@supports ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Defines a scoped CSS directive and merges the provided declarations
+     * under the specified directive scope.
+     *
+     * @param {string} directive - The name of the scope directive.
+     * @param {IStyleSheetStrictCascade} declarations - The style declarations to be applied under the scope.
+     * @return {this} The instance of the object for chaining further method calls.
+     */
+    scope(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@scope ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Defines a CSS custom property with the provided directive and declarations.
+     *
+     * @param {string} directive - The name of the custom property to be defined.
+     * @param {IStyleSheetStrictCascade} declarations - The styles or rules to be applied within the custom property definition.
+     * @return {this} The current instance to allow method chaining.
+     */
+    property(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@property ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Applies a view transition style directive to the stylesheet by merging it with the provided declarations.
+     *
+     * @param {string} directive - The specific view transition directive to apply.
+     * @param {IStyleSheetStrictCascade} declarations - The style declarations to be associated with the given directive.
+     * @return {this} The current instance with the applied view transition styles.
+     */
+    viewTransition(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@view-transition ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds a container rule to the style sheet with the specified directive and declarations.
+     *
+     * @param {string} directive - The container query directive defining the conditions for the container.
+     * @param {IStyleSheetStrictCascade} declarations - The style declarations to be applied under the specified container directive.
+     * @return {this} The current instance to allow for method chaining.
+     */
+    container(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@container ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Adds a media query to the stylesheet with the specified directive and style declarations.
+     *
+     * @param {string} directive - The media query directive (e.g., "max-width: 600px").
+     * @param {IStyleSheetStrictCascade} declarations - The style declarations to apply within the media query.
+     * @return {this} The current instance to allow method chaining.
+     */
+    media(directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@media ${directive}`]: Style(declarations)});
+        return this;
+    }
+
+    /**
+     * Creates a new rule in the stylesheet by merging the provided at-rule, directive,
+     * and style declarations into the current stylesheet instance.
+     *
+     * @param {IStyleSheetAtRules} rule - The at-rule to be applied, such as `media` or `keyframes`.
+     * @param {string} directive - Specific directive or condition for the at-rule, like a media query string.
+     * @param {IStyleSheetStrictCascade} declarations - Object containing style properties and values for the rule.
+     * @return {this} Returns the current stylesheet instance for method chaining.
+     */
+    rule(rule: IStyleSheetAtRules, directive: string, declarations: IStyleSheetStrictCascade): this {
+        this.merge({[`@${rule} ${directive}`]: Style(declarations)});
+        return this;
     }
 
 
