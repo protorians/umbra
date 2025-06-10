@@ -1,8 +1,15 @@
 import {WidgetNode} from "../widget-node.js";
 import {Composable, Mountable} from "../decorators.js";
-import type {IAttributes, IGridAttributes, IWidgetDeclaration, IWidgetNode} from "../types/index.js";
+import type {
+    IAttributes,
+    IGridAttributes,
+    IStyleSheetDeclarations,
+    IWidgetDeclaration,
+    IWidgetNode
+} from "../types/index.js";
 import {declarationExplodes} from "../helpers/index.js";
 import {Style} from "../style.js";
+import {TextUtility} from "@protorians/core";
 
 /**
  * @description Grid Widget
@@ -51,6 +58,9 @@ export function Grid(declarations: IWidgetDeclaration<HTMLElement, IGridAttribut
         'autoFlow',
     ]);
 
-    declaration.style = Style({}).merge(declaration.style || {}).merge({...extended})
+    const props: IStyleSheetDeclarations = {};
+    Object.entries(extended).forEach(([key, value]) => props[`grid${TextUtility.ucFirstLetter(key)}` as keyof IStyleSheetDeclarations] = value);
+    declaration.style = Style({}).merge(declaration.style || {}).merge({...props});
+
     return new GridWidget(declaration);
 }
