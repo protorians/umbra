@@ -404,7 +404,7 @@ export class StyleWidget implements IStyleSheet {
  *
  * @param {IStyleSheetDeclarations} declaration - A set of style declarations to be merged into the StyleWidget.
  */
-export function Style(declaration: IStyleSheetDeclarations) {
+export function Style(declaration: IStyleSheetDeclarations): IStyleSheet {
     return new StyleWidget({
         attach: true,
     }).merge(declaration)
