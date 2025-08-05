@@ -126,12 +126,14 @@ export class AnimetricEngine implements IAnimetric {
     }
 
     initialize(): this {
-        this._options.to = this._options.to || [0];
-        this._options.from = this._options.from || this._options.to.map(() => 0);
-        this._options.duration = this._options.duration || 360;
-        this._options.infinite = this._options.infinite || false;
-        this._options.decimal = this._options.decimal || 3;
-        this.signal.dispatch('initialize', this._state);
+        if (this.status === null) {
+            this._options.to = this._options.to || [0];
+            this._options.from = this._options.from || this._options.to.map(() => 0);
+            this._options.duration = this._options.duration || 360;
+            this._options.infinite = this._options.infinite || false;
+            this._options.decimal = this._options.decimal || 3;
+            this.signal.dispatch('initialize', this._state);
+        }
         this._ready = true;
         return this;
     }
@@ -142,6 +144,10 @@ export class AnimetricEngine implements IAnimetric {
         if (!this._status) {
             this._snap = performance.now();
             return this;
+        }
+
+        if(this._snap){
+            this._snap = 0;
         }
 
         const old_percent = this._percent;
@@ -181,7 +187,9 @@ export class AnimetricEngine implements IAnimetric {
             if (this.options.infinite) {
                 this.signal.dispatch('loop', completed_state)
                 requestAnimationFrame(this.play.bind(this))
-            } else this.signal.dispatch('complete', completed_state)
+            } else {
+                this.signal.dispatch('complete', completed_state)
+            }
         }
 
         return this;
@@ -195,8 +203,8 @@ export class AnimetricEngine implements IAnimetric {
     }
 
     play(): this {
-        this._status = true;
         this.initialize();
+        this._status = true;
 
         if (this._options.delay) {
             setTimeout(() => this._playNow(), this._options.delay);
@@ -214,9 +222,9 @@ export class AnimetricEngine implements IAnimetric {
     resume(): this {
         const now = performance.now();
         this._status = true;
-        this._begin = now - this._snap;
+        this._begin = now - this._elapsed;
+        this.yield(now);
         this.signal.dispatch('resume', this._state);
-        this.yield(this._snap);
         return this;
     }
 
