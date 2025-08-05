@@ -12,25 +12,37 @@ export namespace ObjectUtility {
 
     import unCamelCase = TextUtility.unCamelCase;
 
-    export function purge<T extends Object>(obj: T): T {
-        const output = {} as T;
-        for (let key in obj) {
-            key = unCamelCase(key) as Extract<keyof T, string>;
-            if (!obj.hasOwnProperty(key)) {
-                output[key] = obj[key];
+    export function purge<T extends (Object | Array<any>)>(obj: T): T {
+        if (Array.isArray(obj)) {
+            const output = [] as any;
+
+            for (const entry of (obj as Array<any>)) {
+                if (!output.includes(entry)) {
+                    output.push(entry);
+                }
             }
+
+            return output;
+        } else {
+            const output = {} as T;
+            for (let key in obj) {
+                key = unCamelCase(key) as Extract<keyof T, string>;
+                if (!obj.hasOwnProperty(key)) {
+                    output[key] = obj[key];
+                }
+            }
+
+            return output;
         }
-        return output;
+
     }
 
     export function update<T>(original: T, newer?: Partial<T> | undefined): T {
-
         if (newer) {
             Object.entries(newer).forEach(({0: name, 1: parameter}) =>
                 original[name as keyof T] = parameter as T[keyof T]
             )
         }
-
         return original;
     }
 
@@ -179,4 +191,26 @@ export namespace ObjectUtility {
 
         return accumulate;
     }
+
+
+    export function next<T>(array: T[], from?: T, loop: boolean = false): T | null {
+        return (from)
+            ? array[array.indexOf(from) + 1] || (loop ? array[0] || null : null)
+            : array[0] || null;
+    }
+
+
+    export function refactor<T>(array: T[], from: number, to?: number) {
+        const refactor: T[] = [];
+        to = to || array.length;
+
+        for (let i = 0; i < array.length; i++) {
+            if (from <= i && to >= i) {
+                refactor.push(array[i])
+            }
+        }
+
+        return refactor;
+    }
+
 }
