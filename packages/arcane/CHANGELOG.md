@@ -1,5 +1,17 @@
 # @protorians/arcane
 
+## 0.1.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/arcane-core@0.2.0
+  - @protorians/core@0.5.0
+
 ## 0.0.26
 
 ### Patch Changes

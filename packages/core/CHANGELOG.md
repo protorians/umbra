@@ -1,5 +1,11 @@
 # @protorians/core
 
+## 0.5.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
 ## 0.4.1
 
 ### Patch Changes

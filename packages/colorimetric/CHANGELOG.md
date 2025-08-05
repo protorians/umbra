@@ -1,5 +1,22 @@
 # @protorians/colorimetric
 
+## 0.2.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.5.0
+
+## 0.1.0
+
+### Minor Changes
+
+- Enhance colorimetric types and interfaces.
+
 ## 0.0.28
 
 ### Patch Changes

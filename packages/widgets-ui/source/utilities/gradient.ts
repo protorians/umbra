@@ -32,10 +32,10 @@ export function createLayerGradient(
                         animationName: ObjectUtility.randomWithin([
                             'widget-ui-position-nomadic-tl-animation',
                             'widget-ui-position-nomadic-tr-animation',
-                            'widget-ui-position-nomadic-bl-animation',
-                            'widget-ui-position-nomadic-br-animation',
+                            // 'widget-ui-position-nomadic-bl-animation',
+                            // 'widget-ui-position-nomadic-br-animation',
                         ]),
-                        animationDuration: `${duration || 20}s`,
+                        animationDuration: `${duration || 30}s`,
                         animationTimingFunction: 'ease-out',
                         animationIterationCount: 'infinite',
                     })

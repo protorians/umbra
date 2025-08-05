@@ -1,6 +1,6 @@
 import {ObjectSize, ObjectSizeScale} from "@protorians/widgets";
 
-export function getObjectSize(size: ObjectSize | number, scale: ObjectSizeScale | number = 1): number {
+export function getObjectSize(size: ObjectSize | number, scale: ObjectSizeScale | number = 1): number | null {
     switch (size) {
         case ObjectSize.ExtraSmall:
             return 16 * scale;
@@ -16,6 +16,9 @@ export function getObjectSize(size: ObjectSize | number, scale: ObjectSizeScale 
 
         case ObjectSize.ExtraLarge:
             return 80 * scale;
+
+        case ObjectSize.Full:
+            return null;
 
         default:
             return size * 4;

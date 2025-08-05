@@ -41,6 +41,7 @@ export type IThemeSelectListeners = {
 }
 
 export interface IThemeSelectOptions {
+    multipleSuffix?: string;
     value?: IThemeSelectValue;
     options: IThemeSelectOption[];
     arrows?: IThemeSelectArrows;

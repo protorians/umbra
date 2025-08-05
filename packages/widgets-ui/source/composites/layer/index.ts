@@ -20,50 +20,40 @@ export function ThemeLayer(
         declaration,
         extended
     } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeLayerOptions & ICommonAttributes>, ThemeLayerOptions>(
-        declarations, ['variant', 'outline', 'blurred'],
+        declarations, ['variant', 'outline', 'blurred', 'styles'],
     );
     const variant = extended.variant || LayerVariant.Normal;
     const coloring = theme[extended.outline ? 'outlineColoringResolves' : 'coloringResolves'](variant);
-    const isNude = !coloring.back;
 
-    declaration.style = Style({
-        ...theme.stylesheets.declarations
-    })
-        .merge(declaration.style)
-        .merge({
-            position: "relative",
-            zIndex: '1',
-        })
 
     declaration.children = declaration.children || [];
-
     declaration.style = Style({
-        borderWidth: extended.outline ? 'var(--widget-border-width, 2px)' : '0',
-        color: Color[`${coloring.fore || 'tint'}`],
-        borderColor: Color[`${coloring.edge || 'tint-200-a1'}`],
-        backgroundColor: coloring.back ? Color[coloring.back] : 'transparent',
-        borderRadius: theme.settings.radiusMin || '0',
-        boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
+        position: "relative",
+        zIndex: '1',
         flex: '1 1 auto',
+        color: Color[`${coloring.fore || 'tint'}`],
     }).merge(declaration.style)
+        .merge(extended.styles?.fore)
 
     return Stack({
-        style: {
+        style: Style({
             position: "relative",
-            flex: '1 1 auto',
-            width: '100%',
             flexDirection: 'column',
-        },
+            ...theme.stylesheet.texture.declarations,
+            color: Color[`${coloring.fore}`],
+            borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
+            backgroundColor: coloring.back ? Color[coloring.back] : 'transparent',
+        }).merge(extended.styles?.widget),
         children: [
             Layer({
-                style: {
+                style: Style({
                     position: 'absolute',
                     zIndex: '0',
                     inset: '0',
                     borderRadius: 'inherit',
                     backgroundColor: 'transparent',
                     overflow: 'hidden',
-                },
+                }).merge(extended.styles?.fore),
                 children: extended.blurred ?
                     createMultipleLayerGradient(Array.isArray(extended.blurred) ? extended.blurred : [])
                     : undefined,

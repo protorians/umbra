@@ -28,11 +28,14 @@ export function ThemeSheet(
             'ariaDescription',
             'position',
             'alignment',
-            'type'
+            'type',
+            'styles',
+            'reference',
         ]
     )
 
     return ModalKit.callable((modal: IModal): IModalOptions => {
+        const styles = extended.styles || {};
         return {
             children: (extended.children && typeof extended.children == 'function') ? extended.children(modal) : extended.children!,
             trigger: extended.trigger!,
@@ -42,12 +45,14 @@ export function ThemeSheet(
             animateIn: extended.animateIn,
             animateOut: extended.animateOut,
             ariaTitle: extended.ariaTitle,
+            reference: extended.reference,
             ariaDescription: extended.ariaDescription,
             type: PopupType.Menu,
             position: convertToArrayPosition(
                 extended.position || FloatPosition.Bottom,
                 extended.alignment || EdgePosition.Center
             ),
+            styles
         }
     })
 }

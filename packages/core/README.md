@@ -11,6 +11,7 @@ A powerful, flexible utility library for modern JavaScript and TypeScript applic
   - [Dictionaries](#dictionaries)
   - [Collections](#collections)
   - [Environment](#environment)
+  - [Climbing](#climbing)
 - [Basic Usage](#basic-usage)
 - [Advanced Features](#advanced-features)
   - [Signal Stack](#signal-stack)
@@ -24,6 +25,9 @@ A powerful, flexible utility library for modern JavaScript and TypeScript applic
   - [Dictionary](#dictionary-1)
     - [Properties](#properties-1)
     - [Methods](#methods-1)
+  - [Climbing](#climbing-1)
+    - [Properties](#properties-2)
+    - [Methods](#methods-2)
   - [Utilities](#utilities-1)
     - [Text](#text)
     - [Number](#number)
@@ -147,6 +151,45 @@ if (Environment.Client) {
 }
 ```
 
+### Climbing
+
+The Climbing utility provides a way to process arrays of items asynchronously in sequence. It's particularly useful for handling operations that need to be performed one after another, with each step potentially being asynchronous.
+
+```typescript
+import { Climbing } from '@protorians/core';
+
+// Array of items to process
+const items = [1, 2, 3, 4, 5];
+
+// Create a new Climbing instance
+const climbing = new Climbing(
+  items,
+  // Async callback function that processes each item
+  async (index) => {
+    const item = items[index];
+    console.log(`Processing item ${item}`);
+
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    return item * 2; // Return processed result
+  }
+);
+
+// Trigger the climbing process
+climbing.trigger((result) => {
+  console.log('All items processed');
+  console.log('Results:', result.responses); // [2, 4, 6, 8, 10]
+});
+```
+
+The Climbing class provides the following features:
+- Sequential processing of array items
+- Asynchronous operation support
+- Collection of processed results
+- Error handling with strict and non-strict modes
+- Control over the starting point of processing
+
 ## Basic Usage
 
 ```typescript
@@ -194,7 +237,7 @@ const truncated = TextUtility.truncate('This is a long text', 10); // 'This is a
 const formatted = NumberUtility.isNumber(1234.56); // true
 
 // Use array utilities
-const merged = ObjectUtility.unWrapArray([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const merged = ObjectUtility.unWrap([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 ## Advanced Features
