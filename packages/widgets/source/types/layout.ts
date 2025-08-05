@@ -26,6 +26,6 @@ export interface IEdgeInsetValue {
 }
 
 export interface IEdgeInsetAttributes extends IEdgeInset {
-    children: IWidgetNode<any, any>;
+    children: IWidgetNode<any, any> | undefined;
 }
 

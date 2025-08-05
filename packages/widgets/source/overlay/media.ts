@@ -5,9 +5,8 @@ import type {
   IPictureAttributes,
   IWidgetDeclaration,
   IVideoAttributes,
-  ISourceProps
+  ISourceProps, IAudioAttributes
 } from "../types/index.js";
-
 
 /**
  * @description Video Widget
@@ -17,6 +16,18 @@ import type {
 export class VideoWidget extends WidgetNode<HTMLVideoElement, IVideoAttributes> {
   get tag(): string {
     return 'video'
+  };
+}
+
+
+/**
+ * @description Video Widget
+ */
+@Mountable()
+@Composable()
+export class AudioWidget extends WidgetNode<HTMLVideoElement, IAudioAttributes> {
+  get tag(): string {
+    return 'audio'
   };
 }
 
@@ -87,6 +98,16 @@ export function Image(declaration: Omit<IWidgetDeclaration<HTMLImageElement, IIm
  * @param declaration
  * @constructor
  */
-export function Video(declaration: IWidgetDeclaration<HTMLVideoElement, IVideoAttributes>): VideoWidget {
+export function VideoPlayer(declaration: IWidgetDeclaration<HTMLVideoElement, IVideoAttributes>): VideoWidget {
   return new VideoWidget(declaration)
+}
+
+
+/**
+ * @description Construct's Function of `VideoWidget`
+ * @param declaration
+ * @constructor
+ */
+export function AudioPlayer(declaration: IWidgetDeclaration<HTMLVideoElement, IAudioAttributes>): AudioWidget {
+  return new AudioWidget(declaration)
 }

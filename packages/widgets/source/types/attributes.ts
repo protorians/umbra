@@ -300,7 +300,7 @@ export interface IInputableAttributes extends ICommonAttributes, IInputableCommo
     placeholder?: string;
     readonly?: boolean;
     required?: boolean;
-    size?: number;
+    size?: number | string;
     // src?: string; // Input image type
     step?: number;
     value?: string;

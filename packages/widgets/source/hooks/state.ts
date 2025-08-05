@@ -1,5 +1,6 @@
 import type {
-    IAttributes, IContext,
+    IAttributes,
+    IContext,
     IPrimitive,
     IState,
     IStateCallable,
@@ -12,15 +13,19 @@ import {type ISignalController, Signal} from "@protorians/core";
 
 function createMarker<T>(widget: IWidgetNode<any, any>, data: IPrimitive | IWidgetNode<any, any> | T): Text | HTMLElement {
     if (typeof data === "object" && data instanceof WidgetNode) {
-        if (widget.context) {
-            WidgetBuilder(data, widget.context)
-        }
+        if (widget.context) WidgetBuilder(data, widget.context)
         return data.element;
     } else if (typeof data === "object" && Array.isArray(data)) {
+        const marker = document.createTextNode('');
+
         data.forEach((w) => {
-            if (w instanceof WidgetNode && widget.context && !w.context) WidgetBuilder(w, widget.context)
+            if (w instanceof WidgetNode && widget.context && !w.context) {
+                WidgetBuilder(w, widget.context)
+            } else if (typeof w === 'function' && widget.context && !w.context) {
+                WidgetBuilder(w(widget.context), widget.context)
+            }
         })
-        return document.createTextNode('');
+        return marker;
     }
 
     return document.createTextNode(`${typeof data === 'undefined' ? '' : data?.toString()}`);
@@ -55,8 +60,10 @@ function updateMarkerFromArray<T>(
     if (marker) marker.replaceWith(newMarker)
 
     if (Array.isArray(state)) {
-        newMarker.before(...state.map(item => item instanceof WidgetNode ? item.element : item));
-        for (const item of state) mountWidgetState(widget, item, context)
+        for (let item of state) {
+            if (typeof item === 'function') item = item(widget.context)
+            mountWidgetState(widget, item, context)
+        }
     } else if (state instanceof WidgetNode) {
         mountWidgetState(widget, state, context)
     }
@@ -129,6 +136,21 @@ export class StateWidget<T> implements IState<T> {
 }
 
 
+export function appendState(
+    widget: IWidgetNode<any, any>,
+    marker: Text | HTMLElement,
+    value: any
+) {
+
+    if (Array.isArray(value)) {
+        marker.before(...value.map(item => {
+            if (typeof item === 'function' && widget.context) item = WidgetBuilder(item(widget.context), widget.context)
+            return item instanceof WidgetNode ? item.element : item
+        }));
+    }
+
+}
+
 export class StateWidgetWatcher<T> {
 
     constructor(
@@ -141,12 +163,19 @@ export class StateWidgetWatcher<T> {
         const value = this.callable(this.state.value)
         let marker = updateMarkerFromArray<T>(widget, value);
         let old: T | undefined;
+
         this.state.effect((state) => {
-            StateWidget.prune(old)
-            marker = updateMarkerFromArray<T>(widget, state as T, marker)
+            StateWidget.prune(old);
+            const value = this.callable(state as T)
+            marker = updateMarkerFromArray<T>(widget, value, marker)
+
+            appendState(widget, marker, value)
             old = state;
         })
+
         widget.content(marker);
+        appendState(widget, marker, value)
+
         return this;
     }
 

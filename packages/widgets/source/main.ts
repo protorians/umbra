@@ -15,7 +15,9 @@ WidgetDirectives
     .add('widget:state', ({value: children, type, args}) => {
         const {widget} = args as IWidgetDirectiveContent<any, any>;
         if (type === WidgetDirectivesType.EngineContent) {
-            if (children && children instanceof StateWidget || children instanceof StateWidgetWatcher)
+            if (children && children instanceof StateWidget)
+                children.bind(widget)
+            else if (children instanceof StateWidgetWatcher)
                 children.bind(widget)
         }
     })
@@ -34,13 +36,16 @@ WidgetDirectives
     })
     .add('widget:function', ({value: children, type, args}) => {
         const {widget, engine} = args as IWidgetDirectiveContent<any, any>;
+
         if (type === WidgetDirectivesType.EngineContent) {
-            if (typeof children === 'function')
-                engine.content(widget, children({
+            if (typeof children === 'function') {
+                const rendered = children({
                     root: engine.widget,
                     widget: widget,
                     payload: undefined,
-                }))
+                })
+                engine.content(widget, rendered)
+            }
         }
     })
     .add('widget:promise', ({value: children, type, args}) => {

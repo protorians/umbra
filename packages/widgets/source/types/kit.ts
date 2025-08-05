@@ -1,12 +1,15 @@
-import type {ILayout, ILayoutCallable, ILayoutStates} from "./layout.js";
-import type {ICallablePayload} from "./widget.js";
+import type {ILayout, ILayoutCallable} from "./layout.js";
+import type {ICallablePayload, IWidgetNode} from "./widget.js";
 import type {IChildren} from "./children.js";
-import type {IAttributes} from "./attributes.js";
 import {ISignalStack} from "@protorians/core";
 import {IState} from "./state.js";
 
 
 export type IKitCallable = (kit: any) => any;
+
+export type IKitLayoutStructured<Layout> = Layout & {
+    widget: IWidgetNode<any, any>
+}
 
 export interface IKit<Layout, Options> {
     signal: ISignalStack<IKitSignalMap<Layout, Options>>;
@@ -17,11 +20,15 @@ export interface IKit<Layout, Options> {
 
     get structures(): ILayout<Layout>;
 
+    get layouts(): IKitLayoutStructured<Layout>;
+
     get rollback(): this;
 
     get status(): boolean | null;
 
-    get states(): ILayoutStates<Layout>;
+    get states(): IKitOptionsStates<Options>;
+
+    exposeLayout<K extends keyof Layout>(key: K, widget: Layout[K]): this;
 
     setOptions(options: Options): this;
 
@@ -31,14 +38,14 @@ export interface IKit<Layout, Options> {
 
     unmounted(callable: (context: ICallablePayload<any, any, any> | undefined) => void): this;
 
-    synchronizeStates(states: Record<string, IState<any>>): this;
+    // synchronizeStates(states: Record<string, IState<any>>): this;
+
+    synchronize(): this;
 
     structure<K extends keyof Layout>(name: K): ILayoutCallable<Layout[K]>;
 }
 
 export type IKitWidgetCallable = (context?: ICallablePayload<any, any, any>) => IChildren<any>
-
-export type IKitWidgetStrictCallable<E extends HTMLElement, A extends IAttributes, P, C> = (context?: ICallablePayload<E, A, P>) => IChildren<C>
 
 export interface IKitSignalMap<Layout, Options> {
     status: boolean | null | undefined;
@@ -47,3 +54,13 @@ export interface IKitSignalMap<Layout, Options> {
     unmount: ICallablePayload<any, any, any> | undefined;
 }
 
+export type IKitOptionsStates<T> = {
+    [K in keyof T]: IState<T[K] | undefined>
+}
+
+
+export interface IKitRef<Layout, Options> {
+    get current(): IKit<Layout, Options> | undefined;
+
+    bind(kit: IKit<Layout, Options>): this;
+}

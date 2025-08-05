@@ -7,7 +7,9 @@ import type {
     IWidgetNode,
     IStyleSheetPseudoClasses,
     IStyleSheetPseudoElements,
-    IStyleSheetAtRules, IStyleSheetStrictCascade,
+    IStyleSheetAtRules, IStyleSheetStrictCascade, IInlineStyleOptions,
+    IInlineStyle,
+    IStyleStrictDeclaration,
 } from "./types/index.js";
 import {RelativeUnit} from "./enums.js";
 import {RemMetric} from "./metric.js";
@@ -251,7 +253,19 @@ export class StyleWidget implements IStyleSheet {
         if (!declaration) return;
 
         else if ((declaration instanceof StyleWidget)) {
-            this.parse(declaration.declarations, selector);
+            if (selector?.startsWith('@')) {
+                const accumulate = Object.entries(declaration.declarations)
+                    .map(([key, value]) => {
+                        if (value instanceof StyleWidget) {
+                            const values = Object.entries(value.declarations)
+                                .map(([k, v]) => `${this.parseProperty(k, v as any)}`)
+                            return `${key.replace(/&/gi, this._selector)}{${values.join(';')}}`;
+                        }
+                        return `${key.replace(/&/gi, this._selector)}{${this.parse(value as IStyleSheetDeclarations)}}`;
+                    });
+                this._definitions.push(`${selector}{${accumulate.join(' ')}}`)
+                // return accumulate.join(' ');
+            } else return this.parse(declaration.declarations, selector);
         } else if (typeof declaration == 'object') {
 
             const cumulate = Object.entries(declaration)
@@ -267,7 +281,6 @@ export class StyleWidget implements IStyleSheet {
         } else if (selector) {
             return `${this.parseProperty(selector, declaration)}`
         }
-
 
         return undefined
     }
@@ -375,7 +388,10 @@ export class StyleWidget implements IStyleSheet {
      * @return {this} The current instance with the updated focus styles.
      */
     focus(declarations: IStyleSheetDeclarations): this {
-        this.merge({'&:focus-with': Style(declarations)});
+        this.merge({
+            '&:focus-with': Style(declarations),
+            '&:focus': Style(declarations),
+        });
         return this;
     }
 
@@ -597,6 +613,80 @@ export class StyleWidget implements IStyleSheet {
         }
         return this;
     }
+}
+
+
+export class InlineStyleWidget implements IInlineStyle {
+
+    protected _attached: Map<string, IWidgetNode<any, any>> = new Map()
+    protected _declarations: IStyleStrictDeclaration = {} as IStyleStrictDeclaration;
+
+    constructor(
+        public readonly options: IInlineStyleOptions = {} as IInlineStyleOptions
+    ) {
+    }
+
+    protected compute(): string[] {
+        const accumulate: string[] = [];
+
+        for (const [key, value] of Object.entries(this._declarations)) {
+            if (typeof value !== 'function') {
+                accumulate.push(`${key}:${String(value)}`);
+            }
+        }
+
+        return accumulate;
+    }
+
+    protected assign<K extends keyof IStyleStrictDeclaration>(widget: IWidgetNode<any, any>, key: K, value: IStyleStrictDeclaration[K]): this {
+        if (widget?.clientElement)
+            widget.clientElement.style[key] = value;
+        return this;
+    }
+
+    sync(widget?: IWidgetNode<any, any>): this {
+        const fingerprint = widget?.fingerprint;
+        for (const w of (fingerprint ? [this._attached.get(fingerprint)] : [...this._attached.values()]))
+            if (w)
+                for (const [key, value] of Object.entries(this._declarations))
+                    this.assign(w, key as keyof IStyleStrictDeclaration, value)
+        return this;
+    }
+
+    attach(widget: IWidgetNode<any, any>): this {
+        if (widget.clientElement) {
+            this._attached.set(widget.fingerprint, widget);
+            this.sync(widget);
+        }
+        return this;
+    }
+
+    detach(): this {
+        this._attached.clear()
+        return this;
+    }
+
+    remove<K extends keyof IStyleStrictDeclaration>(key: K | K[]): this {
+        throw new Error(`Method not implemented. ${key}`);
+    }
+
+    update<K extends keyof IStyleStrictDeclaration>(key: K, value: IStyleStrictDeclaration[K]): this {
+        throw new Error(`Method not implemented. ${key}=${value}`);
+    }
+
+    merge(declaration?: IStyleStrictDeclaration): this {
+        this._declarations = {...this._declarations, ...declaration};
+        return this;
+    }
+
+    clear(): this {
+        throw new Error("Method not implemented.");
+    }
+
+    toString(): string {
+        return this.compute().join(';');
+    }
+
 }
 
 /**

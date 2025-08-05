@@ -170,6 +170,7 @@ export enum ObjectSize {
     Medium = 'medium',
     Large = 'large',
     ExtraLarge = 'x-large',
+    Full = 'full'
 }
 
 export enum ObjectSizeScale {
@@ -288,41 +289,38 @@ export enum AriaLiveRegionRole {
 }
 
 
-
 export enum Displaying {
-  Block = "block",
-  Inline = "inline",
-  InlineBlock = "inline-block",
-  Flex = "flex",
-  InlineFlex = "inline-flex",
-  Grid = "grid",
-  InlineGrid = "inline-grid",
-  FlowRoot = "flow-root",
+    Block = "block",
+    Inline = "inline",
+    InlineBlock = "inline-block",
+    Flex = "flex",
+    InlineFlex = "inline-flex",
+    Grid = "grid",
+    InlineGrid = "inline-grid",
+    FlowRoot = "flow-root",
 
-  None = "none",
-  Contents = "contents",
+    None = "none",
+    Contents = "contents",
 
-  BlockFlex = "block flex",
-  BlockFlow = "block flow",
-  BlockFlowRoot = "block flow-root",
-  BlockGrid = "block grid",
-  InlineFlexMulti = "inline flex",
-  InlineFlow = "inline flow",
-  InlineFlowRoot = "inline flow-root",
-  InlineGridMulti = "inline grid",
+    BlockFlex = "block flex",
+    BlockFlow = "block flow",
+    BlockFlowRoot = "block flow-root",
+    BlockGrid = "block grid",
+    InlineFlexMulti = "inline flex",
+    InlineFlow = "inline flow",
+    InlineFlowRoot = "inline flow-root",
+    InlineGridMulti = "inline grid",
 
-  Table = "table",
-  TableRow = "table-row",
-  ListItem = "list-item",
+    Table = "table",
+    TableRow = "table-row",
+    ListItem = "list-item",
 
-  Inherit = "inherit",
-  Initial = "initial",
-  Revert = "revert",
-  RevertLayer = "revert-layer",
-  Unset = "unset",
+    Inherit = "inherit",
+    Initial = "initial",
+    Revert = "revert",
+    RevertLayer = "revert-layer",
+    Unset = "unset",
 }
-
-
 
 export enum WidgetsNativeProperty {
     Signal = 'signal',
@@ -337,4 +335,23 @@ export enum WidgetsNativeProperty {
     Listen = 'listen',
     Features = 'features',
     Elevate = 'elevate',
+}
+
+export enum GestureType {
+    SlideLeft = 'slideleft',
+    SlideRight = 'slideright',
+    SlideTop = 'slidetop',
+    SlideBottom = 'slidebottom',
+    SlideTopLeft = 'slidetopleft',
+    SlideTopRight = 'slidetopright',
+    SlideBottomLeft = 'slidebottomleft',
+    SlideBottomRight = 'slidebottomright',
+    SlideX = 'slidex',
+    SlideY = 'slidey',
+    Swipe = 'swipe',
+    Swing = 'swing',
+    ZoomIn = 'zoomin',
+    ZoomOut = 'zoomout',
+    DoubleTap = 'doubletap',
+    LongPress = 'longpress',
 }
