@@ -18,6 +18,10 @@ export class LinkWidget extends WidgetNode<HTMLAnchorElement, ILinkAttributes> {
     get tag(): string {
         return 'a'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 }
 
 /**
@@ -29,6 +33,10 @@ export class StrongTextWidget extends WidgetNode<HTMLElement, IStrongAttributes>
     get tag(): string {
         return 'strong'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 }
 
 /**
@@ -40,6 +48,10 @@ export class ItalicTextWidget extends WidgetNode<HTMLElement, IItalicAttributes>
     get tag(): string {
         return 'i'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 }
 
 /**
@@ -51,6 +63,10 @@ export class SmallerTextWidget extends WidgetNode<HTMLSpanElement, ISpanAttribut
     get tag(): string {
         return 'span'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 
     static get style(): IStyleSheetDeclarations {
         return {
@@ -69,6 +85,10 @@ export class SmallTextWidget extends WidgetNode<HTMLSpanElement, ISpanAttributes
         return 'span'
     };
 
+    get kind(): string {
+        return 'text'
+    }
+
     static get style(): IStyleSheetDeclarations {
         return {
             fontSize: `small`
@@ -86,10 +106,8 @@ export class TextWidget extends WidgetNode<HTMLSpanElement, ISpanAttributes> {
         return 'span'
     };
 
-    static get style(): IStyleSheetDeclarations {
-        return {
-            fontSize: `medium`
-        }
+    get kind(): string {
+        return 'text'
     }
 }
 
@@ -102,6 +120,10 @@ export class LargeTextWidget extends WidgetNode<HTMLSpanElement, ISpanAttributes
     get tag(): string {
         return 'span'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 
     static get style(): IStyleSheetDeclarations {
         return {
@@ -119,6 +141,10 @@ export class LargerTextWidget extends WidgetNode<HTMLSpanElement, ISpanAttribute
     get tag(): string {
         return 'span'
     };
+
+    get kind(): string {
+        return 'text'
+    }
 
     static get style(): IStyleSheetDeclarations {
         return {
@@ -160,8 +186,18 @@ export function SmallText(declaration: IWidgetDeclaration<HTMLSpanElement, ISpan
  * @description Construct's Function of `TextWidget`
  * @param declaration
  * @constructor
+ * @deprecated Use `Span` now
  */
 export function Text(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): TextWidget {
+    return new TextWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `TextWidget`
+ * @param declaration
+ * @constructor
+ */
+export function Span(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): TextWidget {
     return new TextWidget(declaration)
 }
 

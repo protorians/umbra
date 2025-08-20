@@ -5,7 +5,7 @@ export function declarationExplodes<D extends IWidgetDeclaration<any, any>, T>(
     targetKeys: (keyof T)[]
 ): IWidgetDeclarationExploded<D, T> {
     const extended: T = {} as T
-    const declaration: D = {} as D
+    const declaration: Omit<D, keyof T> = {} as Omit<D, keyof T>
 
     Object.entries(props as Object)
         .forEach(([key, value]) => {

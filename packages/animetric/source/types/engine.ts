@@ -32,6 +32,7 @@ export type IAnimetricSequence = {
 export interface IAnimetricSlimOptions extends Partial<IAnimetricBaseOptions>, IAnimetricGroupOptions {
     from?: Partial<IAnimetricSequence>;
     to: Partial<IAnimetricSequence>;
+    forwarding?: boolean;
 }
 
 
@@ -128,13 +129,13 @@ export interface IAnimetric extends IAnimetricController {
     initialize(): this;
 
     /**
-     * Set `from`
+     * Set `from` option
      * @param value
      */
     from(...value: number[]): this;
 
     /**
-     * Set `duration`
+     * Set `duration` option
      * @param millisecondes
      */
     duration(millisecondes: number): this;
@@ -146,31 +147,31 @@ export interface IAnimetric extends IAnimetricController {
     delay(millisecondes: number): this;
 
     /**
-     * Set `precision` : round numeric to fix
+     * Set `precision` option : round numeric to fix
      * @param decimal
      */
     decimal(decimal: number): this;
 
     /**
-     * Set `infinite` : `true` or `false`
+     * Set `infinite` option : `true` or `false`
      * @param infinite
      */
     infinite(infinite: boolean): this;
 
     /**
-     * Set `ease` : computing easing
+     * Set `ease` option : computing easing
      * @param ease
      */
     ease(ease: IAnimetricEasing | undefined): this;
 
     /**
-     * Set `to`
+     * Set `to` option
      * @param value
      */
     to(...value: number[]): this;
 
     /**
-     * Set `callable` : on engine update frame
+     * Set `callable` option : on engine update frame
      * @param callback
      */
     callable(callback: IAnimetricCallable): this;

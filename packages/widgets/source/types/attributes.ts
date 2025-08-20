@@ -174,14 +174,23 @@ export interface IColumnAttributes extends ICommonAttributes {
 
 export interface IGridAttributes extends ICommonAttributes {
     grid?: string;
-    gridTemplateRows?: string;
-    gridTemplateColumns?: string;
-    gridTemplateAreas?: string;
-    gridAutoRows?: string;
-    gridAutoColumns?: string;
-    gridAutoFlow?: string;
-    gridRowGap?: string;
-    gridColumnGap?: string;
+    gap?: string;
+    area?: string;
+    column?: string;
+    columnStart?: string;
+    columnEnd?: string;
+    row?: string;
+    rowStart?: string;
+    rowEnd?: string;
+    template?: string;
+    templateRows?: string;
+    templateColumns?: string;
+    templateAreas?: string;
+    autoRows?: string;
+    autoColumns?: string;
+    autoFlow?: string;
+    rowGap?: string;
+    columnGap?: string;
 }
 
 export interface ILinkAttributes extends ICommonAttributes {
@@ -291,7 +300,7 @@ export interface IInputableAttributes extends ICommonAttributes, IInputableCommo
     placeholder?: string;
     readonly?: boolean;
     required?: boolean;
-    size?: number;
+    size?: number | string;
     // src?: string; // Input image type
     step?: number;
     value?: string;
@@ -320,6 +329,7 @@ export interface IVideoAttributes extends ICommonAttributes {
     poster?: string;
     preload?: 'auto' | 'metadata' | 'none';
     src?: string;
+    type?: string;
 }
 
 export interface ISourceProps extends ICommonAttributes {
@@ -354,8 +364,10 @@ export interface IAudioAttributes extends ICommonAttributes {
     controls?: boolean;
     loop?: boolean;
     muted?: boolean;
-    preload?: boolean;
-    src: string;
+    preload?: 'auto' | 'metadata' | 'none';
+    // preload?: boolean;
+    src?: string;
+    type?: string;
 }
 
 export interface IIFrameAttributes extends ICommonAttributes {

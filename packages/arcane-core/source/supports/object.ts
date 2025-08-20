@@ -4,7 +4,7 @@ export namespace ArcaneObject {
             .reduce((acc, key) => acc && acc[key], obj);
     }
 
-    export function deepMerge(
+    export function unWrap(
         input: any,
         prefix?: string,
         suffix?: string,

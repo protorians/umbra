@@ -3,17 +3,32 @@
     <words>
       <w>akwaba</w>
       <w>animetric</w>
+      <w>ascentfore</w>
+      <w>blackfore</w>
       <w>builddir</w>
       <w>cachedir</w>
+      <w>errorfore</w>
+      <w>fivefore</w>
       <w>fnames</w>
+      <w>fourfore</w>
       <w>katon</w>
+      <w>oklch</w>
+      <w>onefore</w>
       <w>outdir</w>
       <w>pipelinedir</w>
       <w>protorians</w>
       <w>slimetric</w>
       <w>sourcedir</w>
+      <w>successfore</w>
+      <w>threefore</w>
+      <w>twofore</w>
+      <w>unkwnon</w>
       <w>vmax</w>
       <w>vmin</w>
+      <w>warningfore</w>
+      <w>whitefore</w>
+      <w>widgetui</w>
+      <w>xxxl</w>
     </words>
   </dictionary>
 </component>

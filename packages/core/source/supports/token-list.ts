@@ -1,5 +1,6 @@
-import {syncObjectArray} from "../utilities";
 import {ITokenList} from "../types";
+import {ObjectUtility} from "../utilities";
+import syncObjectArray = ObjectUtility.syncObjectArray;
 
 export function TokenList<T>(): ITokenList<T> {
 

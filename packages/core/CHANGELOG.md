@@ -1,5 +1,52 @@
 # @protorians/core
 
+## 0.6.0
+
+### Minor Changes
+
+- Refactoring
+
+## 0.5.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+## 0.4.1
+
+### Patch Changes
+
+- Sync Version and Dependancies
+
+## 0.4.0
+
+### Minor Changes
+
+- Breaking Change
+- Refactor utilities into distinct namespaces for clarity
+
+## 0.3.8
+
+### Patch Changes
+
+- Sync versions
+
+## 0.3.7
+
+### Patch Changes
+
+- Update default length parameter in pad function to 2
+
+## 0.3.6
+
+### Patch Changes
+
+- Add new utility string functions and improve existing ones
+- Add utility functions for number validation and adjustment
+- Add exports for enums and walkable-list
+- Refactor `pad` to support numeric input.
+- Add support for tracking old index and item in WalkableList
+
 ## 0.3.5
 
 ### Patch Changes
@@ -145,9 +192,3 @@
 ### Patch Changes
 
 - Patch version
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change

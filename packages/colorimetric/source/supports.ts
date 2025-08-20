@@ -9,7 +9,7 @@ import {
     IColorValueSyntax, IColorXyz, IOklchAlgo
 } from "./types.js";
 import {ColorimetricType} from "./enums.js";
-import {adjustDecimalPercent, adjustPercent, clamp, pad, trimSpace} from "@protorians/core";
+import {NumberUtility, TextUtility} from "@protorians/core";
 
 export namespace Colorimetric {
 
@@ -27,16 +27,17 @@ export namespace Colorimetric {
         type: ColorimetricType.Oklch,
         lightness: {
             breakpoint: 50,
-            min: 46,
+            min: 5,
             middle: 50,
-            max: 64,
+            max: 95,
+            ease: .16,
         },
     }
 
     export function render(hex: string, alpha: number = 100): string {
         return Settings.type === ColorimetricType.Oklch
             ? Oklch.toString({...Hex.toOklch(hex), alpha})
-            : `${hex}${pad(Math.round(alpha * .001 * 255).toString(16))}`;
+            : `${hex}${NumberUtility.pad(Math.round(alpha * .001 * 255).toString(16))}`;
     }
 
     export function spectre(value: number) {
@@ -51,14 +52,14 @@ export namespace Colorimetric {
         } else {
             color = color.trim();
             if (color.toLowerCase().startsWith(`rgb(`)) {
-                const rgb = trimSpace(color).match(Colorimetric.RGB_PATTERN)
+                const rgb = TextUtility.trimSpace(color).match(Colorimetric.RGB_PATTERN)
                 return rgb ? Rgba.toHex(
                     parseFloat(rgb[1] || '0'),
                     parseFloat(rgb[2] || '0'),
                     parseFloat(rgb[3] || '0')
                 ) : '#000000';
             } else if (color.toLowerCase().startsWith(`rgba(`)) {
-                const rgb = trimSpace(color).match(Colorimetric.RGBA_PATTERN)
+                const rgb = TextUtility.trimSpace(color).match(Colorimetric.RGBA_PATTERN)
                 return rgb ? Rgba.alphaToHex(
                     parseInt(rgb[1] || '0'),
                     parseInt(rgb[2] || '0'),
@@ -81,7 +82,7 @@ export namespace Colorimetric {
                 return `#${hex}${hex}`;
             }
         }
-        return trimSpace(`${color}`);
+        return TextUtility.trimSpace(`${color}`);
     }
 
     export function validate(value: string) {
@@ -200,7 +201,7 @@ export namespace Colorimetric {
     }
 
     export function byteValues(value: number) {
-        return clamp(value, 0, 255);
+        return NumberUtility.clamp(value, 0, 255);
     }
 
     export function primary(color: number, m: number) {
@@ -213,9 +214,9 @@ export namespace Colorimetric {
         const hex = serialize(color);
         return `#${
             [
-                pad((255 - parseInt(hex.slice(1, 3), 16)).toString(16)),
-                pad((255 - parseInt(hex.slice(3, 5), 16)).toString(16)),
-                pad((255 - parseInt(hex.slice(5, 7), 16)).toString(16)),
+                NumberUtility.pad((255 - parseInt(hex.slice(1, 3), 16)).toString(16)),
+                NumberUtility.pad((255 - parseInt(hex.slice(3, 5), 16)).toString(16)),
+                NumberUtility.pad((255 - parseInt(hex.slice(5, 7), 16)).toString(16)),
             ].join('')
         }`
     }
@@ -463,14 +464,14 @@ export namespace Colorimetric {
 
         static toString(color: IColorValueSyntax): string {
             const rgb = Hex.toRgb(serialize(color));
-            return trimSpace(`rgb(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)})`);
+            return TextUtility.trimSpace(`rgb(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)})`);
         }
 
         static toAlphaString(color: IColorValueSyntax, alpha: number): string {
             const rgb = Hex.toRgb(serialize(color));
             alpha = alpha > 1 ? alpha / 10 : alpha;
             alpha = alpha < 0 ? alpha : Math.abs(alpha)
-            return trimSpace(`rgba(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)}, ${adjustDecimalPercent(alpha)})`);
+            return TextUtility.trimSpace(`rgba(${spectre(rgb.red)}, ${spectre(rgb.green)}, ${spectre(rgb.blue)}, ${NumberUtility.decimalPercent(alpha)})`);
         }
 
         static toXyz({red, green, blue}: IColorRgb): IColorXyz {
@@ -499,8 +500,8 @@ export namespace Colorimetric {
     export const Oklch: IColorimetricAlgo<IColorOklch> & IOklchAlgo = {
 
         toString(color: IColorOklch) {
-            color.lightness = adjustPercent(color.lightness);
-            color.alpha = adjustPercent(color.alpha || 100);
+            color.lightness = NumberUtility.percent(color.lightness);
+            color.alpha = NumberUtility.percent(color.alpha || 100);
             // color.hue = spectre(color.hue);
             return `oklch(${color.lightness}% ${color.chroma} ${color.hue}${color.alpha < 100 ? ` / ${color.alpha}%` : ``})`
         },
@@ -530,23 +531,29 @@ export namespace Colorimetric {
             if (parsed) {
                 let integer = parseInt(value);
                 if (!isNaN(integer)) {
-                    if (integer < 100) parsed.alpha = adjustPercent(integer * 10);
-                    else {
-                        const gap = (100 - parsed.lightness);
-                        parsed.lightness = adjustPercent(
-                            parsed.lightness <= Settings.lightness.breakpoint
-                                ? 100 - ((gap * integer * .001) + (gap * Settings.lightness.max * .01))
-                                : parsed.lightness - (gap * integer * .001) + (gap * Settings.lightness.min * .01)
-                        );
-                    }
+                    parsed.lightness = NumberUtility.clamp(100 - (integer * .1), Settings.lightness.min, Settings.lightness.max);
+                } else if (value === 'weak') {
+                    parsed.lightness = NumberUtility.clamp(
+                        parsed.lightness + ((100 - parsed.lightness) * .2),
+                        Settings.lightness.min,
+                        100
+                    );
+                } else if (value === 'heavy') {
+                    parsed.lightness = NumberUtility.clamp(
+                        parsed.lightness - ((100 - parsed.lightness) * .2),
+                        Settings.lightness.min,
+                        Settings.lightness.max
+                    );
                 } else if (value === 'alpha') {
                     parsed.lightness = Settings.lightness.middle;
                 } else if (value === 'invert') {
-                    parsed.lightness = parsed.lightness >= Settings.lightness.breakpoint
-                        ? 30
-                        : 70;
+                    parsed.lightness = (
+                        parsed.lightness >= Settings.lightness.breakpoint
+                        ? Math.max(100 - parsed.lightness, Settings.lightness.min)
+                        : Math.min(100 - parsed.lightness, Settings.lightness.max)
+                    );
                 } else if (value.startsWith('a')) {
-                    parsed.alpha = adjustPercent(parseInt(value.substring(1)) * 10);
+                    parsed.alpha = NumberUtility.percent(parseInt(value.substring(1)) * 10);
                 }
             }
 
@@ -575,8 +582,8 @@ export namespace Colorimetric {
     export class Lch {
 
         static toString(color: IColorLch) {
-            color.lightness = adjustPercent(color.lightness);
-            color.alpha = adjustPercent(color.alpha || 100);
+            color.lightness = NumberUtility.percent(color.lightness);
+            color.alpha = NumberUtility.percent(color.alpha || 100);
             color.hue = spectre(color.hue);
             return `lch(${color.lightness}% ${color.chroma} ${color.hue}deg${color.alpha < 100 ? ` / ${color.alpha}%` : ``})`
         }

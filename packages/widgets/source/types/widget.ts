@@ -215,7 +215,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     // nsa(nsa: IGlobalAttributes, ns?: string, separator?: string): this;
 
-    style(declaration: IStyleSheetDeclarations): this;
+    style(declaration: IStyleSheetDeclarations | IStyleSheet): this;
 
     // style(declaration: Partial<IStyleDeclaration>): this;
 
@@ -237,6 +237,10 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     on<T extends keyof IGlobalEventMap>(type: T, callback: ICallable<E, A, IGlobalEventPayload<T>> | null): this;
 
+    detachEvent<T extends keyof IGlobalEventMap>(type: T): this;
+
+    prepend(children: IWidgetNode<any, any> | IUiTarget<any>): this;
+
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this;
 
     trigger(type: keyof IGlobalEventMap): this;
@@ -246,6 +250,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
     computedStyle(token: keyof IStyleDeclaration): string | undefined;
 
     clone(): this;
+
+    callable(callable: IWidgetSideCallableOptions<E>): this;
 
     // render(): this;
 }
@@ -397,7 +403,7 @@ export type INativeProperties<E extends HTMLElement, A extends IAttributes> = {
 export type IWidgetDeclaration<E extends HTMLElement, A extends IAttributes> = A & INativeProperties<E, A>
 
 export type IWidgetDeclarationExploded<D extends IWidgetDeclaration<any, any>, T> = {
-    declaration: D;
+    declaration: Omit<D, keyof T>;
     extended: T;
 }
 
@@ -416,3 +422,10 @@ export type IAttributesScope<E extends HTMLElement, A extends IAttributes> =
     A
     // & IPropsExtensible<E, A>
     & IWidgetDeclaration<E, A>;
+
+
+
+export interface IWidgetSideCallableOptions<E extends HTMLElement> {
+    client?: (element: E) => void;
+    server?: (element: ISpectraElement) => void;
+}

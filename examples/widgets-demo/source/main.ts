@@ -124,7 +124,7 @@ Mount('AppMain', () => {
                         },
                         children: 'We are protorians',
                     }),
-                    SmallText({
+                    SmallerText({
                         style: {},
                         children: 'Save your todolist',
                     }),
@@ -188,7 +188,6 @@ Mount('AppMain', () => {
                                                 document.activeElement.value = ''
                                             }
                                         }
-
                                     }
 
                                 }

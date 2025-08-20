@@ -1,5 +1,109 @@
 # @protorians/widgets
 
+## 0.9.0
+
+### Minor Changes
+
+- Refactoring
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.3.0
+  - @protorians/animetric@0.3.0
+  - @protorians/spectra@0.2.0
+  - @protorians/core@0.6.0
+
+## 0.8.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.2.0
+  - @protorians/animetric@0.2.0
+  - @protorians/spectra@0.1.0
+  - @protorians/core@0.5.0
+
+## 0.7.0
+
+### Minor Changes
+
+- New features, fix bug
+- Add GridWidget implementation with grid layout support
+- Add ColorScheme and ColorPalette utilities for theme management
+- Add EdgeInsets function to calculate edge insets values
+- Remove color scheme and palette management code
+- Refactor grid attributes interface to use standardized names
+- Add Padding and Margin utility functions with presets
+- Refactor Stack widgets to use specific row and column attributes.
+- Update Style function to include return type annotation
+- Add new layout exports to index.ts file
+- Add EdgeInset-related interfaces to layout types
+- Refactor widget locking and cleanup redundant Callable usage
+- Refactor and extend stylesheet API with new pseudo-classes, elements, and rules.
+
+## 0.6.8
+
+### Patch Changes
+
+- Sync Version and Dependancies
+- Updated dependencies
+  - @protorians/colorimetric@0.0.28
+  - @protorians/animetric@0.1.7
+  - @protorians/spectra@0.0.11
+  - @protorians/core@0.4.1
+
+## 0.6.7
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.1.0
+  - @protorians/animetric@0.2.0
+  - @protorians/spectra@0.1.0
+
+## 0.6.6
+
+### Patch Changes
+
+- Sync versions
+- Updated dependencies
+  - @protorians/colorimetric@0.0.26
+  - @protorians/animetric@0.1.5
+  - @protorians/spectra@0.0.9
+  - @protorians/core@0.3.8
+
+## 0.6.5
+
+### Patch Changes
+
+- Add comprehensive documentation for widgets library
+- Add French localization for widgets package README
+- Use structuredClone for deep copying in widget-node
+- Refactor Manticore engine signal handling and cleanup.
+- Refactor widget state handling in `enable` and `disable`.
+- Add `prepend` and `callable` methods to WidgetNode
+- Move `StateWidget` and `StateWidgetWatcher` for state management
+- Add `useStateful` hook for stateful widget composite management
+- Add useStateless hook for handling stateless widget composite logic
+- Add return type IState<T> to createState function
+- Refactor hooks index: modularize state management classes.
+- Remove commented-out lifecycle methods from manticore.ts
+- Add explicit return type to createRef function
+- Add support for associateSelector in stylesheet management
+- Add utility types for unwrapping state and props
+- Refactor `useStateless` to enforce `IStatelessProps` typing
+- Add detachEvent method to widget-node
+- Add `detachEvent` method to handle widget event removal
+
 ## 0.6.4
 
 ### Patch Changes
@@ -263,17 +367,3 @@
   - @protorians/animetric@0.1.0
   - @protorians/colorimetric@0.1.0
   - @protorians/core@0.3.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @protorians/core@1.0.0

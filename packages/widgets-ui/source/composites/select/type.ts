@@ -20,18 +20,16 @@ export interface IThemeSelectCheckbox {
     unchecked?: IWidgetNode<any, any>;
 }
 
-export type IThemeSelectStylesSlots =
-    "widget"
-    | "handler"
-    | "arrow"
-    | "options"
-    | "option"
-    | "selected"
-    | "checkbox"
-    | "optionContent";
-
 export type IThemeSelectStyles = {
-    [K in IThemeSelectStylesSlots]?: IStyleSheetDeclarations;
+    widget?: IStyleSheetDeclarations;
+    handler?: IStyleSheetDeclarations;
+    arrow?: IStyleSheetDeclarations;
+    options?: IStyleSheetDeclarations;
+    option?: IStyleSheetDeclarations;
+    selected?: IStyleSheetDeclarations;
+    focused?: IStyleSheetDeclarations;
+    checkbox?: IStyleSheetDeclarations;
+    optionContent?: IStyleSheetDeclarations;
 };
 
 export type IThemeSelectCallable = (select: IThemeSelect) => void;
@@ -43,6 +41,7 @@ export type IThemeSelectListeners = {
 }
 
 export interface IThemeSelectOptions {
+    multipleSuffix?: string;
     value?: IThemeSelectValue;
     options: IThemeSelectOption[];
     arrows?: IThemeSelectArrows;

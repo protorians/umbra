@@ -20,7 +20,7 @@ import type {
     IStyleSheetDeclarations,
     IWidgetDeclaration,
     IWidgetElement,
-    IWidgetNode,
+    IWidgetNode, IWidgetSideCallableOptions,
     IWidgetSignalMap,
 } from "./types/index.js";
 import {
@@ -29,8 +29,8 @@ import {
     IUiTarget,
     MetricRandom,
     Signal,
+    TextUtility,
     TreatmentQueueStatus,
-    camelCase
 } from "@protorians/core";
 import {ToggleOption, ObjectElevation, WidgetsNativeProperty, Displaying} from "./enums.js";
 import {Widgets} from "./widgets.js";
@@ -234,7 +234,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : new SpectraElement(this.tag)
         this._fingerprint = `${MetricRandom.CreateAlpha(6).join('')}-${MetricRandom.Create(10).join('')}`;
         this._signal = new Signal.Stack;
-        this.mount(() => this._isConnected = true)
+        this.mount(() => this._isConnected = true);
     }
 
     /**
@@ -298,6 +298,16 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     /**
+     * Returns the type of the object or entity.
+     * This method specifies the kind, typically used to identify the object's category or role.
+     *
+     * @return {string} A string representing the kind, which in this case is 'view'.
+     */
+    get kind(): string{
+        return 'view'
+    }
+
+    /**
      * Getter method that retrieves the fingerprint value.
      *
      * @return {string} The fingerprint of the current instance.
@@ -312,7 +322,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {boolean} Returns true if the connection is established, otherwise false.
      */
     get isConnected(): boolean {
-        return this._isConnected;
+        return this._isConnected || ((Environment.Client && this.clientElement) ? this.clientElement.isConnected : false);
     }
 
     /**
@@ -377,7 +387,7 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
             : [...this.serverElement?.blueprint.attributes.entries() || []]
                 .filter(x => x.toString().startsWith('data-'))
 
-        for (const [key, value] of entries) dataset[camelCase(key)] = value;
+        for (const [key, value] of entries) dataset[TextUtility.camelCase(key)] = value;
 
         return dataset;
     }
@@ -870,15 +880,11 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * Applies a set of style declarations to the current context. If the context is not yet available,
      * the declarations will be deferred until the 'mount' event occurs.
      *
-     * @param {IStyleSheetDeclarations} declaration - The style declarations to be applied.
+     * @param {IStyleSheetDeclarations | IStyleSheet} declaration - The style declarations to be applied.
      * @return {this} Returns the instance of the current object to allow chaining.
      */
-    style(declaration: IStyleSheetDeclarations): this {
-        if (this._context) this._context.engine?.style(this, declaration);
-        else if (!this._context) this._signal.listen('mount', () => {
-            this._context?.engine?.style(this, declaration);
-            return TreatmentQueueStatus.SnapOut;
-        })
+    style(declaration: IStyleSheetDeclarations | IStyleSheet): this {
+        this.stylesheet.merge(declaration).sync();
         return this;
     }
 
@@ -1032,9 +1038,18 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this;
     }
 
+    detachEvent<T extends keyof IGlobalEventMap>(type: T): this {
+        if (this._context) this._context.engine?.detachEvent(this, type);
+        else if (!this._context) this._signal.listen('mount', () => {
+            this._context?.engine?.detachEvent(this, type);
+            return TreatmentQueueStatus.SnapOut;
+        })
+        return this;
+    }
+
 
     clone(): this {
-        return new (this as any).constructor({...this.props, ...this.attributes});
+        return new (this as any).constructor(structuredClone({...this.props, ...this.attributes}));
     }
 
 
@@ -1046,15 +1061,39 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * @return {this} The current instance for method chaining.
      */
     append(children: IWidgetNode<any, any> | IUiTarget<any>): this {
-        if (Environment.Client) {
-            if (Array.isArray(children))
-                children.forEach(child => this.clientElement?.append(child))
+        if (Array.isArray(children))
+            children.forEach(child => this.element?.append(child))
 
-            else if (children instanceof WidgetNode) {
-                this.clientElement?.append(children.element)
-                children.useContext(this._context)
-            }
+        else if (children instanceof WidgetNode) {
+            this.element?.append(children.element)
+            children.useContext(this._context)
         }
+        return this;
+    }
+
+    prepend(children: IWidgetNode<any, any> | IUiTarget<any>): this {
+
+        if (Array.isArray(children))
+            children.forEach(child => this.element?.prepend(child))
+
+        else if (children instanceof WidgetNode) {
+            this.element?.prepend(children.element)
+            children.useContext(this._context)
+        }
+
+        return this;
+    }
+
+
+    /**
+     * Configures a callable function for client or server environments based on the provided options.
+     *
+     * @param {IWidgetSideCallableOptions<E>} callable - The options object specifying client and server callable functions.
+     * @return {this} The current instance of the object for chaining.
+     */
+    callable(callable: IWidgetSideCallableOptions<E>): this {
+        if (Environment.Client && this.clientElement && callable.client) callable.client(this.clientElement)
+        if (!Environment.Client && this.serverElement && callable.server) callable.server(this.serverElement)
         return this;
     }
 

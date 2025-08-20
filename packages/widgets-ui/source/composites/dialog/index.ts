@@ -7,7 +7,7 @@ import {
 } from "@protorians/widgets";
 import {ThemeDialogOptions} from "./type.js";
 import {IModal, IModalOptions, ModalKit} from "../../kits/index.js";
-import {DialogStyle} from "./style.js";
+import {BoxStyle} from "../../styles/box.js";
 import type {ITheme} from "../../types/index.js";
 import {LayerVariant} from "../../enums.js";
 
@@ -34,13 +34,13 @@ export function ThemeDialog(
             position: [PositionX.Center, PositionY.Center],
             trigger: declarations.trigger!,
             children: Column({
-                style: DialogStyle.Container(theme, coloring),
+                style: BoxStyle.Container(theme, coloring),
                 children: [
                     Row({
-                        style: DialogStyle.Content(),
+                        style: BoxStyle.Content(),
                         children: [
                             declarations.icon ? Row({
-                                style: DialogStyle.Icon(),
+                                style: BoxStyle.Icon(),
                                 children: declarations.icon,
                             }) : undefined,
                             Column({
@@ -71,7 +71,7 @@ export function ThemeDialog(
                         ]
                     }),
                     Row({
-                        style: DialogStyle.Buttons(theme, coloring),
+                        style: BoxStyle.Buttons(theme, coloring),
                         children: declarations.actions ? declarations.actions(modal) : [],
                     }),
                 ]

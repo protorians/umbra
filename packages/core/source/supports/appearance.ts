@@ -1,14 +1,15 @@
 import {MetricRandom} from "./metric";
 import {EventDispatcher} from "./event-dispatcher";
 import type {
-  IAppearance,
-  IAppearanceEmitterScheme,
-  IAppearanceObject,
-  IAppearanceObjectDestroyed,
-  IAppearanceStyleSheet,
-  IAppearanceValues
+    IAppearance,
+    IAppearanceEmitterScheme,
+    IAppearanceObject,
+    IAppearanceObjectDestroyed,
+    IAppearanceStyleSheet,
+    IAppearanceValues
 } from "../types";
-import {unCamelCase, objectToString} from "../utilities";
+import {ObjectUtility, TextUtility} from "../utilities";
+import unCamelCase = TextUtility.unCamelCase;
 
 
 /**
@@ -20,70 +21,70 @@ import {unCamelCase, objectToString} from "../utilities";
  * CoreAppearanceProps<IAppearanceObject>( { color : '#777' } )
  */
 export function CoreAppearanceProps<T extends IAppearanceObject | IAppearanceObjectDestroyed>(
-  name: keyof IAppearanceObject,
-  value: IAppearanceValues
+    name: keyof IAppearanceObject,
+    value: IAppearanceValues
 ): T {
 
-  const keys: string[] = [];
+    const keys: string[] = [];
 
-  const parsed: T = {} as T
+    const parsed: T = {} as T
 
-  /**
-   * Réecriture
-   */
-  switch (name as string) {
+    /**
+     * Réecriture
+     */
+    switch (name as string) {
 
-    case 'paddingVertical':
+        case 'paddingVertical':
 
-      keys.push('paddingTop')
+            keys.push('paddingTop')
 
-      keys.push('paddingBottom')
+            keys.push('paddingBottom')
 
-      break;
+            break;
 
-    case 'paddingHorizontal':
+        case 'paddingHorizontal':
 
-      keys.push('paddingLeft')
+            keys.push('paddingLeft')
 
-      keys.push('paddingRight')
+            keys.push('paddingRight')
 
-      break;
+            break;
 
 
-    case 'marginVertical':
+        case 'marginVertical':
 
-      keys.push('marginTop')
+            keys.push('marginTop')
 
-      keys.push('marginBottom')
+            keys.push('marginBottom')
 
-      break;
+            break;
 
-    case 'marginHorizontal':
+        case 'marginHorizontal':
 
-      keys.push('marginLeft')
+            keys.push('marginLeft')
 
-      keys.push('marginRight')
+            keys.push('marginRight')
 
-      break;
+            break;
 
-    default:
+        default:
 
-      keys.push(name as string)
+            keys.push(name as string)
 
-      break;
+            break;
 
-  }
+    }
 
-  /**
-   * Injection
-   */
-  keys.forEach(key => {
+    /**
+     * Injection
+     */
+    keys.forEach(key => {
 
-    parsed[unCamelCase(key) as any] = CoreAppearanceValues(value)
+        parsed[unCamelCase(key) as any] = CoreAppearanceValues(value)
 
-  })
+    })
 
-  return parsed;
+    return parsed;
 
 }
 
@@ -96,13 +97,13 @@ export function CoreAppearanceProps<T extends IAppearanceObject | IAppearanceObj
  */
 export function CoreAppearanceValues(value: IAppearanceValues) {
 
-  if (typeof value == 'number') {
+    if (typeof value == 'number') {
 
-    return `${value}`
+        return `${value}`
 
-  }
+    }
 
-  return value;
+    return value;
 
 }
 
@@ -113,278 +114,278 @@ export function CoreAppearanceValues(value: IAppearanceValues) {
  */
 export class CoreAppearance implements IAppearance {
 
-  /**
-   * Instance du DOM
-   */
-  instance: HTMLStyleElement;
+    /**
+     * Instance du DOM
+     */
+    instance: HTMLStyleElement;
 
-  /**
-   * Signature de l'apparence
-   */
-  uid: string;
+    /**
+     * Signature de l'apparence
+     */
+    uid: string;
 
-  /**
-   * Instance de l'emetteur
-   */
-  emitter = new EventDispatcher<IAppearanceEmitterScheme>();
+    /**
+     * Instance de l'emetteur
+     */
+    emitter = new EventDispatcher<IAppearanceEmitterScheme>();
 
-  /**
-   * Propriétés de l'apparence
-   */
-  properties: IAppearanceObject = {} as IAppearanceObject
-
-
-  constructor() {
-
-    this.instance = document.createElement('style')
-
-    this.uid = `${MetricRandom.CreateAlpha(4).join('')}-${MetricRandom.Create(12).join('')}`
-
-  }
-
-  /**
-   * sheet
-   * C@description onstruire une feuille de style liée à l'apparence
-   * @param stylesheet Definit la feuille de style
-   * @example
-   * appearance.sheet( {
-   *    'selector' : {
-   *       'property' : 'value',
-   *        ...
-   *    }
-   * } )
-   */
-  sheet(stylesheet: IAppearanceStyleSheet): this {
-
-    const styleSheet: string[] = []
-
-    Object.entries(stylesheet).forEach(({0: name, 1: props}) => {
-
-      const properties: IAppearanceObject = {} as IAppearanceObject
-
-      const selector = (name.includes('&'))
-
-        ? name.replace(new RegExp('&', 'g'), `.${this.uid}`)
-
-        : `.${this.uid} ${name}`;
+    /**
+     * Propriétés de l'apparence
+     */
+    properties: IAppearanceObject = {} as IAppearanceObject
 
 
-      const data = this.insertProperties(properties, props)
+    constructor() {
 
-      styleSheet[styleSheet.length] = `${selector}{ ${objectToString(data, {joiner: '; '})} }`
+        this.instance = document.createElement('style')
 
-    });
-
-
-    this.instance.innerHTML = styleSheet.join(' ')
-
-    this.mountImmediat()
-
-    return this;
-
-  }
-
-
-  /**
-   * inject
-   * @description Inject du code CSS dans l'instance de l'apparence courante par substitution
-   * @param code
-   * @example
-   *  appearance.inject("body{ color: red; }")
-   */
-  inject(code: string | string[]) {
-
-    this.instance.innerHTML = typeof code != 'string'
-
-      ? code.join(' ')
-
-      : code;
-
-    this.mountImmediat();
-
-    return this;
-
-  }
-
-
-  /**
-   * insertProperties
-   * @description Insert des propriétés d'apparence dans un objet support. Analyse les propriétés et les valeurs avant de les insérer
-   * @param properties Propriétés d'apparence support
-   * @param data Données des propriétés à insérer
-   * @example
-   * appearance.insertProperties( objectPropertiesSupport, objectDataToInsert )
-   */
-  insertProperties(properties: IAppearanceObject, data: IAppearanceObject) {
-
-    Object.entries(data).forEach(({0: name, 1: value}) => {
-
-      Object.entries(
-        CoreAppearanceProps<IAppearanceObject>(name as keyof IAppearanceObject, value)
-      ).forEach(({0: key, 1: data}) => properties[key as any] = data)
-
-    })
-
-    this.emitter.dispatch('insertProperties', properties)
-
-    return properties;
-
-  }
-
-  /**
-   * removeProperties
-   * @description Supprime des propriétés d'apparence dans un object support.
-   * @param properties Propriétés d'apparence support
-   * @param payload Données des propriétés à supprimer
-   * @example
-   * appearance.removeProperties( objectPropertiesSupport, objectDataToRemove )
-   */
-  removeProperties(properties: IAppearanceObject, payload: IAppearanceObjectDestroyed) {
-
-    Object.values(payload).forEach(name => {
-
-      Object.entries(
-        CoreAppearanceProps<IAppearanceObjectDestroyed>(name as keyof IAppearanceObject, undefined)
-      ).forEach(({0: key}) => properties[key as any] = undefined)
-
-    })
-
-    this.emitter.dispatch('removeProperties', properties)
-
-    return properties;
-
-  }
-
-  /**
-   * set
-   * @description Insert des propriétés d'apparence. Analyse les propriétés et les valeurs avant de les insérer
-   * @param properties Propriétés à insérer
-   * @example
-   * appearance.set( {
-   *    'property' : 'value',
-   *    ...
-   * } )
-   */
-  set(properties: IAppearanceObject): this {
-
-    this.insertProperties(this.properties, properties)
-
-    this.emitter.dispatch('set', properties)
-
-    return this.sync();
-
-  }
-
-  /**
-   * unset
-   * @description Supprime des propriétés d'apparence. Analyse les propriétés et les valeurs avant.
-   * @param properties Propriétés à supprimer
-   * @example
-   * appearance.unset( {
-   *    'property' : 'value',
-   *    ...
-   * } )
-   */
-  unset(properties: IAppearanceObjectDestroyed): this {
-
-    this.removeProperties(this.properties, properties)
-
-    this.emitter.dispatch('unset', properties)
-
-    return this.sync();
-
-  }
-
-  /**
-   * mount
-   * @description Monter l'apparence si ce n'est pas fait
-   * @example
-   * appearance.mount()
-   */
-  mount(): this {
-
-    const length = Object.values(this.properties).length;
-
-    if (!this.instance.isConnected && length) {
-
-      this.mountImmediat();
+        this.uid = `${MetricRandom.CreateAlpha(4).join('')}-${MetricRandom.Create(12).join('')}`
 
     }
 
-    return this;
+    /**
+     * sheet
+     * C@description onstruire une feuille de style liée à l'apparence
+     * @param stylesheet Definit la feuille de style
+     * @example
+     * appearance.sheet( {
+     *    'selector' : {
+     *       'property' : 'value',
+     *        ...
+     *    }
+     * } )
+     */
+    sheet(stylesheet: IAppearanceStyleSheet): this {
 
-  }
+        const styleSheet: string[] = []
 
-  /**
-   * mountImmediat
-   * @description Monter l'apparence
-   * @example
-   * appearance.mountImmediat()
-   */
-  mountImmediat(): this {
+        Object.entries(stylesheet).forEach(({0: name, 1: props}) => {
 
-    let head = document.querySelector('head')
+            const properties: IAppearanceObject = {} as IAppearanceObject
 
-    if (!head) {
+            const selector = (name.includes('&'))
 
-      head = document.createElement('head')
+                ? name.replace(new RegExp('&', 'g'), `.${this.uid}`)
 
-      document.documentElement.append(head)
+                : `.${this.uid} ${name}`;
+
+
+            const data = this.insertProperties(properties, props)
+
+            styleSheet[styleSheet.length] = `${selector}{ ${ObjectUtility.toString(data, {joiner: '; '})} }`
+
+        });
+
+
+        this.instance.innerHTML = styleSheet.join(' ')
+
+        this.mountImmediat()
+
+        return this;
 
     }
 
-    head.append(this.instance)
 
-    this.emitter.dispatch('mount', this)
+    /**
+     * inject
+     * @description Inject du code CSS dans l'instance de l'apparence courante par substitution
+     * @param code
+     * @example
+     *  appearance.inject("body{ color: red; }")
+     */
+    inject(code: string | string[]) {
 
-    return this;
+        this.instance.innerHTML = typeof code != 'string'
 
-  }
+            ? code.join(' ')
 
-  /**
-   * destroy
-   * @description Détruit l'apparence
-   * @example
-   * appearance.destroy()
-   */
-  destroy(): this {
+            : code;
 
-    this.instance.remove()
+        this.mountImmediat();
 
-    this.emitter.dispatch('destroy', undefined)
+        return this;
 
-    return this;
+    }
 
-  }
 
-  /**
-   * sync
-   * @description Synchronise l'apparence
-   * @example
-   * appearance.sync()
-   */
-  sync(): this {
+    /**
+     * insertProperties
+     * @description Insert des propriétés d'apparence dans un objet support. Analyse les propriétés et les valeurs avant de les insérer
+     * @param properties Propriétés d'apparence support
+     * @param data Données des propriétés à insérer
+     * @example
+     * appearance.insertProperties( objectPropertiesSupport, objectDataToInsert )
+     */
+    insertProperties(properties: IAppearanceObject, data: IAppearanceObject) {
 
-    const rendering: string[] = []
+        Object.entries(data).forEach(({0: name, 1: value}) => {
 
-    Object.entries(this.properties).forEach(({0: name, 1: value}) => {
+            Object.entries(
+                CoreAppearanceProps<IAppearanceObject>(name as keyof IAppearanceObject, value)
+            ).forEach(({0: key, 1: data}) => properties[key as any] = data)
 
-      if (typeof value == 'string' || typeof value == 'number') {
+        })
 
-        rendering[rendering.length] = `${unCamelCase(name)} : ${value}`
+        this.emitter.dispatch('insertProperties', properties)
 
-      }
+        return properties;
 
-    })
+    }
 
-    this.instance.innerHTML = `.${this.uid}{ ${rendering.join(';')} }`
+    /**
+     * removeProperties
+     * @description Supprime des propriétés d'apparence dans un object support.
+     * @param properties Propriétés d'apparence support
+     * @param payload Données des propriétés à supprimer
+     * @example
+     * appearance.removeProperties( objectPropertiesSupport, objectDataToRemove )
+     */
+    removeProperties(properties: IAppearanceObject, payload: IAppearanceObjectDestroyed) {
 
-    this.emitter.dispatch('sync', this)
+        Object.values(payload).forEach(name => {
 
-    this.mount()
+            Object.entries(
+                CoreAppearanceProps<IAppearanceObjectDestroyed>(name as keyof IAppearanceObject, undefined)
+            ).forEach(({0: key}) => properties[key as any] = undefined)
 
-    return this;
+        })
 
-  }
+        this.emitter.dispatch('removeProperties', properties)
+
+        return properties;
+
+    }
+
+    /**
+     * set
+     * @description Insert des propriétés d'apparence. Analyse les propriétés et les valeurs avant de les insérer
+     * @param properties Propriétés à insérer
+     * @example
+     * appearance.set( {
+     *    'property' : 'value',
+     *    ...
+     * } )
+     */
+    set(properties: IAppearanceObject): this {
+
+        this.insertProperties(this.properties, properties)
+
+        this.emitter.dispatch('set', properties)
+
+        return this.sync();
+
+    }
+
+    /**
+     * unset
+     * @description Supprime des propriétés d'apparence. Analyse les propriétés et les valeurs avant.
+     * @param properties Propriétés à supprimer
+     * @example
+     * appearance.unset( {
+     *    'property' : 'value',
+     *    ...
+     * } )
+     */
+    unset(properties: IAppearanceObjectDestroyed): this {
+
+        this.removeProperties(this.properties, properties)
+
+        this.emitter.dispatch('unset', properties)
+
+        return this.sync();
+
+    }
+
+    /**
+     * mount
+     * @description Monter l'apparence si ce n'est pas fait
+     * @example
+     * appearance.mount()
+     */
+    mount(): this {
+
+        const length = Object.values(this.properties).length;
+
+        if (!this.instance.isConnected && length) {
+
+            this.mountImmediat();
+
+        }
+
+        return this;
+
+    }
+
+    /**
+     * mountImmediat
+     * @description Monter l'apparence
+     * @example
+     * appearance.mountImmediat()
+     */
+    mountImmediat(): this {
+
+        let head = document.querySelector('head')
+
+        if (!head) {
+
+            head = document.createElement('head')
+
+            document.documentElement.append(head)
+
+        }
+
+        head.append(this.instance)
+
+        this.emitter.dispatch('mount', this)
+
+        return this;
+
+    }
+
+    /**
+     * destroy
+     * @description Détruit l'apparence
+     * @example
+     * appearance.destroy()
+     */
+    destroy(): this {
+
+        this.instance.remove()
+
+        this.emitter.dispatch('destroy', undefined)
+
+        return this;
+
+    }
+
+    /**
+     * sync
+     * @description Synchronise l'apparence
+     * @example
+     * appearance.sync()
+     */
+    sync(): this {
+
+        const rendering: string[] = []
+
+        Object.entries(this.properties).forEach(({0: name, 1: value}) => {
+
+            if (typeof value == 'string' || typeof value == 'number') {
+
+                rendering[rendering.length] = `${unCamelCase(name)} : ${value}`
+
+            }
+
+        })
+
+        this.instance.innerHTML = `.${this.uid}{ ${rendering.join(';')} }`
+
+        this.emitter.dispatch('sync', this)
+
+        this.mount()
+
+        return this;
+
+    }
 
 }

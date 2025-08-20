@@ -58,7 +58,7 @@ export function ThemeScrollArea(
         })
     }
 
-    declaration.children = (
+    const children = (
         Array.isArray(extended.children)
             ? extended.children
             : [extended.children]
@@ -70,5 +70,5 @@ export function ThemeScrollArea(
         return widget;
     })
 
-    return ((isColumn ? Column : Row)(declaration))
+    return ((isColumn ? Column : Row)({...declaration, children} as IWidgetDeclaration<HTMLElement, ICommonAttributes>))
 }

@@ -1,5 +1,80 @@
 # @widgetui/core
 
+## 0.6.0
+
+### Minor Changes
+
+- Refactoring
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.3.0
+  - @protorians/animetric@0.3.0
+  - @protorians/shortcuts@0.2.0
+  - @protorians/widgets@0.9.0
+  - @protorians/core@0.6.0
+
+## 0.5.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.2.0
+  - @protorians/animetric@0.2.0
+  - @protorians/shortcuts@0.1.0
+  - @protorians/widgets@0.8.0
+  - @protorians/core@0.5.0
+
+## 0.4.14
+
+### Patch Changes
+
+- Sync Version and Dependancies
+- Updated dependencies
+  - @protorians/colorimetric@0.0.28
+  - @protorians/animetric@0.1.7
+  - @protorians/shortcuts@0.0.23
+  - @protorians/widgets@0.6.8
+  - @protorians/core@0.4.1
+
+## 0.4.13
+
+### Minor Changes
+
+- Refactor utilities into distinct namespaces for clarity
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.1.0
+  - @protorians/animetric@0.2.0
+  - @protorians/widgets@0.7.0
+
+## 0.4.12
+
+### Patch Changes
+
+- Sync versions
+- Updated dependencies
+  - @protorians/colorimetric@0.0.26
+  - @protorians/animetric@0.1.5
+  - @protorians/shortcuts@0.0.22
+  - @protorians/widgets@0.6.6
+  - @protorians/core@0.3.8
+
+## 0.4.11
+
+### Patch Changes
+
+- Refactor select content handling to use child.clone()
+- Refactor select component for focus, styles, and keyboard support
+- Add flexWrap to alert actions container
+
 ## 0.4.10
 
 ### Patch Changes
@@ -345,19 +420,3 @@
   - @protorians/core@0.3.0
   - @protorians/shortcuts@0.1.0
   - @protorians/widgets@0.4.0
-
-## 1.0.0
-
-### Major Changes
-
-- d247435: Break change
-
-### Patch Changes
-
-- Updated dependencies [8762789]
-- Updated dependencies [d247435]
-  - @protorians/animetric@1.0.0
-  - @protorians/colorimetric@1.0.0
-  - @protorians/shortcuts@1.0.0
-  - @protorians/widgets@1.0.0
-  - @protorians/core@1.0.0

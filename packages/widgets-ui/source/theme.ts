@@ -1,11 +1,12 @@
-import type {IColoringLayer, ITheme, IThemeSettings} from "./types/index.js";
-import {$ui, Environment, IUiTarget, unCamelCase} from "@protorians/core";
+import type {IColoringLayer, ITheme, IThemeSettings, IThemeStylesheet} from "./types/index.js";
+import {$ui, Environment, IUiTarget, TextUtility} from "@protorians/core";
 import {
-    Color,
-    IButtonAttributes, IButtonAttributesBase,
-    ICommonAttributes,
-    IStyleSheet,
-    IWidgetDeclaration, IWidgetNode, ObjectRounded,
+    Color, IAttributes,
+    type IButtonAttributes,
+    type IButtonAttributesBase,
+    type ICommonAttributes,
+    type IWidgetDeclaration,
+    type IWidgetNode, ObjectRounded,
     Style,
     WidgetException
 } from "@protorians/widgets";
@@ -22,42 +23,48 @@ import {
     ThemeLayer,
     type ThemeLayerOptions,
     ThemeModal,
-    ThemeNavbar,
-    type ThemeNavbarOptions,
+    ThemeMenubar,
+    type ThemeBellowMenuBarOptions,
     ThemeProgress,
     type ThemeProgressOptions,
     ThemeScrollArea,
-    type ThemeScrollAreaOptions, ThemeSelect,
-    ThemeSheet,
+    type ThemeScrollAreaOptions,
+    ThemeSelect,
     type ThemeSheetOptions,
-    ThemeSkeleton,
+    ThemeSheet,
     type ThemeSkeletonOptions,
+    ThemeSkeleton,
+    type ThemeViewOptions,
     ThemeView,
-    type ThemeViewOptions
-} from "./composites/index.js";
-import {IModalOptions} from "./kits/index.js";
-import {
-    ThemeAlertDialog,
     type ThemeAlertDialogOptions,
-    ThemeAspectRatio,
+    ThemeAlertDialog,
     type ThemeAspectRatioOptions,
+    ThemeAspectRatio,
+    type ThemeAvatarOptions,
     ThemeAvatar,
-    type ThemeAvatarOptions
+    type IThemeAccordionOptions,
+    ThemeAccordion,
+    type IThemeBadgeOptions,
+    ThemeBadge,
+    type ThemeAvatarsOptions,
+    ThemeAvatars,
+    type IThemeBreadcrumbOptions,
+    ThemeBreadcrumb,
+    type IThemeCardOptions,
+    ThemeCard,
+    ThemeCarousel, ThemeBellowMenuBar,
+    ThemeNavbar, ThemeNavbarOptions,
+
 } from "./composites/index.js";
+import {type IModalOptions, type ICarouselOptions, ICarouselCallable} from "./kits/index.js";
 import {type IAnimetricGroup, type IAnimetricSlimOptions, slimetric} from "@protorians/animetric";
-import {ThemeAvatarsOptions} from "./composites/avatars/type.js";
-import {ThemeAvatars} from "./composites/avatars/index.js";
-import {ThemeAccordion} from "./composites/index.js";
-import {IThemeAccordionOptions} from "./composites/index.js";
-import {ThemeBadge} from "./composites/badge/index.js";
-import {IThemeBadgeOptions} from "./composites/badge/type.js";
 
 
 export class WidgetTheme implements ITheme {
 
     protected _repository: HTMLStyleElement | undefined;
     protected _settings: Partial<IThemeSettings>;
-    protected _stylesheet: IStyleSheet | undefined;
+    protected _stylesheet: IThemeStylesheet | undefined;
 
     protected prepareSettings(settings: Partial<IThemeSettings>): Partial<IThemeSettings> {
         return {
@@ -105,16 +112,23 @@ export class WidgetTheme implements ITheme {
         return this._settings;
     }
 
-    get stylesheets(): IStyleSheet {
-        this._stylesheet = this._stylesheet || Style({
-            backdropFilter: 'none',
-            borderWidth: '0px',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            boxSizing: 'border-box',
-            boxShadow: '0 0 .3rem rgba(0, 0, 0, 0.05)',
-            borderRadius: 'var(--widget-radius, .7rem)',
-        })
+    get stylesheet(): IThemeStylesheet {
+        this._stylesheet = this._stylesheet || {
+            root: Style({
+                color: Color.text,
+                backgroundColor: Color.tint_heavy,
+            }),
+            texture: Style({
+                backdropFilter: 'none',
+                borderWidth: '0px',
+                borderStyle: 'solid',
+                borderColor: 'transparent',
+                boxSizing: 'border-box',
+                boxShadow: '0 0 .3rem rgba(0, 0, 0, 0.05)',
+                borderRadius: 'var(--widget-radius, .7rem)',
+                backgroundColor: Color.tint,
+            }),
+        }
         return this._stylesheet;
     }
 
@@ -137,7 +151,7 @@ export class WidgetTheme implements ITheme {
         if (repo) {
             const style: string[] = []
             Object.entries(this.settings).forEach(([key, value]) => {
-                style.push(`--widget-${unCamelCase(key)}: ${value}`);
+                style.push(`--widget-${TextUtility.unCamelCase(key)}: ${value}`);
             });
             repo.innerHTML = `${this.selector}{${style.join(';')}}`;
         }
@@ -189,6 +203,9 @@ export class WidgetTheme implements ITheme {
             case LayerVariant.Revert:
                 return {fore: 'tint-100', back: null, edge: "tint-100",}
 
+            case LayerVariant.Transparent:
+                return {fore: 'text', back: null, edge: 'text',}
+
             default:
                 return {fore: 'text', back: null, edge: 'text',}
         }
@@ -229,8 +246,11 @@ export class WidgetTheme implements ITheme {
             case LayerVariant.Revert:
                 return {fore: 'tint-100', back: "text", edge: "text",}
 
+            case LayerVariant.Transparent:
+                return {fore: 'text', back: null, edge: null,}
+
             default:
-                return {fore: 'text', back: 'tint-100', edge: 'tint-100',}
+                return {fore: 'text', back: 'tint-weak', edge: 'tint-100',}
         }
     }
 
@@ -260,7 +280,7 @@ export class WidgetTheme implements ITheme {
 
 
     Accordion(declaration: IThemeAccordionOptions): IWidgetNode<any, any> | undefined {
-        return ThemeAccordion(declaration)
+        return ThemeAccordion(this, declaration)
     }
 
     Alert(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeAlertOptions>): IWidgetNode<any, any> | undefined {
@@ -287,12 +307,12 @@ export class WidgetTheme implements ITheme {
         return ThemeBadge(this, declaration);
     }
 
-    Breadcrumb(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Breadcrumb(declaration: IThemeBreadcrumbOptions): IWidgetNode<any, any> | undefined {
+        return ThemeBreadcrumb(this, declaration)
     }
 
     Button(
-        declaration: IWidgetDeclaration<HTMLButtonElement, ThemeButtonOptions & IButtonAttributes & IButtonAttributesBase>
+        declaration: IWidgetDeclaration<HTMLButtonElement, IButtonAttributes & IButtonAttributesBase & ThemeButtonOptions>
     ) {
         return ThemeButton(this, declaration)
     }
@@ -301,12 +321,12 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Card(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Card(declaration: IWidgetDeclaration<HTMLElement, IThemeCardOptions & IAttributes>): IWidgetNode<any, any> {
+        return ThemeCard(this, declaration)
     }
 
-    Carousel(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Carousel(declaration: ICarouselOptions | ICarouselCallable): IWidgetNode<any, any> | undefined {
+        return ThemeCarousel(declaration);
     }
 
     Chart(declaration: any): IWidgetNode<any, any> | undefined {
@@ -377,10 +397,6 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Label(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
-    }
-
     Layer(declaration: IWidgetDeclaration<HTMLElement, ThemeLayerOptions & ICommonAttributes>) {
         return ThemeLayer(this, declaration)
     }
@@ -389,20 +405,20 @@ export class WidgetTheme implements ITheme {
         throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
     }
 
-    Menubar(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    Menubar(declaration: any): IWidgetNode<any, any> {
+        return ThemeMenubar(this, declaration)
     }
 
     Modal(declaration: Omit<IWidgetDeclaration<HTMLElement, Partial<IModalOptions> & ICommonAttributes>, 'children'>) {
         return ThemeModal(declaration)
     }
 
-    Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes & ThemeNavbarOptions>) {
+    Navbar(declaration: IWidgetDeclaration<HTMLElement, ThemeNavbarOptions & ICommonAttributes>): IWidgetNode<any, any> {
         return ThemeNavbar(this, declaration)
     }
 
-    NavigationMenu(declaration: any): IWidgetNode<any, any> | undefined {
-        throw (new WidgetException(`Not implemented : ${JSON.stringify(declaration)}`))
+    BellowMenubar(declarations: IWidgetDeclaration<HTMLElement, ThemeBellowMenuBarOptions & ICommonAttributes>): IWidgetNode<any, any> {
+        return ThemeBellowMenuBar(this, declarations)
     }
 
     Pagination(declaration: any): IWidgetNode<any, any> | undefined {
@@ -490,6 +506,6 @@ export class WidgetTheme implements ITheme {
     }
 
     View(declaration: IWidgetDeclaration<HTMLElement, ThemeViewOptions & ICommonAttributes>,) {
-        return ThemeView(declaration)
+        return ThemeView(this, declaration)
     }
 }

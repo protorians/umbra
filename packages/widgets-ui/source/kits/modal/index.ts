@@ -1,5 +1,5 @@
 import {
-    AsideFrame,
+    AsideWidget,
     Color,
     Column,
     createRef, ICallablePayload,
@@ -18,7 +18,7 @@ import {createShortcut, IShortcut} from "@protorians/shortcuts";
 
 export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal, IKit<IModalLayout, IModalOptions> {
 
-    protected static layoutSlugs: (keyof IModalLayout)[] = ['children', 'trigger', 'foreground', 'background', 'dialogBox',]
+    // protected static layoutSlugs: (keyof IModalLayout)[] = ['children', 'trigger', 'foreground', 'background', 'dialogBox',]
 
     @Structurable protected children(): IChildren<any> {
         return this._states.children?.value;
@@ -31,7 +31,7 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
     @Structurable protected background() {
         return Layer({
             style: {
-                backgroundColor: Color.black_a3,
+                backgroundColor: Color.tint_a4,
                 ...(this.options.styles?.back || {}),
                 position: 'absolute',
                 inset: '0',
@@ -58,7 +58,7 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
         })
     }
 
-    @Structurable protected dialogBox(){
+    @Structurable protected dialogBox() {
         return Stack({
             children: 'test'
         })
@@ -69,7 +69,7 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
         options: IAnimetricSlimOptions
     ): IAnimetricGroup {
         if (options.from) widget.style(options.from)
-        return slimetric(widget.element, options)
+        return slimetric(widget.element, {...options})
     }
 
 
@@ -93,7 +93,6 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
         if (this.options.opened === true) this._status.set(true)
 
         const wrapperRef = createRef();
-        const asideRef = createRef();
         const foreground = this.foreground();
         const background = this.background();
         const scopedPosition = (context.widget.stylesheet.declarations.position || 'static').toString().toLowerCase();
@@ -113,37 +112,42 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
             }
         }
 
-        const handler = () => {
-            asideRef.current?.style({
+        const closing = (widget: IWidgetNode<any, any>) => {
+
+            foreground.trigger('blur')
+            context.widget.style({position: scopedPosition})
+
+            if (this.options.animateOut) {
+                const animate = this.animate(foreground, this.options.animateOut);
+
+                animate.signal.listen('complete', () => {
+                    widget.remove()
+                    // widget.style({display: 'none',})
+                    readyOut()
+                })
+
+                animate.play()
+            }
+            if (!this.options.animateOut) {
+                widget.style({display: 'none',})
+                readyOut()
+            }
+        }
+
+        const handler = (widget: IWidgetNode<any, any>) => {
+            widget.style({
                 position: 'fixed',
                 backdropFilter: this.options.blurred ? 'blur(var(--widget-radius, 2rem))' : 'none',
             })
 
-            asideRef.current?.attributeLess({
+            widget.attributeLess({
                 'aria-title': this.options.ariaTitle,
                 'aria-description': this.options.ariaDescription,
             })
 
             if (!this.status) {
                 shortcut?.destroy()
-                asideRef.current?.attributeLess({'aria-hidden': "true",})
-                foreground.trigger('blur')
-                context.widget.style({position: scopedPosition})
-
-                if (this.options.animateOut) {
-                    const animate = this.animate(foreground, this.options.animateOut);
-
-                    animate.signal.listen('complete', () => {
-                        asideRef.current?.style({display: 'none',})
-                        readyOut()
-                    })
-
-                    animate.play()
-                }
-                if (!this.options.animateOut) {
-                    asideRef.current?.style({display: 'none',})
-                    readyOut()
-                }
+                closing(widget)
             }
 
             if (this.status) {
@@ -152,15 +156,14 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
                 if (this.options.scoped && context.widget) {
                     if (scopedPosition && scopedPosition === 'static')
                         context.widget.style({position: 'relative',})
-                    asideRef.current?.style({position: 'absolute'})
+                    widget.style({position: 'absolute'})
                     document.documentElement.style.overflow = 'hidden';
                 }
 
                 if (this.options.animateIn)
                     this.animate(foreground, this.options.animateIn).play()
 
-                asideRef.current
-                    ?.attributeLess({'aria-hidden': "false",})
+                widget.attributeLess({'aria-hidden': "false",})
                     .style({display: 'flex',})
                 foreground.trigger('focus');
             }
@@ -168,33 +171,56 @@ export class ModalKit extends Kit<IModalLayout, IModalOptions> implements IModal
         }
 
         let shortcut: IShortcut<HTMLElement> | undefined;
+        let _aside: IWidgetNode<any, any> | undefined;
 
 
         this.states.trigger.effect(() => triggerHandler())
-        this._status.effect(() => handler())
+        this.exposeLayout('foreground', foreground);
+        this.exposeLayout('background', background);
 
         return Layer({
             ref: wrapperRef,
             signal: {
                 mount: () => {
-                    triggerHandler()
-                    handler()
+                    triggerHandler();
                 }
             },
             children: [
                 this.states.trigger,
-                AsideFrame({
-                    ref: asideRef,
-                    elevate: this.elevation,
-                    style: {
-                        display: 'none',
-                        inset: '0',
-                        flexDirection: 'column',
-                        alignItems: WidgetUi.horizontally(position[0]),
-                        justifyContent: WidgetUi.vertically(position[1]),
-                    },
-                    children: [foreground, background,]
-                })
+                this._status.watch(status => {
+
+                    if (!status) {
+                        if(_aside) closing(_aside)
+                        return;
+                    }
+
+                    _aside = AsideWidget({
+                        elevate: this.elevation,
+                        signal: {
+                            mount: ({widget}) => {
+                                handler(widget)
+                            }
+                        },
+                        style: {
+                            display: 'flex',
+                            position: 'fixed',
+                            backdropFilter: this.options.blurred ? 'blur(var(--widget-radius, 2rem))' : 'none',
+                            inset: '0',
+                            flexDirection: 'column',
+                            alignItems: WidgetUi.horizontally(position[0]),
+                            justifyContent: WidgetUi.vertically(position[1]),
+                        },
+                        children: [background, foreground,]
+                    })
+
+                    if (!this.options.scoped && status) {
+                        wrapperRef.current?.context?.root?.content(_aside)
+                        return;
+                    }
+                    if (status) return _aside;
+
+                    return undefined
+                }),
             ],
         })
     }

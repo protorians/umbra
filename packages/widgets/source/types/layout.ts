@@ -11,3 +11,21 @@ export type ILayout<Scheme> = {
 export type ILayoutStates<Scheme> = {
     [K in keyof Scheme]: IState<Scheme[K] | undefined>
 }
+
+
+export interface IEdgeInset {
+    x?: number;
+    y?: number;
+    ratio?: number;
+    size?: number;
+}
+
+export interface IEdgeInsetValue {
+    x?: number;
+    y?: number;
+}
+
+export interface IEdgeInsetAttributes extends IEdgeInset {
+    children: IWidgetNode<any, any> | undefined;
+}
+

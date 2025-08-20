@@ -5,6 +5,7 @@ export type IColorimetricLightnessSetting = {
     max: number;
     middle: number;
     breakpoint: number;
+    ease: number;
 }
 
 export type IColorimetricSettings = {
@@ -86,18 +87,30 @@ export type IColorHslProps = {
 
 
 export type IColorKey =
-    'one'
-    | 'two'
-    | 'three'
-    | 'four'
-    | 'five'
-    | 'text'
+    'text'
     | 'tint'
+    | 'ascent'
+    | 'ascentfore'
+    | 'one'
+    | 'onefore'
+    | 'two'
+    | 'twofore'
+    | 'three'
+    | 'threefore'
+    | 'four'
+    | 'fourfore'
+    | 'five'
+    | 'fivefore'
     | 'error'
+    | 'errorfore'
     | 'warning'
+    | 'warningfore'
     | 'success'
+    | 'successfore'
     | 'white'
-    | 'black';
+    | 'whitefore'
+    | 'black'
+    | 'blackfore';
 
 
 export type IColorSchemeVariants = {
@@ -113,7 +126,8 @@ export type IColorScheme = {
     [K in IColorKey]: string
 };
 
-export type IColorIntensities = 100
+export type IColorIntensities = 50
+    | 100
     | 200
     | 300
     | 400
@@ -122,6 +136,9 @@ export type IColorIntensities = 100
     | 700
     | 800
     | 900
+    | 950
+    | 'weak'
+    | 'heavy'
 
 export type IColorAlphas =
     'a1'
@@ -133,7 +150,6 @@ export type IColorAlphas =
     | 'a7'
     | 'a8'
     | 'a9'
-    ;
 
 export type IColorExtended<T extends string> = `${T}`
     | `${T}-alpha`
@@ -180,15 +196,17 @@ export type IColorAdjustOptions = {
 }
 
 
-
-export interface IOklchAlgo{
+export interface IOklchAlgo {
     toHex(oklch: IColorOklch): string;
+
     toLch({lightness, chroma, hue}: IColorOklch): IColorLch;
 }
 
 
 export interface IColorimetricAlgo<T> {
     toString(value: T): string;
+
     parse(color: string): T | undefined;
-    variation(color: IColorOklch | string, value: string): T | undefined;
+
+    variation(color: T | string, value: string): T | undefined;
 }

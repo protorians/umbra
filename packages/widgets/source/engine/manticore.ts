@@ -16,10 +16,11 @@ import type {
     IPrimitive,
     ISignalableCallbackMap,
     IWidgetSignalMap,
-    IStyleSheetDeclarations, IGlobalEventCallableMap
+    IStyleSheetDeclarations,
+    IGlobalEventCallableMap,
 } from "../types/index.js";
 import {ContextWidget, WidgetNode} from "../widget-node.js";
-import {Callable, Environment, type ISignalStackCallable, TreatmentQueueStatus, unCamelCase} from "@protorians/core";
+import {Environment, type ISignalStackCallable, TextUtility, TreatmentQueueStatus} from "@protorians/core";
 import {ToggleOption, ObjectElevation, Displaying} from "../enums.js";
 import {WidgetDirectives, WidgetDirectivesType} from "../directive.js";
 
@@ -32,31 +33,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         readonly widget: IWidgetNode<E, A>
     ) {
     }
-
-    // construct(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('construct', callback)
-    //     return this;
-    // }
-    //
-    // mount(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('mount', callback)
-    //     return this;
-    // }
-    //
-    // unmount(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('unmount', callback)
-    //     return this;
-    // }
-    //
-    // before(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('before', callback)
-    //     return this;
-    // }
-    //
-    // after(widget: IWidgetNode<E, A>, callback: ICallable<E, A, undefined>): this {
-    //     widget.signal.listen('after', callback)
-    //     return this;
-    // }
 
     clear(widget: IWidgetNode<E, A>,): this {
         if (widget.clientElement) widget.clientElement.innerHTML = ''
@@ -72,27 +48,47 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     enable(widget: IWidgetNode<E, A>,): this {
-        widget.stylesheet.remove('opacity');
+        this.stase(widget, false)
+        widget.callable({
+            client: (element) => {
+                element.removeAttribute('disabled');
+                element.style.removeProperty('opacity')
+            },
+            server: (element) => {
+                element.attribute({disabled: null});
+                element.style({opacity: undefined});
+            }
+        })
         widget.signal.dispatch('enable', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     disable(widget: IWidgetNode<E, A>,): this {
-        widget.stylesheet.update('opacity', '.3');
+        this.stase(widget, true)
+        widget.callable({
+            client: (element) => {
+                element.setAttribute('disabled', 'disabled');
+                element.style.opacity = '.3';
+            },
+            server: (element) => {
+                element.attribute({disabled: 'disabled'});
+                element.style({opacity: '.3'});
+            }
+        })
         widget.signal.dispatch('disable', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     lock(widget: IWidgetNode<E, A>,): this {
         widget.locked = true;
-        widget.disable();
+        this.disable(widget);
         widget.signal.dispatch('lock', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
 
     unlock(widget: IWidgetNode<E, A>,): this {
         widget.locked = false;
-        widget.enable();
+        this.enable(widget);
         widget.signal.dispatch('unlock', {root: this.widget, widget, payload: undefined}, widget.signal);
         return this;
     }
@@ -213,11 +209,10 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (widget.clientElement) {
             Object.keys(attributes || {}).forEach(
                 key => {
-                    key = unCamelCase(key);
-                    if(attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])){
+                    key = TextUtility.unCamelCase(key);
+                    if (attributes[key] === undefined || typeof attributes[key] === null || (typeof attributes[key] === 'boolean' && !attributes[key])) {
                         widget.clientElement?.removeAttribute(key)
-                    }
-                    else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
+                    } else widget.clientElement?.setAttribute(key, `${attributes[key]?.toString()}`)
                 }
             )
         }
@@ -225,7 +220,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         if (widget.serverElement) {
             Object.keys(attributes || {}).forEach(key => {
                 const attrib = {};
-                attrib[unCamelCase(key)] = attributes[key];
+                attrib[TextUtility.unCamelCase(key)] = attributes[key];
                 widget.serverElement?.attribute(attrib)
             })
         }
@@ -242,13 +237,13 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 this.render(children, this.widget.context || new ContextWidget(widget))
                 widget.element.append(children.element);
                 children.useContext(this.widget.context || widget.context);
-                Callable.safe(() => {
-                    children.signal.dispatch('mount', {
-                        root: this.widget,
-                        widget: children,
-                        payload: widget
-                    }, children.signal);
-                })
+                // Callable.safe(() => {
+                children.signal.dispatch('mount', {
+                    root: this.widget,
+                    widget: children,
+                    payload: widget
+                }, children.signal);
+                // });
 
             } else if (typeof children === 'string' || typeof children === 'number') {
                 if (Environment.Client) {
@@ -372,7 +367,6 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
         return this;
     }
 
-
     ons(
         widget: IWidgetNode<E, A>,
         listeners: Partial<IGlobalEventCallableMap<E, A>>
@@ -396,9 +390,17 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 const payload = {type, event: ev};
                 const returned = callback({root: this.widget, widget, payload})
                 widget.signal.dispatch('on', {root: this.widget, widget, payload}, widget.signal);
-                if (returned === TreatmentQueueStatus.Cancel) ev.stopPropagation()
-                if (returned === TreatmentQueueStatus.Exit) ev.stopImmediatePropagation()
+                if (returned === TreatmentQueueStatus.Cancel) ev.preventDefault()
+                if (returned === TreatmentQueueStatus.Exit) ev.stopPropagation()
+                if (returned === TreatmentQueueStatus.SnapOut) ev.stopImmediatePropagation()
             } : null;
+        }
+        return this;
+    }
+
+    detachEvent<T extends keyof IGlobalEventMap>(widget: IWidgetNode<E, A>, type: T): this {
+        if (Environment.Client && widget.element) {
+            widget.element['on' + type] = null;
         }
         return this;
     }
@@ -412,7 +414,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     stase(widget: IWidgetNode<E, A>, state: boolean): this {
-        this.attributeLess(widget, {inert: state,})
+        this.attributeLess(widget, {inert: state ? String(state) : undefined,})
+        this.disable(widget)
         return this
     }
 
@@ -422,11 +425,15 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
     }
 
     render<P extends IPropStack, S extends IStateStack>(widget: IWidgetNode<E, A>, context: IContext<P, S>): E | undefined {
-        if(widget.isConnected) return undefined;
+        if (widget.isConnected) return undefined;
 
         context.root = this.widget.context?.root || context.root || widget;
         widget
             .useContext(context)
+
+        widget.signal.dispatch('construct', {root: context.root || widget, widget, payload: undefined}, widget.signal)
+
+        widget
             .stylesheet
             .merge((widget.constructor as typeof WidgetNode<E, A>).style || {})
 
@@ -440,6 +447,8 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
             .listen('unmount', () => {
                 (widget.constructor as typeof WidgetNode<E, A>).unmount(widget);
             })
+
+        widget.signal.dispatch('before', {root: context.root || widget, widget, payload: undefined}, widget.signal)
 
         if (widget.props.signal) this.signals(widget, widget.props.signal)
 
@@ -463,8 +472,7 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
 
         if (widget.props.elevate) this.elevate(widget, widget.props.elevate)
 
-        widget.signal.dispatch('construct', {root: context.root || widget, widget, payload: undefined}, widget.signal)
-
+        widget.signal.dispatch('after', {root: context.root || widget, widget, payload: undefined}, widget.signal)
 
         return this.element;
     }

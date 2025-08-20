@@ -1,45 +1,185 @@
-# Protorians Umbra
+# Development Guidelines for Protorians Umbra
 
-## Subtree Management
+This document provides essential information for developers working on the Protorians Umbra project.
 
-### Vauban Subtree
+## Build/Configuration Instructions
 
-The project integrates the [Vauban repository](https://github.com/protorians/vauban.git) as a Git subtree in the `packages/vauban` directory. This approach allows us to incorporate Vauban's functionality while maintaining the ability to receive upstream updates and contribute back to the original repository.
+### Project Setup
 
-#### Subtree Structure
+1. **Install Dependencies**:
+   ```bash
+   pnpm install
+   ```
 
-- Location: `packages/vauban/`
-- Remote: `vauban` (https://github.com/protorians/vauban.git)
-- Branch: `main`
+2. **Development Mode**:
+   ```bash
+   # Run development mode for all packages in parallel
+   pnpm umbra-dev
+   
+   # Run development mode for a specific package
+   cd packages/<package-name>
+   pnpm dev
+   ```
 
-#### Pulling Updates from Vauban
+3. **Building the Project**:
+   ```bash
+   # Build all packages
+   pnpm umbra-build
+   
+   # Build in development mode
+   pnpm umbra-build:dev
+   
+   # Build in production mode
+   pnpm umbra-build:prod
+   
+   # Build a specific package
+   cd packages/<package-name>
+   pnpm build
+   ```
 
-To get the latest changes from the Vauban repository:
+### Package Structure
+
+- The project is a monorepo managed with pnpm workspaces
+- All packages are located in the `packages/` directory
+- Each package has its own TypeScript configuration
+- Packages are built to both ESM (`~esm`) and CommonJS (`~cjs`) formats
+
+## Testing Information
+
+### Test Configuration
+
+The project uses Jest for testing. Each package that includes tests should have:
+
+1. **Jest Configuration**:
+   - A `jest.config.js` file in the package root
+   - Example configuration:
+     ```javascript
+     export default {
+       transform: {'^.+\\.ts?$': 'ts-jest'},
+       testEnvironment: 'node',
+       testRegex: '/tests/.*\\.(test|spec)?\\.(ts|tsx)$',
+       moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
+     };
+     ```
+
+2. **Test Script**:
+   - Add a test script to the package's `package.json`:
+     ```json
+     "scripts": {
+       "test": "jest"
+     }
+     ```
+
+### Running Tests
 
 ```bash
-# Pull the latest changes from Vauban's main branch
-git subtree pull --prefix=packages/vauban vauban main --squash
+# Run tests for all packages
+pnpm -r test
+
+# Run tests for a specific package
+cd packages/<package-name>
+pnpm test
 ```
 
-#### Pushing Changes Back to Vauban
+### Adding New Tests
 
-If you make changes to the Vauban code that should be contributed back to the original repository:
+1. Create test files in the `tests/` directory of the package
+2. Name test files with `.test.ts` or `.spec.ts` suffix
+3. Follow the Jest testing pattern:
+
+```typescript
+import { functionToTest } from '../source/path/to/function';
+
+describe('Component or Function Name', () => {
+  describe('specific functionality', () => {
+    it('should do something specific', () => {
+      expect(functionToTest('input')).toBe('expected output');
+    });
+  });
+});
+```
+
+### Example Test
+
+Here's an example test for the text utilities in the core package:
+
+```typescript
+import { slugify, camelCase, unCamelCase } from '../~esm/utilities/text.js';
+
+describe('Text Utilities', () => {
+  describe('slugify', () => {
+    it('should convert a string to a slug', () => {
+      expect(slugify('Hello World')).toBe('hello-world');
+      expect(slugify('Hello  World')).toBe('hello-world');
+      expect(slugify('Hello, World!')).toBe('hello-world');
+      expect(slugify('Hello World 123')).toBe('hello-world-123');
+    });
+
+    it('should handle special characters', () => {
+      expect(slugify('Héllö Wörld')).toBe('hellu-wurld');
+      expect(slugify('Ñandú')).toBe('-andu');
+    });
+  });
+
+  describe('camelCase', () => {
+    it('should convert a string to camelCase', () => {
+      expect(camelCase('hello-world')).toBe('helloWorld');
+      expect(camelCase('hello_world')).toBe('helloWorld');
+      expect(camelCase('hello world')).toBe('helloWorld');
+    });
+  });
+
+  describe('unCamelCase', () => {
+    it('should convert a camelCase string to kebab-case', () => {
+      expect(unCamelCase('helloWorld')).toBe('hello-world');
+      expect(unCamelCase('HelloWorld')).toBe('hello-world');
+    });
+
+    it('should use the provided separator', () => {
+      expect(unCamelCase('helloWorld', '_')).toBe('hello_world');
+    });
+  });
+});
+```
+
+## Additional Development Information
+
+### TypeScript Configuration
+
+The project uses TypeScript with the following key configurations:
+
+- Target: ESNext
+- Module: NodeNext
+- Module Resolution: NodeNext
+- Strict type checking enabled
+- Experimental decorators enabled
+
+### Version Management
+
+The project uses Changesets for version management:
 
 ```bash
-# Push your changes to the Vauban repository
-git subtree push --prefix=packages/vauban vauban main
+# Create a new changeset
+pnpm changeset
+
+# Update versions based on changesets
+pnpm changeset version
+
+# Combined command for creating and versioning
+pnpm version
 ```
 
-#### Best Practices for Working with the Subtree
+### Git Subtree Management
 
-1. **Keep commits clean**: When making changes that affect both the main project and the Vauban subtree, consider separating these changes into distinct commits.
+The project includes Git subtrees for some packages. See the README.md for detailed instructions on managing subtrees, particularly for the Vauban package.
 
-2. **Use descriptive commit messages**: When committing changes that affect the subtree, prefix your commit message with "vauban: " to make it clear that the changes are related to the subtree.
+### Code Style
 
-3. **Regular updates**: Periodically pull updates from the Vauban repository to stay in sync with upstream changes.
+While there's no explicit ESLint or Prettier configuration, the codebase follows these conventions:
 
-4. **Conflict resolution**: When pulling updates, conflicts may arise. Resolve them carefully, ensuring that your local modifications don't break Vauban's functionality.
-
-5. **Testing after updates**: Always test your application after pulling updates from Vauban to ensure everything still works as expected.
-
-6. **Documentation**: Document any significant changes you make to the Vauban code, especially if these changes deviate from the upstream version.
+- 2-space indentation
+- Single quotes for strings
+- Semicolons at the end of statements
+- Camel case for variable and function names
+- PascalCase for class and interface names
+- Descriptive naming for functions and variables

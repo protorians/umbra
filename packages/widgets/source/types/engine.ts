@@ -107,6 +107,8 @@ export interface IEngine<E extends HTMLElement, A extends IAttributes> {
         callback: ICallable<E, A, IGlobalEventPayload<T>> | null
     ): this;
 
+    detachEvent<T extends keyof IGlobalEventMap>(widget: IWidgetNode<E, A>, type: T): this;
+
     signals(widget: IWidgetNode<E, A>, signals: Partial<ISignalableCallbackMap<any, any>>): this;
 
     stase(widget: IWidgetNode<E, A>, state: boolean): this;

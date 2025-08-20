@@ -15,7 +15,7 @@ import {
 
 export class ProgressKit extends Kit<Partial<IProgressLayout>, IProgressOptions> implements IProgress, IKit<Partial<IProgressLayout>, IProgressOptions> {
 
-    protected static layoutSlugs: (keyof IProgressLayout)[] = []
+    // protected static layoutSlugs: (keyof IProgressLayout)[] = []
     protected _value: number = 0;
 
     percent: IState<number> = createState<number>(0);
