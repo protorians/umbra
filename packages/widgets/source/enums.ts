@@ -164,6 +164,18 @@ export enum ObjectFit {
     None = 'none',
 }
 
+export enum SizeExpression {
+    xxs = '2xs',
+    xs = 'xs',
+    sm = 'sm',
+    md = 'md',
+    lg = 'lg',
+    xl = 'xl',
+    xxl = '2xl',
+    xxxl = '3xl',
+    full = 'full',
+}
+
 export enum ObjectSize {
     ExtraSmall = 'x-small',
     Small = 'small',

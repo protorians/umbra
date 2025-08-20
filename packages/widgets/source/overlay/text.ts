@@ -186,8 +186,18 @@ export function SmallText(declaration: IWidgetDeclaration<HTMLSpanElement, ISpan
  * @description Construct's Function of `TextWidget`
  * @param declaration
  * @constructor
+ * @deprecated Use `Span` now
  */
 export function Text(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): TextWidget {
+    return new TextWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `TextWidget`
+ * @param declaration
+ * @constructor
+ */
+export function Span(declaration: IWidgetDeclaration<HTMLSpanElement, ISpanAttributes>): TextWidget {
     return new TextWidget(declaration)
 }
 
