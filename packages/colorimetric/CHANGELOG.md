@@ -1,5 +1,16 @@
 # @protorians/colorimetric
 
+## 0.3.0
+
+### Minor Changes
+
+- Refactoring
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.6.0
+
 ## 0.2.0
 
 ### Minor Changes
