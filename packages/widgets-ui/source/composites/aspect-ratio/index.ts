@@ -27,6 +27,6 @@ export function ThemeAspectRatio(
 
     return Stack({
         ...(declaration as any),
-        children: declaration.children
+        children: extended.children
     } as IWidgetDeclaration<HTMLElement, ICommonAttributes>);
 }

@@ -1,10 +1,10 @@
 export namespace TextUtility {
 
-    export function addSlashes(text: string) {
+    export function addSlashes(text: string): string {
         return text.replace(new RegExp("'", 'g'), "\\'")
     }
 
-    export function stripSlashes(text: string) {
+    export function stripSlashes(text: string): string {
         return text.replace(new RegExp("\\'", 'g'), "'")
     }
 
@@ -23,7 +23,7 @@ export namespace TextUtility {
         return value.trim().replace(/[-_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '');
     }
 
-    export function fixExponent(x: number) {
+    export function fixExponent(x: number): string {
         let value = `${x}`
         if (Math.abs(x) < 1.0) {
             let e = parseInt(x.toString().split('e-')[1])
@@ -59,15 +59,15 @@ export namespace TextUtility {
         return str;
     }
 
-    export function ucFirstLetter(value: string) {
+    export function ucFirstLetter(value: string): string {
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
-    export function lcFirstLetter(value: string) {
+    export function lcFirstLetter(value: string): string {
         return value.charAt(0).toLowerCase() + value.slice(1);
     }
 
-    export function trimSpace(data: string) {
+    export function trimSpace(data: string): string {
         return data.replace(/ /g, '')
     }
 
@@ -75,7 +75,7 @@ export namespace TextUtility {
         return data.split(' ').map(frag => frag.charAt(0).toUpperCase() + (strict ? frag.slice(1).toLowerCase() : frag.slice(1))).join(' ');
     }
 
-    export function randomName(length: number = 10) {
+    export function randomName(length: number = 10): string {
         const provider = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let out: string[] = [];
 
@@ -86,7 +86,7 @@ export namespace TextUtility {
         return out.join('');
     }
 
-    export function logTime(date?: Date) {
+    export function logTime(date?: Date): string {
         return (date || (new Date())).toLocaleTimeString('en-US', {
             hour: 'numeric',
             minute: 'numeric',
@@ -95,7 +95,7 @@ export namespace TextUtility {
         });
     }
 
-    export function logDateTime(date?: Date) {
+    export function logDateTime(date?: Date): string {
         return (date || (new Date())).toLocaleTimeString('en-US', {
             year: 'numeric',
             month: 'numeric',
@@ -121,7 +121,7 @@ export namespace TextUtility {
      */
     export function parseSequence(sequence: string, dictionary: (string | number)[]): string {
         let x = 0;
-        return sequence.replace(/\$\d+/g, () => `${dictionary[x++] || ""}`);
+        return sequence.replace(/\$\d+/g, () => `${dictionary[x++] || "0"}`);
     }
 
     /**
@@ -157,6 +157,11 @@ export namespace TextUtility {
     export function truncate(value: string, length: number, suffix: string = '...'): string {
         if (value.length <= length) return value;
         return value.slice(0, length) + suffix;
+    }
+
+
+    export function isStringable(value: any): boolean {
+        return value === "string" || value === "bigint" || value === "number";
     }
 
 }

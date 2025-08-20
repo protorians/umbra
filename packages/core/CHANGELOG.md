@@ -1,10 +1,16 @@
 # @protorians/core
 
-## 0.4.2
+## 0.6.0
 
-### Patch Changes
+### Minor Changes
 
-- ready
+- Refactoring
+
+## 0.5.0
+
+### Minor Changes
+
+- Fix bugs and add features
 
 ## 0.4.1
 

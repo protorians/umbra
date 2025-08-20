@@ -1,0 +1,80 @@
+/* 1. Utiliser un modèle de box-sizing plus intuitif */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* 2. Supprimer les marges par défaut */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    vertical-align: baseline;
+}
+
+/* 3. Ajouter une hauteur de ligne accessible */
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 4. Améliorer les styles par défaut des médias */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* 5. Hériter des polices pour les contrôles de formulaire */
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* 6. Éviter les débordements de texte */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    line-height: 100%;
+}
+
+/* 7. Améliorer le wrapping des lignes */
+p {
+    text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+/* 8. Créer un contexte de stacking racine */
+#root, #__next {
+    isolation: isolate;
+}
+
+/* 9. Réinitialisation des éléments HTML5 pour les anciens navigateurs */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* 10. Supprimer les styles de liste par défaut */
+ol, ul {
+    list-style: none;
+}
+
+/* 11. Réinitialiser les styles de citation */
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+/* 12. Réinitialiser les styles de table */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}

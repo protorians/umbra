@@ -215,7 +215,7 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     // nsa(nsa: IGlobalAttributes, ns?: string, separator?: string): this;
 
-    style(declaration: IStyleSheetDeclarations): this;
+    style(declaration: IStyleSheetDeclarations | IStyleSheet): this;
 
     // style(declaration: Partial<IStyleDeclaration>): this;
 
@@ -403,7 +403,7 @@ export type INativeProperties<E extends HTMLElement, A extends IAttributes> = {
 export type IWidgetDeclaration<E extends HTMLElement, A extends IAttributes> = A & INativeProperties<E, A>
 
 export type IWidgetDeclarationExploded<D extends IWidgetDeclaration<any, any>, T> = {
-    declaration: D;
+    declaration: Omit<D, keyof T>;
     extended: T;
 }
 

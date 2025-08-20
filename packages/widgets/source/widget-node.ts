@@ -298,6 +298,16 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
     }
 
     /**
+     * Returns the type of the object or entity.
+     * This method specifies the kind, typically used to identify the object's category or role.
+     *
+     * @return {string} A string representing the kind, which in this case is 'view'.
+     */
+    get kind(): string{
+        return 'view'
+    }
+
+    /**
      * Getter method that retrieves the fingerprint value.
      *
      * @return {string} The fingerprint of the current instance.
@@ -870,15 +880,11 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
      * Applies a set of style declarations to the current context. If the context is not yet available,
      * the declarations will be deferred until the 'mount' event occurs.
      *
-     * @param {IStyleSheetDeclarations} declaration - The style declarations to be applied.
+     * @param {IStyleSheetDeclarations | IStyleSheet} declaration - The style declarations to be applied.
      * @return {this} Returns the instance of the current object to allow chaining.
      */
-    style(declaration: IStyleSheetDeclarations): this {
-        if (this._context) this._context.engine?.style(this, declaration);
-        else if (!this._context) this._signal.listen('mount', () => {
-            this._context?.engine?.style(this, declaration);
-            return TreatmentQueueStatus.SnapOut;
-        })
+    style(declaration: IStyleSheetDeclarations | IStyleSheet): this {
+        this.stylesheet.merge(declaration).sync();
         return this;
     }
 

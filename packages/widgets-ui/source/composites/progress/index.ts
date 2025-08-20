@@ -31,7 +31,7 @@ export function ThemeProgress(
     const variantState = createState<LayerVariant>(variant)
 
     declaration.style = Style({
-        ...theme.stylesheets.declarations
+        ...theme.stylesheet.texture.declarations
     })
         .merge(declaration.style)
         .merge({

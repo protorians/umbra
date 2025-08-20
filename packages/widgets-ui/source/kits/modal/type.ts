@@ -5,7 +5,7 @@ import {
     PopupType,
     PositionX,
     PositionY,
-    ObjectElevation
+    ObjectElevation, IKitRef
 } from "@protorians/widgets";
 import {ModalStyleSections} from "./enum.js";
 import {IAnimetricSlimOptions} from "@protorians/animetric";
@@ -40,6 +40,7 @@ export interface IModalOptions extends Omit<PartialWithout<IModalLayout, 'childr
     animateOut?: IAnimetricSlimOptions;
     position?: [PositionX, PositionY];
     styles?: Partial<IModalStyles>;
+    reference?: IKitRef<IModalLayout, IModalOptions>;
 }
 
 export interface IModalActionable {

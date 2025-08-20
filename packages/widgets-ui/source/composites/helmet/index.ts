@@ -3,7 +3,7 @@ import {
     AligningDirection,
     Color, Column,
     declarationExplodes,
-    HeaderFrame,
+    HeaderWidget,
     type ICommonAttributes,
     type IWidgetDeclaration,
     type IWidgetNode, Row,
@@ -35,11 +35,11 @@ export function ThemeHelmet(
     const isColumn = (extended.direction === AligningDirection.Column || extended.direction === AligningDirection.ColumnReverse)
 
     declaration.style = Style({
-        ...theme.stylesheets.declarations
+        ...theme.stylesheet.texture.declarations
     })
         .merge(declaration.style)
         .merge({
-            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
+            boxShadow: isNude ? 'none' : `${theme.stylesheet.texture.declarations.boxShadow}`,
             position: fixed ? 'fixed' : 'sticky',
             display: 'flex',
             top: '0',
@@ -100,7 +100,7 @@ export function ThemeHelmet(
 
     declaration.elevate = ObjectElevation.Float;
 
-    return HeaderFrame(declaration)
+    return HeaderWidget(declaration)
         .mount(({widget}) => {
             Callable.safe(() =>
                 widget.style({

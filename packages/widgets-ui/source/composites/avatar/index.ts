@@ -26,8 +26,8 @@ export function ThemeAvatar(
                     overflow: 'hidden',
                     width: `${sizes}px`,
                     height: `${sizes}px`,
-                    backgroundColor: Color.tint_900,
-                    border: borderless ? `1px solid ${Color.tint_100}` : `${theme.settings.borderWidthMax||'1px'} solid ${Color.tint_900}`,
+                    backgroundColor: Color.tint,
+                    border: borderless ? `0px solid transparent` : `${theme.settings.borderWidthMax||'1px'} solid ${Color.tint_weak}`,
                 },
                 signal: {
                     mount: async ({widget}) => {

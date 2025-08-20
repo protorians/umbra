@@ -189,7 +189,7 @@ export class ViewWidget implements IView {
         if (configs && configs.properties) {
             configs.properties.forEach(name => {
                 if (!instance) return;
-                if (typeof instance[name] === 'function') return;
+                if (typeof instance[name] === 'undefined' || typeof instance[name] === 'function') return;
                 Object.defineProperty(this.props, name, {
                     writable: false,
                     value: instance[name],
@@ -202,10 +202,12 @@ export class ViewWidget implements IView {
                 if (!instance) return;
                 if (typeof instance[name] === 'undefined') return;
                 if (!(instance[name] instanceof StateWidget)) return;
-                Object.defineProperty(this.states, name, {
-                    writable: false,
-                    value: instance[name],
-                })
+
+                if (name in this.states)
+                    Object.defineProperty(this.states, name, {
+                        writable: false,
+                        value: instance[name],
+                    })
             })
         }
 

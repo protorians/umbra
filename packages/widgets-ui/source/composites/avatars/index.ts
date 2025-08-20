@@ -1,4 +1,4 @@
-import {Color, IWidgetNode, ObjectSize, Stack} from "@protorians/widgets";
+import {IWidgetNode, ObjectSize, Stack} from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
 import {ThemeAvatarsOptions} from "./type.js";
 import {getObjectSize} from "../../utilities/index.js";
@@ -15,9 +15,6 @@ export function ThemeAvatars(
         children: Stack({
             style: {
                 flexDirection: direction,
-                backgroundColor: Color.tint_900_a8,
-                backdropFilter: `blur(${theme.settings.blurred || '2rem'})`,
-                borderRadius: `${theme.settings.radiusHigh || '7rem'}`,
                 padding: `${theme.settings.borderWidthMax || '1px'}`,
             },
             children: sources?.map((source, index) =>
@@ -30,7 +27,7 @@ export function ThemeAvatars(
                     fallback,
                     borderless,
                 })?.style({
-                    marginLeft: index === 0 ? '0' : `-${gap / 3}px`,
+                    marginLeft: index === 0 ? '0' : (gap ? `-${gap / 3}px` : '100%'),
                 })
             )
         })

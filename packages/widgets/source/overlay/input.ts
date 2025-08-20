@@ -1,10 +1,10 @@
 import type {
-  IFormAttributes,
-  IInputAttributes,
-  ILabelAttributes, IOptionAttributes, IOptionGroupAttributes,
-  ISelectAttributes,
-  ITextareaAttributes,
-  IWidgetDeclaration
+    IFormAttributes,
+    IInputAttributes,
+    ILabelAttributes, IOptionAttributes, IOptionGroupAttributes,
+    ISelectAttributes,
+    ITextareaAttributes,
+    IWidgetDeclaration
 } from "../types/index.js";
 import {WidgetNode} from "../widget-node.js";
 import {Composable, Mountable} from "../decorators.js";
@@ -16,9 +16,9 @@ import {Composable, Mountable} from "../decorators.js";
 @Mountable()
 @Composable()
 export class FormWidget extends WidgetNode<HTMLFormElement, IFormAttributes> {
-  get tag(): string {
-    return 'form'
-  };
+    get tag(): string {
+        return 'form'
+    };
 }
 
 /**
@@ -27,9 +27,13 @@ export class FormWidget extends WidgetNode<HTMLFormElement, IFormAttributes> {
 @Mountable()
 @Composable()
 export class LabelWidget extends WidgetNode<HTMLLabelElement, ILabelAttributes> {
-  get tag(): string {
-    return 'label'
-  };
+    get tag(): string {
+        return 'label'
+    };
+
+    get kind(): string {
+        return 'text'
+    }
 }
 
 /**
@@ -38,9 +42,12 @@ export class LabelWidget extends WidgetNode<HTMLLabelElement, ILabelAttributes> 
 @Mountable()
 @Composable()
 export class InputWidget extends WidgetNode<HTMLInputElement, IInputAttributes> {
-  get tag(): string {
-    return 'input'
-  };
+    get tag(): string {
+        return 'input'
+    };
+    get kind(): string {
+        return 'input'
+    }
 }
 
 
@@ -50,9 +57,12 @@ export class InputWidget extends WidgetNode<HTMLInputElement, IInputAttributes> 
 @Mountable()
 @Composable()
 export class InputAreaWidget extends WidgetNode<HTMLTextAreaElement, ITextareaAttributes> {
-  get tag(): string {
-    return 'textarea'
-  };
+    get tag(): string {
+        return 'textarea'
+    };
+    get kind(): string {
+        return 'input'
+    }
 }
 
 /**
@@ -61,9 +71,12 @@ export class InputAreaWidget extends WidgetNode<HTMLTextAreaElement, ITextareaAt
 @Mountable()
 @Composable()
 export class SelectWidget extends WidgetNode<HTMLSelectElement, ISelectAttributes> {
-  get tag(): string {
-    return 'select'
-  };
+    get tag(): string {
+        return 'select'
+    };
+    get kind(): string {
+        return 'input'
+    }
 }
 
 /**
@@ -72,9 +85,12 @@ export class SelectWidget extends WidgetNode<HTMLSelectElement, ISelectAttribute
 @Mountable()
 @Composable()
 export class OptionWidget extends WidgetNode<HTMLOptionElement, IOptionAttributes> {
-  get tag(): string {
-    return 'option'
-  };
+    get tag(): string {
+        return 'option'
+    };
+    get kind(): string {
+        return 'input'
+    }
 }
 
 /**
@@ -82,8 +98,8 @@ export class OptionWidget extends WidgetNode<HTMLOptionElement, IOptionAttribute
  * @param declaration
  * @constructor
  */
-export function Option(declaration: IWidgetDeclaration<HTMLOptionElement, IOptionAttributes>): OptionWidget {
-  return new OptionWidget(declaration)
+export function Option(declaration: Omit<IWidgetDeclaration<HTMLOptionElement, IOptionAttributes>, 'children'>): OptionWidget {
+    return new OptionWidget({...declaration, children: declaration.label});
 }
 
 /**
@@ -92,9 +108,9 @@ export function Option(declaration: IWidgetDeclaration<HTMLOptionElement, IOptio
 @Mountable()
 @Composable()
 export class OptionGroupWidget extends WidgetNode<HTMLOptGroupElement, IOptionGroupAttributes> {
-  get tag(): string {
-    return 'optgroup'
-  };
+    get tag(): string {
+        return 'optgroup'
+    };
 }
 
 /**
@@ -103,7 +119,7 @@ export class OptionGroupWidget extends WidgetNode<HTMLOptGroupElement, IOptionGr
  * @constructor
  */
 export function Form(declaration: IWidgetDeclaration<HTMLFormElement, IFormAttributes>): FormWidget {
-  return new FormWidget(declaration)
+    return new FormWidget(declaration)
 }
 
 /**
@@ -112,7 +128,7 @@ export function Form(declaration: IWidgetDeclaration<HTMLFormElement, IFormAttri
  * @constructor
  */
 export function Label(declaration: IWidgetDeclaration<HTMLLabelElement, ILabelAttributes>): LabelWidget {
-  return new LabelWidget(declaration)
+    return new LabelWidget(declaration)
 }
 
 /**
@@ -121,7 +137,7 @@ export function Label(declaration: IWidgetDeclaration<HTMLLabelElement, ILabelAt
  * @constructor
  */
 export function Input(declaration: Omit<IWidgetDeclaration<HTMLInputElement, IInputAttributes>, 'children'>): InputWidget {
-  return new InputWidget({...declaration, children: undefined})
+    return new InputWidget({...declaration, children: undefined})
 }
 
 /**
@@ -130,7 +146,7 @@ export function Input(declaration: Omit<IWidgetDeclaration<HTMLInputElement, IIn
  * @constructor
  */
 export function InputArea(declaration: IWidgetDeclaration<HTMLTextAreaElement, ITextareaAttributes>): InputAreaWidget {
-  return new InputAreaWidget(declaration)
+    return new InputAreaWidget(declaration)
 }
 
 /**
@@ -139,7 +155,7 @@ export function InputArea(declaration: IWidgetDeclaration<HTMLTextAreaElement, I
  * @constructor
  */
 export function Select(declaration: IWidgetDeclaration<HTMLSelectElement, ISelectAttributes>): SelectWidget {
-  return new SelectWidget(declaration)
+    return new SelectWidget(declaration)
 }
 
 /**
@@ -148,5 +164,5 @@ export function Select(declaration: IWidgetDeclaration<HTMLSelectElement, ISelec
  * @constructor
  */
 export function OptionGroup(declaration: IWidgetDeclaration<HTMLOptGroupElement, IOptionGroupAttributes>): OptionGroupWidget {
-  return new OptionGroupWidget(declaration)
+    return new OptionGroupWidget(declaration)
 }

@@ -1,15 +1,15 @@
 import {Color, type IStyleSheetDeclarations, Style} from "@protorians/widgets";
-import type {IColoringLayer, ITheme} from "../../types/index.js";
+import type {IColoringLayer, ITheme} from "../types/index.js";
 
 
-export class DialogStyle {
+export class BoxStyle {
 
     static Container(theme: ITheme, coloring: IColoringLayer): IStyleSheetDeclarations {
         return {
             width: 'calc(100vw - 2rem)',
             maxWidth: '380px',
             color: coloring.fore ? Color[coloring.fore] : Color.tint,
-            backgroundColor: coloring.back ? Color[coloring.back] : Color.tint_a8,
+            backgroundColor: coloring.back ? Color[coloring.back] : Color.tint_weak_a9,
             borderWidth: theme.settings.borderWidth || '2px',
             borderStyle: theme.settings.borderStyle || 'solid',
             borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
@@ -25,13 +25,14 @@ export class DialogStyle {
                 flex: '1 1 auto',
                 borderRadius: '0',
                 boxShadow: 'none',
-                // color: coloring.fore ? Color[coloring.fore] : Color.tint,
-                // backgroundColor: 'transparent',
+                color: coloring.fore ? Color[coloring.fore] : Color.tint,
+                backgroundColor: 'transparent',
                 paddingX: 1,
                 paddingY: .9,
                 textAlign: 'center',
                 justifyContent: 'center',
                 alignItems: 'center',
+                borderWidth: '0',
                 borderTopWidth: `calc(${theme.settings.borderWidth || '2px'} / 2)`,
                 borderColor: coloring.edge ? Color[`${coloring.edge}`] : 'transparent',
                 borderRightWidth: `calc(${theme.settings.borderWidth || '2px'} / 2)`,
@@ -46,9 +47,11 @@ export class DialogStyle {
                 '&:last-child': Style({
                     borderBottomWidth: `0`,
                 }),
-                // '& > *:hover': Style({
-                //     backgroundColor: coloring.edge ? Color[`${coloring.edge}`] : Color.one,
-                // }),
+                '& > *:hover': Style({
+                    borderColor: 'transparent',
+                    color: Color.text_500,
+                    backgroundColor: Color.tint_weak_a8,
+                }),
             })
         }
     }
@@ -63,7 +66,7 @@ export class DialogStyle {
         return {
             paddingLeft: 1.5,
             paddingY: 2,
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
         }
     }

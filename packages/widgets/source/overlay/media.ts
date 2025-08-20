@@ -5,8 +5,19 @@ import type {
   IPictureAttributes,
   IWidgetDeclaration,
   IVideoAttributes,
-  ISourceProps
+  ISourceProps, IAudioAttributes
 } from "../types/index.js";
+
+/**
+ * @description Video Widget
+ */
+@Mountable()
+@Composable()
+export class MediaVideoWidget extends WidgetNode<HTMLVideoElement, IVideoAttributes> {
+  get tag(): string {
+    return 'video'
+  };
+}
 
 
 /**
@@ -14,9 +25,9 @@ import type {
  */
 @Mountable()
 @Composable()
-export class VideoWidget extends WidgetNode<HTMLVideoElement, IVideoAttributes> {
+export class MediaAudioWidget extends WidgetNode<HTMLVideoElement, IAudioAttributes> {
   get tag(): string {
-    return 'video'
+    return 'audio'
   };
 }
 
@@ -26,7 +37,7 @@ export class VideoWidget extends WidgetNode<HTMLVideoElement, IVideoAttributes> 
  */
 @Mountable()
 @Composable()
-export class PictureWidget extends WidgetNode<HTMLPictureElement, IPictureAttributes> {
+export class MediaPictureWidget extends WidgetNode<HTMLPictureElement, IPictureAttributes> {
   get tag(): string {
     return 'picture'
   };
@@ -37,7 +48,7 @@ export class PictureWidget extends WidgetNode<HTMLPictureElement, IPictureAttrib
  */
 @Mountable()
 @Composable()
-export class ImageWidget extends WidgetNode<HTMLImageElement, IImageAttributes> {
+export class MediaImageWidget extends WidgetNode<HTMLImageElement, IImageAttributes> {
   get tag(): string {
     return 'img'
   };
@@ -48,7 +59,7 @@ export class ImageWidget extends WidgetNode<HTMLImageElement, IImageAttributes> 
  */
 @Mountable()
 @Composable()
-export class SourceWidget extends WidgetNode<HTMLSourceElement, ISourceProps> {
+export class MediaSourceWidget extends WidgetNode<HTMLSourceElement, ISourceProps> {
   get tag(): string {
     return 'source'
   };
@@ -58,9 +69,29 @@ export class SourceWidget extends WidgetNode<HTMLSourceElement, ISourceProps> {
  * @description Construct's Function of `SourceWidget`
  * @param declaration
  * @constructor
+ * @deprecated use `MediaSource` now
  */
-export function Source(declaration: IWidgetDeclaration<HTMLSourceElement, ISourceProps>): SourceWidget {
-  return new SourceWidget(declaration)
+export function Source(declaration: IWidgetDeclaration<HTMLSourceElement, ISourceProps>): MediaSourceWidget {
+  return new MediaSourceWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `SourceWidget`
+ * @param declaration
+ * @constructor
+ */
+export function MediaSource(declaration: IWidgetDeclaration<HTMLSourceElement, ISourceProps>): MediaSourceWidget {
+  return new MediaSourceWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `PictureWidget`
+ * @param declaration
+ * @constructor
+ * @deprecated Use `MediaPicture` now
+ */
+export function Picture(declaration: IWidgetDeclaration<HTMLPictureElement, IPictureAttributes>): MediaPictureWidget {
+  return new MediaPictureWidget(declaration)
 }
 
 /**
@@ -68,8 +99,8 @@ export function Source(declaration: IWidgetDeclaration<HTMLSourceElement, ISourc
  * @param declaration
  * @constructor
  */
-export function Picture(declaration: IWidgetDeclaration<HTMLPictureElement, IPictureAttributes>): PictureWidget {
-  return new PictureWidget(declaration)
+export function MediaPicture(declaration: IWidgetDeclaration<HTMLPictureElement, IPictureAttributes>): MediaPictureWidget {
+  return new MediaPictureWidget(declaration)
 }
 
 /**
@@ -77,8 +108,18 @@ export function Picture(declaration: IWidgetDeclaration<HTMLPictureElement, IPic
  * @param declaration
  * @constructor
  */
-export function Image(declaration: Omit<IWidgetDeclaration<HTMLImageElement, IImageAttributes>, 'children'>): ImageWidget {
-  return new ImageWidget({...declaration, children: undefined})
+export function Image(declaration: Omit<IWidgetDeclaration<HTMLImageElement, IImageAttributes>, 'children'>): MediaImageWidget {
+  return new MediaImageWidget({...declaration, children: undefined})
+}
+
+/**
+ * @description Construct's Function of `ImageWidget`
+ * @param declaration
+ * @constructor
+ * @deprecated Use `MediaImage` now
+ */
+export function MediaImage(declaration: Omit<IWidgetDeclaration<HTMLImageElement, IImageAttributes>, 'children'>): MediaImageWidget {
+  return new MediaImageWidget({...declaration, children: undefined})
 }
 
 
@@ -86,7 +127,37 @@ export function Image(declaration: Omit<IWidgetDeclaration<HTMLImageElement, IIm
  * @description Construct's Function of `VideoWidget`
  * @param declaration
  * @constructor
+ * @deprecated Use `MediaVideo` now
  */
-export function Video(declaration: IWidgetDeclaration<HTMLVideoElement, IVideoAttributes>): VideoWidget {
-  return new VideoWidget(declaration)
+export function VideoPlayer(declaration: IWidgetDeclaration<HTMLVideoElement, IVideoAttributes>): MediaVideoWidget {
+  return new MediaVideoWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `VideoWidget`
+ * @param declaration
+ * @constructor
+ */
+export function MediaVideo(declaration: IWidgetDeclaration<HTMLVideoElement, IVideoAttributes>): MediaVideoWidget {
+  return new MediaVideoWidget(declaration)
+}
+
+
+/**
+ * @description Construct's Function of `VideoWidget`
+ * @param declaration
+ * @constructor
+ * @deprecated Use `MediaAudio` now
+ */
+export function AudioPlayer(declaration: IWidgetDeclaration<HTMLVideoElement, IAudioAttributes>): MediaAudioWidget {
+  return new MediaAudioWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `VideoWidget`
+ * @param declaration
+ * @constructor
+ */
+export function MediaAudio(declaration: IWidgetDeclaration<HTMLVideoElement, IAudioAttributes>): MediaAudioWidget {
+  return new MediaAudioWidget(declaration)
 }

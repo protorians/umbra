@@ -238,11 +238,11 @@ export class Manticore<E extends HTMLElement, A extends IAttributes> implements 
                 widget.element.append(children.element);
                 children.useContext(this.widget.context || widget.context);
                 // Callable.safe(() => {
-                    children.signal.dispatch('mount', {
-                        root: this.widget,
-                        widget: children,
-                        payload: widget
-                    }, children.signal);
+                children.signal.dispatch('mount', {
+                    root: this.widget,
+                    widget: children,
+                    payload: widget
+                }, children.signal);
                 // });
 
             } else if (typeof children === 'string' || typeof children === 'number') {

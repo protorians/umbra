@@ -9,7 +9,8 @@ export interface IStyleAliasDictionary {
 //     [key in keyof CSSStyleDeclaration]: boolean;
 // }
 
-export type IStyleSupportedValue = object | string | number | undefined
+export type IStyleStrictSupportedValue = string | number | undefined;
+export type IStyleSupportedValue = object | IStyleStrictSupportedValue;
 
 export type IStyleExtendedDeclaration = {
     'paddingX': IStyleSupportedValue;
@@ -20,6 +21,10 @@ export type IStyleExtendedDeclaration = {
 
 export type IStyleDeclaration = {
     [K in (keyof CSSStyleDeclaration | keyof IStyleExtendedDeclaration)]: IStyleSupportedValue;
+}
+
+export type IStyleStrictDeclaration = {
+    [K in (keyof CSSStyleDeclaration | keyof IStyleExtendedDeclaration)]: IStyleStrictSupportedValue;
 }
 
 export type IStyleSettings = {
@@ -33,6 +38,30 @@ export type IStyleOptions = {
     attach?: boolean;
     lock?: boolean;
     fingerprint?: string;
+}
+
+export type IInlineStyleOptions = {
+    fingerprint?: string;
+}
+
+export interface IInlineStyle {
+    readonly options: IInlineStyleOptions;
+
+    attach(widget: IWidgetNode<any, any>): this;
+
+    detach(): this;
+
+    sync(widget?: IWidgetNode<any, any>): this;
+
+    remove<K extends keyof IStyleStrictDeclaration>(key: K | K[]): this
+
+    update<K extends keyof IStyleStrictDeclaration>(key: K, value: IStyleStrictDeclaration[K]): this
+
+    merge(declaration?: IStyleStrictDeclaration): this;
+
+    clear(): this;
+
+    toString(): string;
 }
 
 // export type IStyleDeclarationController = ISignalController<Partial<IStyleDeclaration>>
@@ -103,23 +132,36 @@ export interface IStyleSheet {
     update<K extends keyof IStyleSheetDeclarations>(key: K, value: IStyleSheetDeclarations[K]): this
 
     hover(declarations: IStyleSheetDeclarations): this;
+
     focus(declarations: IStyleSheetDeclarations): this;
+
     blur(declarations: IStyleSheetDeclarations): this;
+
     autofill(declarations: IStyleSheetDeclarations): this;
+
     when(pseudoClass: IStyleSheetPseudoClasses | IStyleSheetPseudoClasses[], declarations: IStyleSheetDeclarations): this;
 
     after(declarations: IStyleSheetDeclarations): this;
+
     before(declarations: IStyleSheetDeclarations): this;
+
     isole(element: IStyleSheetPseudoElements | IStyleSheetPseudoElements[], declarations: IStyleSheetDeclarations): this;
 
 
     keyframes(name: string, declarations: IStyleSheetStrictCascade): this;
+
     supports(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     scope(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     property(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     viewTransition(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     container(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     media(directive: string, declarations: IStyleSheetStrictCascade): this;
+
     rule(rule: IStyleSheetAtRules, directive: string, declarations: IStyleSheetStrictCascade): this;
 
     associate(declarations: IStyleSheetDeclarations): this;

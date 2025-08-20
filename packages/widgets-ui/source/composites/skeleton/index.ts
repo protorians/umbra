@@ -22,7 +22,7 @@ export function ThemeSkeleton(
     )
 
     declaration.style = Style({
-        ...theme.stylesheets.declarations
+        ...theme.stylesheet.texture.declarations
     })
         .merge(declaration.style)
         .merge({

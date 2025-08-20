@@ -1,7 +1,7 @@
 {
   "name": "@protorians/core",
   "displayName": "Protorians Core",
-  "version": "0.4.2",
+  "version": "0.6.0",
   "description": "Protorians Core",
   "main": "./~esm/index.js",
   "type": "module",
@@ -52,6 +52,6 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }

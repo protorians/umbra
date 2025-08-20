@@ -1,17 +1,19 @@
-/* 1. Utiliser un modèle de box-sizing plus intuitif */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
+@layer utilities {
+    /* 1. Utiliser un modèle de box-sizing plus intuitif */
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
 
-/* 2. Supprimer les marges par défaut */
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-family: inherit;
-    font-style: inherit;
-    font-weight: inherit;
-    vertical-align: baseline;
+    /* 2. Supprimer les marges par défaut */
+    * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-family: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        vertical-align: baseline;
+    }
 }
 
 /* 3. Ajouter une hauteur de ligne accessible */

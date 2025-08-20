@@ -1,15 +1,50 @@
 # @protorians/widgets
 
-## 0.6.9
+## 0.9.0
+
+### Minor Changes
+
+- Refactoring
 
 ### Patch Changes
 
-- ready
 - Updated dependencies
-  - @protorians/colorimetric@0.0.29
-  - @protorians/animetric@0.1.8
-  - @protorians/spectra@0.0.12
-  - @protorians/core@0.4.2
+  - @protorians/colorimetric@0.3.0
+  - @protorians/animetric@0.3.0
+  - @protorians/spectra@0.2.0
+  - @protorians/core@0.6.0
+
+## 0.8.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/colorimetric@0.2.0
+  - @protorians/animetric@0.2.0
+  - @protorians/spectra@0.1.0
+  - @protorians/core@0.5.0
+
+## 0.7.0
+
+### Minor Changes
+
+- New features, fix bug
+- Add GridWidget implementation with grid layout support
+- Add ColorScheme and ColorPalette utilities for theme management
+- Add EdgeInsets function to calculate edge insets values
+- Remove color scheme and palette management code
+- Refactor grid attributes interface to use standardized names
+- Add Padding and Margin utility functions with presets
+- Refactor Stack widgets to use specific row and column attributes.
+- Update Style function to include return type annotation
+- Add new layout exports to index.ts file
+- Add EdgeInset-related interfaces to layout types
+- Refactor widget locking and cleanup redundant Callable usage
+- Refactor and extend stylesheet API with new pseudo-classes, elements, and rules.
 
 ## 0.6.8
 

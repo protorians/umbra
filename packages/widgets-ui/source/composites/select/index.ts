@@ -1,14 +1,14 @@
-import {Callable, createCapability, TreatmentQueueStatus, WalkableAction, WalkableList} from "@protorians/core";
-import {
+import {Callable, createCapability, WalkableAction, WalkableList} from "@protorians/core";
+import type {
     IThemeSelectOption,
     IThemeSelectMethods,
     IThemeSelectOptions,
     IThemeSelectProperties,
     IThemeSelectValue
 } from "./type.js";
-import {Column, createRef, Displaying, IWidgetNode, Layer, Row, Style, Text} from "@protorians/widgets";
+import {Column, createRef, Displaying, type IWidgetNode, Layer, Row, Style, Text} from "@protorians/widgets";
 import {ThemeSelectStatus} from "./enum.js";
-import {Positioning} from "../../supports/positioning.js";
+import {UiPositioning} from "../../supports/positioning.js";
 
 
 export function ThemeSelect(
@@ -21,6 +21,7 @@ export function ThemeSelect(
         styles,
         listen,
         checkbox,
+        multipleSuffix,
     }: IThemeSelectOptions
 ) {
 
@@ -59,8 +60,6 @@ export function ThemeSelect(
         const childRef = createRef();
         const selected = isSelected(value);
 
-        console.warn('Select styled', selected, styles?.selected)
-
         return Row({
             ref: childRef,
             // tabindex: 0,
@@ -79,13 +78,6 @@ export function ThemeSelect(
                 checkbox
                     ? Row({
                         ref: checkboxRef,
-                        // signal: {
-                        //     mount: ({widget: checker}) => {
-                        //         if (!styles?.selected) return;
-                        //         if (selected) checker.stylesheet.associate(styles.selected)
-                        //         if (!selected) checker.stylesheet?.unassociate(styles.selected)
-                        //     }
-                        // },
                         style: Style({
                             ...styles?.checkbox,
                         }),
@@ -105,7 +97,7 @@ export function ThemeSelect(
 
     const adjustPosition = () => {
         if (optionsRef.current)
-            Positioning.alwaysOnScreen(optionsRef.current, {
+            UiPositioning.alwaysOnScreen(optionsRef.current, {
                 top: handlerRef.current?.measure.height || 1,
                 left: 0,
             });
@@ -157,15 +149,19 @@ export function ThemeSelect(
 
     const keyboardDetection = (event: KeyboardEvent) => {
         if (current.status == ThemeSelectStatus.Open) {
-            if (event.key === 'ArrowDown') {
+            const key = event.key.toString().toLowerCase();
+            if (key === 'arrowdown') {
                 walker.next();
-            }
-            if (event.key === 'ArrowUp') {
+                event.preventDefault();
+            } else if (key === 'arrowup') {
                 walker.previous();
-            }
-            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+            } else if (key === 'enter' || key === 'space') {
                 const option = options[walker.index] || undefined;
                 if (option) current.select(option.value);
+                event.preventDefault();
+            } else if (key === 'escape' || key === 'esc' || key === 'tab') {
+                current.close();
             }
         }
     }
@@ -191,7 +187,6 @@ export function ThemeSelect(
         if (listen?.open) listen.open(current);
         widgetRef.current?.on('keydown', ({payload: {event}}) => {
             if (event) keyboardDetection(event as KeyboardEvent);
-            return TreatmentQueueStatus.Cancel;
         });
     })
 
@@ -211,6 +206,8 @@ export function ThemeSelect(
         });
 
         if (listen?.close) listen.close(current);
+
+        widgetRef.current?.blur();
     })
 
     capability.apply('toggle', () => {
@@ -220,16 +217,39 @@ export function ThemeSelect(
     })
 
     capability.apply('select', (value: IThemeSelectValue) => {
-        const item = [...(current.list.filter((entry) => entry.value === value))][0] || undefined;
+        setValue(value);
 
-        if (item && item.child) {
-            setValue(value);
-            selectRef.current?.clear().content(item.child.clone());
-            // selectRef.current?.clear().content(item.child.clientElement?.cloneNode(true));
-            if (listen?.change) listen.change(current);
-            // if (!multiple) current.close();
-            current.options();
+        const selection = Array.isArray(current.value) ? current.value : [current.value];
+        const items = [...(current.list.filter((entry) => selection.includes(entry.value)))];
+
+        if (items.length > 0) {
+            if (multiple) {
+                selectRef.current?.clear().content(
+                    selection.length > 1 ?
+                        Row({
+                            children: Text({
+                                children: `${selection.length} ${multipleSuffix || 'selected'}`
+                            })
+
+                        })
+                        : items[0].child?.clone()
+                );
+            }
+
+            if (!multiple && items.length > 1 && items[0].child) {
+                selectRef.current?.clear().content(items[0].child.clone());
+
+            }
         }
+
+        if (!items.length) {
+            selectRef.current?.clear().content(fallback?.clone());
+        }
+
+        if (listen?.change) listen.change(current);
+        current.options();
+
+        if (!multiple) current.close();
     })
 
     capability.apply('options', (list) => {

@@ -4,6 +4,7 @@ import {IEdgeInset, IEdgeInsetValue} from "../types/index.js";
 
 export function EdgeInsets({ratio, x, y, size}: IEdgeInset): IEdgeInsetValue {
     ratio = NumberUtility.decimalPercent(ratio || 1);
+    size = size || 1;
 
     let h = x || size || undefined;
     let v = y || size || undefined;

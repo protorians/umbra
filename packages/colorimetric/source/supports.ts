@@ -9,7 +9,7 @@ import {
     IColorValueSyntax, IColorXyz, IOklchAlgo
 } from "./types.js";
 import {ColorimetricType} from "./enums.js";
-import { NumberUtility, TextUtility } from "@protorians/core";
+import {NumberUtility, TextUtility} from "@protorians/core";
 
 export namespace Colorimetric {
 
@@ -27,9 +27,10 @@ export namespace Colorimetric {
         type: ColorimetricType.Oklch,
         lightness: {
             breakpoint: 50,
-            min: 46,
+            min: 5,
             middle: 50,
-            max: 64,
+            max: 95,
+            ease: .16,
         },
     }
 
@@ -530,21 +531,27 @@ export namespace Colorimetric {
             if (parsed) {
                 let integer = parseInt(value);
                 if (!isNaN(integer)) {
-                    if (integer < 100) parsed.alpha = NumberUtility.percent(integer * 10);
-                    else {
-                        const gap = (100 - parsed.lightness);
-                        parsed.lightness = NumberUtility.percent(
-                            parsed.lightness <= Settings.lightness.breakpoint
-                                ? 100 - ((gap * integer * .001) + (gap * Settings.lightness.max * .01))
-                                : parsed.lightness - (gap * integer * .001) + (gap * Settings.lightness.min * .01)
-                        );
-                    }
+                    parsed.lightness = NumberUtility.clamp(100 - (integer * .1), Settings.lightness.min, Settings.lightness.max);
+                } else if (value === 'weak') {
+                    parsed.lightness = NumberUtility.clamp(
+                        parsed.lightness + ((100 - parsed.lightness) * .2),
+                        Settings.lightness.min,
+                        100
+                    );
+                } else if (value === 'heavy') {
+                    parsed.lightness = NumberUtility.clamp(
+                        parsed.lightness - ((100 - parsed.lightness) * .2),
+                        Settings.lightness.min,
+                        Settings.lightness.max
+                    );
                 } else if (value === 'alpha') {
                     parsed.lightness = Settings.lightness.middle;
                 } else if (value === 'invert') {
-                    parsed.lightness = parsed.lightness >= Settings.lightness.breakpoint
-                        ? 30
-                        : 70;
+                    parsed.lightness = (
+                        parsed.lightness >= Settings.lightness.breakpoint
+                        ? Math.max(100 - parsed.lightness, Settings.lightness.min)
+                        : Math.min(100 - parsed.lightness, Settings.lightness.max)
+                    );
                 } else if (value.startsWith('a')) {
                     parsed.alpha = NumberUtility.percent(parseInt(value.substring(1)) * 10);
                 }
