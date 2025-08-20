@@ -1,6 +1,6 @@
 {
   "name": "@widgetui/katon-theme",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Widgets Theme",
   "type": "module",
   "main": "./build/index.js",
