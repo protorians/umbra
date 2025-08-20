@@ -1,19 +1,21 @@
 import {Excavator} from "./excavator.js";
-import {Compilator} from "./compilator.js";
+import {Compilate} from "./compilate.js";
 import './rules.config.js'
 import {getRules} from "./rules.directive.js";
 import * as path from "node:path";
 import {Configurator} from "./configurator.js";
 import {Synchronous} from "./synchronous.js";
+import {CompilateCss} from "./compilate.css.js";
 
 export function vitePlugin() {
 
     const configurator = new Configurator();
-    const compilator = new Compilator({
+    const css = new CompilateCss(configurator);
+    const compilator = new Compilate({
         rules: getRules()
     });
 
-    Synchronous.synchronizable(configurator);
+    Synchronous.synchronizable(css);
     Synchronous.synchronizable(compilator);
 
     return {
@@ -67,13 +69,13 @@ export function vitePlugin() {
                     id.endsWith(".sass")
                 )
             ) {
-                await configurator.parse(source, id);
-                configurator.compilates();
+                await css.parse(source, id);
+                css.compilates();
                 Synchronous.make();
 
                 return {
                     code: `/* WidgetUI : parsed */
-${configurator.source}`,
+${css.source || '/* No output found */'}`,
                     map: null,
                 }
             }

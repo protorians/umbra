@@ -19,7 +19,7 @@ import {ComputeType, RuleType} from "../enums.js";
 import {Configurator} from "./configurator.js";
 import {sortRules} from "./utilities.js";
 
-export class Compilator implements ICompilator {
+export class Compilate implements ICompilator {
     static instance: ICompilator | undefined;
 
     protected _excavates: Map<string, IExcavator> = new Map();
@@ -48,7 +48,7 @@ export class Compilator implements ICompilator {
                 [...this._excavates.values()].map(excavator => excavator.artifacts)
             )
         );
-        const orders = sortRules(Compilator.rulePriorities());
+        const orders = sortRules(Compilate.rulePriorities());
         const filtered: string[] = [];
 
         for (const order of orders) {
@@ -82,7 +82,7 @@ export class Compilator implements ICompilator {
         options: ICompilatorOptions = {} as ICompilatorOptions,
     ) {
         this._options = this.initializeOptions(options);
-        Compilator.instance = this;
+        Compilate.instance = this;
     }
 
     protected initializeOptions(options: ICompilatorOptions) {
@@ -123,8 +123,8 @@ export class Compilator implements ICompilator {
 
         if (typeof this._options.rules[index] === 'undefined') return undefined;
 
-        const parse = Compilator.parseValue(_value);
-        const selector = Compilator.parseSelector(artifact);
+        const parse = Compilate.parseValue(_value);
+        const selector = Compilate.parseSelector(artifact);
 
         const rule = this._options.rules[index]({
             compilator: this,
@@ -166,10 +166,10 @@ export class Compilator implements ICompilator {
             if (rule instanceof ExtendedRule) {
                 parsed.push(rule.use(this).compilate());
             } else if (typeof rule === 'object') {
-                parsed.push(Compilator.stringifier(index, rule))
+                parsed.push(Compilate.stringifier(index, rule))
             } else {
                 grouped = true;
-                parsed.push(`${Compilator.property(index)}:${Compilator.value(rule)}`);
+                parsed.push(`${Compilate.property(index)}:${Compilate.value(rule)}`);
             }
         }
 
@@ -252,7 +252,7 @@ export class Compilator implements ICompilator {
         const out: string[] = [];
 
         for (const [key, value] of Object.entries(styles))
-            out.push(`${Compilator.property(key)}: ${Compilator.value(value)}`);
+            out.push(`${Compilate.property(key)}: ${Compilate.value(value)}`);
 
         return `${selector} {${out.join(';')}}`;
     }
@@ -351,7 +351,7 @@ export class NestedRule extends ExtendedRule implements INestedRule {
     }
 
     compilate(): string {
-        return Compilator.stringifier(this.selector, this.style);
+        return Compilate.stringifier(this.selector, this.style);
     }
 }
 

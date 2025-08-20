@@ -69,7 +69,7 @@ export interface IRuleMetadata extends IRuleValuable {
 }
 
 
-export interface IRuleColorSet{
+export interface IRuleColorSet {
     value: string;
     default?: string;
     light?: string;
@@ -117,7 +117,7 @@ export interface IExcavator {
 
     get type(): ExcavatorType;
 
-    parse(type: ExcavatorType): this;
+    parse(): this;
 
     make(compilator: ICompilator): this;
 }
@@ -160,11 +160,42 @@ export interface ICompilator {
     parse(rules: IRuleSyntheticValues | IExtendedRule, selector?: string): string;
 }
 
+export interface ICssVariablesCompilator {
+    get configs(): IConfigurator | undefined;
+
+    get compilated(): string;
+
+    inject(selector: string, content: string, priority?: boolean, layer?: IConfiguratorVariablesKeys,): this
+
+    parse(source: string, id?: string): Promise<this>;
+
+    parseVariables(section: string): IConfiguratorVariablesData;
+
+    initialize(): this;
+
+    compilates(): this;
+}
+
+export interface ICssApplierCompilator {
+    get configs(): IConfigurator | undefined;
+
+    get compilated(): string;
+
+    // inject(selector: string, content: string, priority?: boolean, layer?: IConfiguratorVariablesKeys,): this
+
+    parse(source: string, id?: string): Promise<this>;
+
+    // parseVariables(section: string): IConfiguratorVariablesData;
+
+    initialize(): this;
+
+    compilates(): this;
+}
 
 export interface IComputedInjectionPayload {
     layer?: IConfiguratorVariablesKeys;
     selector?: string;
-    rules: IRuleDeclaration;
+    rules: IRuleDeclaration | IExtendedRule;
     priority?: boolean;
 }
 
@@ -183,7 +214,7 @@ export interface ICompilatorDirectories {
 }
 
 
-export type IConfiguratorVariablesKeys = 'core' | 'base' | 'components' | 'utilities' | 'theme' | 'layout';
+export type IConfiguratorVariablesKeys = 'core' | 'base' | 'kit' | 'components' | 'utilities' | 'theme' | 'layout';
 
 export type IConfiguratorVariablesData = Record<string, Record<string, string>>;
 
@@ -195,11 +226,17 @@ export interface IConfigurator {
 
     get processor(): Result_<Root_> | undefined;
 
+    // get computed(): Set<string>;
+
     get variables(): IConfiguratorVariables;
 
-    get source(): string;
+    // get source(): string;
 
-    get compilated(): string;
+    // get compilated(): string;
+
+    setVariables(key: IConfiguratorVariablesKeys, value: IConfiguratorVariablesData): this;
+
+    removeVariables(key: IConfiguratorVariablesKeys): this;
 
     unwrapVariables(): Record<string, string>;
 
@@ -211,11 +248,11 @@ export interface IConfigurator {
 
     initialize(): this;
 
-    parseVariables(section: string): IConfiguratorVariablesData;
+    // parseVariables(section: string): IConfiguratorVariablesData;
+    //
+    // parse(source: string, id?: string): Promise<void>;
 
-    parse(source: string, id?: string): Promise<void>;
-
-    compilates(): this;
+    // compilates(): this;
 }
 
 

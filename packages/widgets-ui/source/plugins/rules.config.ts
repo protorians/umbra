@@ -1,11 +1,30 @@
 import {addRule} from "./rules.directive.js";
-import {IRuleDeclaration} from "../types/index.js";
-import {mediaQuery, nested} from "./compilator.js";
-import {computeColor, computeGridSpan, computeGrids, computeValue, computeGrid} from "./helpers.js";
+import {IRuleDeclaration, IRuleValue} from "../types/index.js";
+import {mediaQuery, nested} from "./compilate.js";
+import {
+    computeColor,
+    computeGridSpan,
+    computeGrids,
+    computeValue,
+    computeGrid,
+    computeSizeExpression,
+    isSizeExpression,
+} from "./helpers.js";
 import {NumberUtility} from "@protorians/core";
 import {RuleType} from "../enums.js";
 
 addRule
+
+    /**
+     * Display
+     */
+    ({
+        alias: 'ratio',
+        callable: ({value}) => ({
+            aspectRatio: `${value || 'initial'}`,
+        })
+    })
+
     /**
      * Flex
      */
@@ -19,16 +38,26 @@ addRule
             else if (value === 'initial') return {flex: '0 1 auto'}
             else if (NumberUtility.isNumber(value) && type === RuleType.Synthetic) return {flex: `${value}`}
             else if (NumberUtility.isNumber(value)) return {flex: `calc(${value} * 100%)`}
-            else if (['row', 'column'].includes(value))
+            else if (['row', 'col'].includes(value))
                 return {
                     display: `flex`,
-                    flexDirection: `${value}`
+                    flexDirection: `${String(value).toLowerCase() === 'col' ? 'column' : 'row'}`,
                 }
             else if (['wrap', 'no-wrap'].includes(value)) return {flexWrap: `${value}`}
 
 
             return {display: `flex`,}
         }
+    })
+
+    /**
+     * Display
+     */
+    ({
+        alias: 'display',
+        callable: ({value}) => ({
+            display: `${value || 'block'}`,
+        })
     })
 
     /**
@@ -47,7 +76,7 @@ addRule
     ({
         alias: 'items',
         callable: ({value}) => ({
-            justifyContent: `${value || 'flex-start'}`,
+            alignItems: `${value || 'flex-start'}`,
         })
     })
 
@@ -146,8 +175,16 @@ addRule
      */
     ({
         alias: 'text',
-        callable: (payload) =>
-            ({color: computeColor(payload).value,})
+        callable: (payload) => {
+            let size: IRuleValue;
+            if (isSizeExpression(payload.value)) {
+                size = computeSizeExpression(payload, 'font-size', 'spacing');
+                if (size) return {fontSize: `${size}`}
+            }
+            if (NumberUtility.isNumber(String(payload.value)))
+                return {fontSize: `${computeValue(payload)}`}
+            return {color: size || computeColor(payload).value,}
+        }
     })
     ({
         alias: 'fore',
@@ -174,12 +211,31 @@ addRule
     })
 
     /**
+     * Overflow
+     */
+    ({
+        alias: 'overflow',
+        callable: (payload) =>
+            ({overflow: computeValue(payload),})
+    })
+    ({
+        alias: 'overflow-x',
+        callable: (payload) =>
+            ({overflowX: computeValue(payload),})
+    })
+    ({
+        alias: 'overflow-y',
+        callable: (payload) =>
+            ({overflowY: computeValue(payload),})
+    })
+
+    /**
      * Position
      */
     ({
         alias: 'position',
         callable: (payload) =>
-            ({position: computeValue(payload),})
+            ({position: `${payload.value}`,})
     })
     ({
         alias: 'top',
@@ -200,6 +256,16 @@ addRule
         alias: 'left',
         callable: (payload) =>
             ({left: computeValue(payload),})
+    })
+    ({
+        alias: 'inset',
+        callable: (payload) =>
+            ({inset: computeValue(payload),})
+    })
+    ({
+        alias: 'z',
+        callable: (payload) =>
+            ({zIndex: `${payload.value}`,})
     })
 
     /**
@@ -272,9 +338,8 @@ addRule
      */
     ({
         alias: 'm',
-        callable: (payload) => {
-            return ({margin: computeValue(payload),})
-        }
+        callable: (payload) =>
+            ({margin: computeValue(payload),})
     })
     ({
         alias: 'mx',
@@ -313,25 +378,88 @@ addRule
     })
 
     /**
+     * Rounded
+     */
+    ({
+        alias: 'rounded',
+        callable: (payload) => {
+            return ({borderRadius: computeSizeExpression(payload, 'border-radius', 'spacing') || computeValue(payload),})
+        }
+    })
+    ({
+        alias: 'rounded-tl',
+        callable: (payload) => ({
+            borderTopLeftRadius: computeSizeExpression(payload, 'border-radius', 'spacing') || computeValue(payload),
+        })
+    })
+    ({
+        alias: 'rounded-tr',
+        callable: (payload) => ({
+            borderTopRightRadius: computeSizeExpression(payload, 'border-radius', 'spacing') || computeValue(payload),
+        })
+    })
+    ({
+        alias: 'rounded-br',
+        callable: (payload) => ({
+            borderBottomRightRadius: computeSizeExpression(payload, 'border-radius', 'spacing') || computeValue(payload),
+        })
+    })
+    ({
+        alias: 'rounded-bl',
+        callable: (payload) => ({
+            borderBottomLeftRadius: computeSizeExpression(payload, 'border-radius', 'spacing') || computeValue(payload),
+        })
+    })
+
+
+    /**
      * Sizing
      */
     ({
         alias: 'w',
-        callable: (payload) =>
-            ({width: computeValue(payload),})
+        callable: (payload) => {
+            let size: IRuleValue;
+            if (isSizeExpression(payload.value))
+                size = computeSizeExpression(payload, 'size', 'spacing');
+            return {width: size || computeValue(payload),}
+        }
     })
     ({
         alias: 'h',
-        callable: (payload) =>
-            ({height: computeValue(payload),})
+        callable: (payload) => {
+            let size: IRuleValue;
+            if (isSizeExpression(payload.value))
+                size = computeSizeExpression(payload, 'size', 'spacing');
+            return {height: size || computeValue(payload),}
+        }
     })
     ({
         alias: 'size',
         callable: (payload) => {
-            const value = computeValue(payload);
+            let size: IRuleValue;
+            if (isSizeExpression(payload.value))
+                size = computeSizeExpression(payload, 'size', 'spacing');
+            const value = size || computeValue(payload);
+            return {width: value, height: value,}
+        }
+    })
+
+    /**
+     * Appearance
+     */
+    ({
+        alias: 'appearance',
+        callable: ({value}) => ({appearance: value,})
+    })
+
+    /**
+     * Cursor
+     */
+    ({
+        alias: 'cursor',
+        callable: ({value}) => {
             return {
-                width: value,
-                height: value,
+                cursor: value,
             }
         }
     })

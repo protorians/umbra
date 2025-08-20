@@ -1,6 +1,6 @@
 {
   "name": "@widgetui/core",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "",
   "type": "module",
   "main": "./build/index.js",
@@ -43,6 +43,8 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@babel/parser": "^7.28.0",
+    "@babel/traverse": "^7.28.0",
     "@protorians/animetric": "workspace:",
     "@protorians/colorimetric": "workspace:",
     "@protorians/core": "workspace:",

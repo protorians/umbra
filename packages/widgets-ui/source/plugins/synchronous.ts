@@ -29,9 +29,9 @@ export class Synchronous {
         switch (this._command) {
             case CompilationCommand.Build:
             case CompilationCommand.Production:
-                return `${this._directories.assets}/.widgets-ui.library.css`;
+                return `${this._directories.assets}/.widgets-ui.lib.css`;
         }
-        return `${this._directories.root}/.widgets/ui.library.css`;
+        return `${this._directories.root}/.widgets/widgetui.css`;
     }
 
     static get command(): CompilationCommand {
@@ -74,7 +74,7 @@ export class Synchronous {
             fs.writeFileSync(
                 this.file,
                 `/* WidgetUI generated */
-@layer core, theme, layout, base, components, utilities;
+@layer core, theme, layout, base, kit, components, utilities;
 ${content}\n`
             );
         } catch (e) {

@@ -1,5 +1,5 @@
 import {IRuleOptions, IRulePayload, IRuleCallable, IRuleCallablesMap, IRuleCallables} from "../types/index.js";
-import {Compilator} from "./compilator.js";
+import {Compilate} from "./compilate.js";
 
 /**
  * The RulesDirectives class provides a static structure for managing and accessing directives (rule callables)
@@ -100,7 +100,7 @@ export function getRule(alias: string): IRuleCallable | undefined {
  * @returns {typeof addRule} The function itself to allow chaining.
  */
 export function addRule(options: IRuleOptions): typeof addRule {
-    Compilator.setRulePriority(options.alias, options.order || 0);
+    Compilate.setRulePriority(options.alias, options.order || 0);
     RulesDirectives.add(options.alias, (payload: IRulePayload) =>
         options.callable(payload));
     return addRule;
