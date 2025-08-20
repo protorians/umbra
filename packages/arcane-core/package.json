@@ -1,7 +1,7 @@
 {
   "displayName": "Protorians:ArcaneCore",
   "name": "@protorians/arcane-core",
-  "version": "0.1.6",
+  "version": "0.3.0",
   "description": "Protorians Arcane Core",
   "type": "module",
   "main": "build/index.js",
@@ -29,7 +29,7 @@
     "@types/cli-progress": "^3.11.6",
     "@types/node": "^18.7.13",
     "ts-node": "^10.9.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@protorians/core": "workspace:",

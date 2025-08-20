@@ -32,7 +32,7 @@ export namespace NumberUtility {
      * @return {number} The adjusted percentage value, constrained between 0 and 100.
      */
     export function percent(value: number): number {
-        return value < 0 ? 0 : (value > 100 ? 100 : value);
+        return clamp(value, 0, 100)
     }
 
     /**
@@ -44,7 +44,7 @@ export namespace NumberUtility {
      * @return {number} The adjusted value, constrained between 0 and 1.
      */
     export function decimalPercent(value: number): number {
-        return value < 0 ? 0 : (value > 1 ? 1 : value);
+        return clamp(value, 0, 1)
     }
 
     /**
@@ -55,6 +55,17 @@ export namespace NumberUtility {
      */
     export function clamp(value: number, min: number, max: number): number {
         return Math.min(Math.max(value, min), max);
+    }
+
+
+    /**
+     * Determines if a given number is a floating-point number.
+     *
+     * @param {number} value - The number to be evaluated.
+     * @return {boolean} Returns true if the number is a floating-point number, otherwise false.
+     */
+    export function floated(value: number): boolean {
+        return !isNaN(value) && parseFloat(String(value)) === Number(value) && value % 1 !== 0;
     }
 
     /**

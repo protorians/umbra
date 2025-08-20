@@ -41,6 +41,7 @@ export interface IThemeAccordionOption {
 
 export interface IThemeAccordionOptions {
     type?: AccordionType;
+    outline?: boolean;
     defaultIndex?: IThemeAccordionIndex;
     direction?: AligningDirection;
     children?: IThemeAccordionChildren;

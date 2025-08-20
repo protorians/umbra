@@ -1,16 +1,15 @@
 import {type ThemeNavbarOptions} from "./type.js";
 import {
-    Color,
     declarationExplodes,
     type ICommonAttributes,
     type IWidgetDeclaration,
     type IWidgetNode,
-    Row,
     Style,
-    ObjectElevation
+    Navbar,
+    Row,
+    createRef, Layer,
 } from "@protorians/widgets";
 import {ITheme} from "../../types/index.js";
-import {LayerVariant} from "../../enums.js";
 
 
 export function ThemeNavbar(
@@ -22,68 +21,115 @@ export function ThemeNavbar(
         declaration,
         extended
     } = declarationExplodes<IWidgetDeclaration<HTMLElement, ThemeNavbarOptions & ICommonAttributes>, ThemeNavbarOptions>(
-        declarations, ['variant', 'fixed', 'children']
+        declarations, ['children', 'direction', 'indicators', 'styles', 'separator'],
     )
 
-    const coloring = theme.coloringResolves(extended.variant || LayerVariant.Normal)
-    const isNude = (
-        extended.variant == LayerVariant.Text ||
-        extended.variant == LayerVariant.Link
-    );
-    const fixed = typeof extended.fixed === 'undefined' ? true : extended.fixed;
-    const spacing = theme.settings.spacing || '.5rem';
-
     declaration.style = Style({
-        ...theme.stylesheets.declarations
+        flex: '1 1 auto',
     })
         .merge(declaration.style)
+        .merge(extended.styles?.widget)
         .merge({
-            boxShadow: isNude ? 'none' : `${theme.stylesheets.declarations.boxShadow}`,
-            position: fixed ? 'fixed' : 'sticky',
-            display: 'flex',
-            margin: spacing,
-            bottom: `${fixed ? 0 : spacing}`,
-            left: '0',
-            right: '0',
-            justifyContent: "space-around",
-            alignItems: 'space-around',
-            flexDirection: 'row',
-            backdropFilter: 'blur(var(--widget-blurred, 1.6rem))',
-            color: Color[coloring.fore || 'text'],
-            borderColor: Color[coloring.edge || 'tint-100-a8'],
-            backgroundColor: Color[`${coloring.back || 'tint-500-a8'}`],
-            scrollbarWidth: 'none',
-            width: '100%',
-            maxWidth: `calc(100vw - (2 * ${spacing}))`,
-            minHeight: '32px',
+            position: 'relative',
+            display: "flex",
+            flexDirection: extended.direction === 'row' ? 'column' : 'row',
         })
 
-    declaration.children = extended.children.map(btn => {
-        return btn.style({
-            display: 'flex',
-            flexDirection: 'column',
-            // flex: '1 1 auto',
-            padding: '0',
-            alignSelf: 'normal',
-            justifyContent: 'center',
-            alignItems: 'center',
-            '& > i': Style({
+    const drawerRef = createRef();
+    const children = [
+        Row({
+            style: Style({
+                position: 'relative',
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                fontSize: 1.3,
-                flex: '1 1 auto',
-                lineHeight: '0',
+                flexDirection: extended.direction || 'row',
+                gap: theme.settings.gap,
             }),
-            '& > span': Style({
-                opacity: '.5',
-                // paddingY: .3,
-            })
-        });
-    })
+            children:
+                extended.children
+                    .map(btn => {
+                        const indicatorRef = createRef();
 
-    declaration.elevate = ObjectElevation.Float;
+                        const open = () => {
+                            indicatorRef.current?.clear().content(extended.indicators?.up?.clone())
+                            drawerRef.current?.style({display: 'flex'})
+                            status = true
+                        }
 
-    return Row(declaration as IWidgetDeclaration<HTMLElement, ICommonAttributes>)
+                        const close = () => {
+                            indicatorRef.current?.clear().content(extended.indicators?.down?.clone())
+                            drawerRef.current?.style({display: 'none'})
+                            status = false
+                        }
+
+                        const toggle = () => {
+                            if (status) close()
+                            else open()
+                        }
+                        let status: boolean = false
+
+                        return Row({
+                            style: Style({
+                                alignItems: 'center',
+                                gap: `calc(var(--widget-gap) * .5)`,
+                            }).merge(extended.styles?.item),
+                            children: [
+                                btn.icon,
+                                btn.trigger
+                                    .attribute({
+                                        tabindex: 0,
+                                    })
+                                    .listen('click', () => toggle())
+                                    .listen('blur', () => close())
+                                    .style(
+                                        Style({
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            padding: '0',
+                                            alignSelf: 'normal',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            fontSize: 'medium',
+                                            cursor: !btn.children ? 'pointer' : 'default',
+                                            '& > i': Style({
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'flex-end',
+                                                alignItems: 'center',
+                                                fontSize: 'small',
+                                                flex: '1 1 auto',
+                                                lineHeight: '0',
+                                            }),
+                                            '& > span': Style({
+                                                fontSize: 'inherit',
+                                                // paddingY: .3,
+                                            })
+                                        })
+                                    ),
+                                Row({
+                                    ref: indicatorRef,
+                                    children: btn.children ? extended.indicators?.down?.clone() : undefined,
+                                })
+                            ]
+                        })
+                    }),
+        }),
+        Layer({
+            ref: drawerRef,
+            style: Style({
+                position: 'absolute',
+                top: '120%',
+                insetInline: '0',
+                display: 'none',
+                maxWidth: '100vw',
+                maxHeight: '50vh',
+                padding: 1,
+
+                backgroundColor: 'red',
+                height: '50vh',
+            }),
+            children: undefined
+        })
+    ];
+
+    return Navbar({...declaration, children} as IWidgetDeclaration<HTMLElement, ICommonAttributes>)
 }

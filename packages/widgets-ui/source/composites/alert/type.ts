@@ -8,7 +8,7 @@ import {AlertStatus} from "./enum.js";
 
 export interface ThemeAlertOptions {
     variant?: LayerVariant;
-    outline?: boolean;
+    // outline?: boolean;
     closer?: boolean;
     collapsible?: boolean;
     collapseSize?: number;

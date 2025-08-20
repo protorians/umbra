@@ -38,6 +38,17 @@ export class HeaderFrameWidget extends WidgetNode<HTMLElement, ICommonAttributes
     };
 }
 
+/**
+ * @description HeaderFrame Widget
+ */
+@Mountable()
+@Composable()
+export class NavbarWidget extends WidgetNode<HTMLElement, ICommonAttributes> {
+    get tag(): string {
+        return 'navbar'
+    };
+}
+
 
 /**
  * @description FooterFrame Widget
@@ -85,7 +96,7 @@ export function Section(declaration: IWidgetDeclaration<HTMLElement, ICommonAttr
  * @param declaration
  * @constructor
  */
-export function MainFrame(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): MainFrameWidget {
+export function MainWidget(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): MainFrameWidget {
     return new MainFrameWidget(declaration)
 }
 
@@ -94,7 +105,7 @@ export function MainFrame(declaration: IWidgetDeclaration<HTMLElement, ICommonAt
  * @param declaration
  * @constructor
  */
-export function HeaderFrame(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): HeaderFrameWidget {
+export function HeaderWidget(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): HeaderFrameWidget {
     return new HeaderFrameWidget(declaration)
 }
 
@@ -103,7 +114,7 @@ export function HeaderFrame(declaration: IWidgetDeclaration<HTMLElement, ICommon
  * @param declaration
  * @constructor
  */
-export function FooterFrame(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): FooterFrameWidget {
+export function FooterWidget(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): FooterFrameWidget {
     return new FooterFrameWidget(declaration)
 }
 
@@ -112,6 +123,15 @@ export function FooterFrame(declaration: IWidgetDeclaration<HTMLElement, ICommon
  * @param declaration
  * @constructor
  */
-export function AsideFrame(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): AsideFrameWidget {
+export function AsideWidget(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): AsideFrameWidget {
     return new AsideFrameWidget(declaration)
+}
+
+/**
+ * @description Construct's Function of `NavbarWidget`
+ * @param declaration
+ * @constructor
+ */
+export function Navbar(declaration: IWidgetDeclaration<HTMLElement, ICommonAttributes>): NavbarWidget {
+    return new NavbarWidget(declaration)
 }

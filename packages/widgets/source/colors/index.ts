@@ -171,46 +171,62 @@ export class ColorPalette {
         return parsed ? this.algorithm.toString(parsed) : undefined;
     }
 
-    static variable<T extends IColorExtended<IColorKey>>(key: T) {
-        const schemes = Object.values(ColorSchemeType);
+    static generate(color: string, key: string) {
+        const parsed = this.algorithm.parse(color);
+        if (!parsed) return undefined;
 
+        const xpath = `${key as string}`.split('-')
+        const variants = xpath.slice(1);
+        let calculate: IColorOklch | undefined = parsed;
+
+        for (let index = 0; index < variants.length; index++)
+            if (calculate) calculate = this.algorithm.variation(calculate, variants[index])
+
+        if (!calculate) return undefined;
+
+        return this.algorithm.toString(calculate);
+    }
+
+    static generateVariables<T extends IColorExtended<IColorKey>>(key: T, provider?: Partial<IColorScheme>) {
+        const schemes = Object.values(ColorSchemeType);
+        const values: Record<string, string> = {};
         const parsed = schemes
             .map(type => {
                 if (!type) return undefined;
 
-                const scheme = this[type]
+                const scheme = provider || this[type];
                 const xpath = `${key as string}`.split('-')
                 const color = scheme[xpath[0]] || undefined
 
                 if (!color) return undefined;
+                values[type] = String(this.generate(color, key));
 
-                const parsed = this.algorithm.parse(color);
-                if (!parsed) return undefined;
-
-                const variants = xpath.slice(1);
-                let value = this.algorithm.toString(parsed);
-
-                let calculate: IColorOklch | undefined = parsed;
-
-                for (let index = 0; index < variants.length; index++)
-                    if (calculate) calculate = this.algorithm.variation(calculate, variants[index])
-
-                if (!calculate) return undefined;
-                value = this.algorithm.toString(calculate);
-
-                this.declarations[`--color-${type}-${key}` as IStyleSheetPropertyKey] = value;
-
-                return {type, value};
+                return {type, value: values[type]};
             })
             .filter(v => typeof v !== 'undefined')
 
+        return {
+            name: `--color-${key}`,
+            lightName: `--color-light-${key}`,
+            darkName: `--color-dark-${key}`,
+            value: `light-dark(${
+                parsed.map(({type}) =>
+                    `var(--color-${type}-${key})`
+                ).join(',')
+            })`,
+            light: `${values.light}`,
+            dark: `${values.dark}`,
+        };
 
+    }
+
+    static variable<T extends IColorExtended<IColorKey>>(key: T) {
+        const generated = this.generateVariables(key);
         const stylesheets: IStyleSheetDeclarations = {};
-        this.declarations[`--color-${key}` as IStyleSheetPropertyKey] = `light-dark(${
-            parsed.map(({type}) =>
-                `var(--color-${type}-${key})`
-            ).join(',')
-        })`
+        this.declarations[`--color-light-${key}` as IStyleSheetPropertyKey] = generated.light;
+        this.declarations[`--color-dark-${key}` as IStyleSheetPropertyKey] = generated.dark;
+        this.declarations[`--color-${key}` as IStyleSheetPropertyKey] = generated.value;
+
         stylesheets[':root, :host'] = Style(this.declarations);
         this.stylesheet()
             ?.sync(stylesheets)

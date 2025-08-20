@@ -8,5 +8,14 @@ export namespace FileUtility {
             reader.readAsDataURL(blob);
         });
     }
+    
+    export function JsonParser(input: string): any {
+        return JSON.parse(
+            input
+                .replace(/\/\/.*(?=[\n\r])/g, '')
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/,\s*([}\]])/g, '$1')
+        );
+    }
 
 }

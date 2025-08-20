@@ -1,6 +1,6 @@
 {
   "name": "@protorians/colorimetric",
-  "version": "0.0.28",
+  "version": "0.3.0",
   "description": "Color Manager",
   "main": "./build/index.js",
   "type": "module",
@@ -23,6 +23,6 @@
     "@protorians/core": "workspace:"
   },
   "peerDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }

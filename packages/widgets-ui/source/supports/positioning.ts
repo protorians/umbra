@@ -3,7 +3,7 @@ import {PositioningCoordinate, PositioningOptions} from "../types/index.js";
 import {Callable, Environment} from "@protorians/core";
 
 
-export class Positioning {
+export class UiPositioning {
 
     static alwaysOnScreen(
         widget: IWidgetNode<any, any>,

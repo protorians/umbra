@@ -8,10 +8,13 @@ import {
 } from "./type.js";
 import {AligningDirection, Column, createRef, Stack, Style} from "@protorians/widgets";
 import {AccordionStatus, AccordionType} from "./enum.js";
+import {ITheme} from "../../types/index.js";
+import {LayerVariant} from "../../enums.js";
 
 
 export function ThemeAccordion(
-    {type, defaultIndex, children, direction, styles}: IThemeAccordionOptions
+    theme: ITheme,
+    {type, defaultIndex, children, direction, styles, outline}: IThemeAccordionOptions
 ) {
 
     type = typeof type === 'undefined' ? AccordionType.Single : type;
@@ -21,9 +24,11 @@ export function ThemeAccordion(
     const accordionEntries: IThemeAccordionEntries = {}
     const latest: Record<AccordionStatus, IThemeAccordionIndex> = {} as Record<AccordionStatus, IThemeAccordionIndex>;
 
-    return Stack({
+    return theme.Layer({
+        variant: LayerVariant.Normal,
+        outline,
         style: Style({
-            ...styles?.widget,
+            // ...styles?.widget,
             flexDirection: typeof direction == 'undefined' ? 'column' : direction,
         }),
         children: [
@@ -104,7 +109,7 @@ export function ThemeAccordion(
                     wrapper: itemRef,
                 }
 
-                trigger.listen('click', () => accordion.toggle())
+                // trigger.listen('click', () => accordion.toggle())
 
                 return Stack({
                     ref: itemRef,
@@ -121,10 +126,14 @@ export function ThemeAccordion(
                     children: [
                         Stack({
                             ref: triggerRef,
+                            tabindex: 0,
                             style: Style({
                                 cursor: 'pointer',
                                 ...styles?.trigger,
                             }),
+                            listen: {
+                                click: () => accordion.toggle()
+                            },
                             children: trigger.style({
                                 flex: '1 1 auto',
                             })
@@ -132,8 +141,9 @@ export function ThemeAccordion(
                         Column({
                             ref: contentRef,
                             style: Style({
-                                justifyContent: 'flex-start',
-                                alignItems: 'flex-start',
+                                flex: '1 1 auto',
+                                justifyContent: 'initial',
+                                alignItems: 'initial',
                                 ...styles?.content,
                                 overflow: 'hidden',
                                 padding: '0',

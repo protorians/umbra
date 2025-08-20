@@ -11,6 +11,7 @@ Une bibliothèque d'utilitaires puissante et flexible pour les applications Java
   - [Dictionnaires](#dictionnaires)
   - [Collections](#collections)
   - [Environnement](#environnement)
+  - [Climbing](#climbing)
 - [Utilisation de base](#utilisation-de-base)
 - [Fonctionnalités avancées](#fonctionnalités-avancées)
   - [Pile de signaux](#pile-de-signaux)
@@ -24,6 +25,9 @@ Une bibliothèque d'utilitaires puissante et flexible pour les applications Java
   - [Dictionnaire](#dictionnaire-1)
     - [Propriétés](#propriétés-1)
     - [Méthodes](#méthodes-1)
+  - [Climbing](#climbing-1)
+    - [Propriétés](#propriétés-2)
+    - [Méthodes](#méthodes-2)
   - [Utilitaires](#utilitaires-1)
     - [Texte](#texte)
     - [Nombre](#nombre)
@@ -147,6 +151,45 @@ if (Environment.Client) {
 }
 ```
 
+### Climbing
+
+L'utilitaire Climbing fournit un moyen de traiter des tableaux d'éléments de manière asynchrone et séquentielle. Il est particulièrement utile pour gérer des opérations qui doivent être effectuées l'une après l'autre, chaque étape pouvant être asynchrone.
+
+```typescript
+import { Climbing } from '@protorians/core';
+
+// Tableau d'éléments à traiter
+const items = [1, 2, 3, 4, 5];
+
+// Créer une nouvelle instance de Climbing
+const climbing = new Climbing(
+  items,
+  // Fonction de callback asynchrone qui traite chaque élément
+  async (index) => {
+    const item = items[index];
+    console.log(`Traitement de l'élément ${item}`);
+
+    // Simuler une opération asynchrone
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    return item * 2; // Retourner le résultat traité
+  }
+);
+
+// Déclencher le processus d'escalade
+climbing.trigger((result) => {
+  console.log('Tous les éléments ont été traités');
+  console.log('Résultats:', result.responses); // [2, 4, 6, 8, 10]
+});
+```
+
+La classe Climbing fournit les fonctionnalités suivantes :
+- Traitement séquentiel des éléments du tableau
+- Support des opérations asynchrones
+- Collection des résultats traités
+- Gestion des erreurs avec des modes strict et non-strict
+- Contrôle du point de départ du traitement
+
 ## Utilisation de base
 
 ```typescript
@@ -194,7 +237,7 @@ const truncated = TextUtility.truncate('Ceci est un texte long', 10); // 'Ceci e
 const formatted = NumberUtility.isNumber(1234.56); // true
 
 // Utiliser les utilitaires d'objet
-const merged = ObjectUtility.unWrapArray([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const merged = ObjectUtility.unWrap([[1, 2, 3, [4, 5, 6]], [7, 8], [9]]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 ## Fonctionnalités avancées
@@ -217,12 +260,12 @@ const signal = new Signal.Stack<{
 // Ajouter un écouteur avec une priorité élevée
 signal.listen('calculate', ({ a, b }) => {
   return a + b;
-}, { index: 0 });
+});
 
 // Ajouter un écouteur avec une priorité plus basse
 signal.listen('calculate', ({ a, b }) => {
   console.log(`Calcul de ${a} + ${b}`);
-}, { index: 1 });
+});
 
 // Dispatcher et obtenir le résultat calculé
 signal.dispatch('calculate', { a: 5, b: 3 });
@@ -391,6 +434,23 @@ La classe Dictionary fournit un magasin clé-valeur typé.
 - `many(values)` : Définit plusieurs valeurs
 - `values()` : Obtient toutes les valeurs
 - `keys()` : Obtient toutes les clés
+
+### Climbing
+
+La classe Climbing fournit un moyen de traiter des tableaux d'éléments de manière asynchrone et séquentielle.
+
+#### Propriétés
+
+- `responses` : Tableau contenant les résultats des opérations traitées
+- `entries` : Tableau d'éléments à traiter
+- `callback` : Fonction de callback asynchrone pour traiter chaque élément
+- `strictMode` : Mode de gestion des erreurs (strict ou non-strict)
+
+#### Méthodes
+
+- `trigger(done, start)` : Déclenche le processus d'escalade à partir d'un index spécifique
+- `create(entries, callback)` : Crée une nouvelle instance d'escalade
+- `next(prepared, next)` : Passe à l'étape suivante dans le processus d'escalade
 
 ### Utilitaires
 

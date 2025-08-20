@@ -1,5 +1,27 @@
 # @protorians/spectra
 
+## 0.2.0
+
+### Minor Changes
+
+- Refactoring
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.6.0
+
+## 0.1.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.5.0
+
 ## 0.0.11
 
 ### Patch Changes

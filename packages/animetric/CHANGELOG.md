@@ -1,5 +1,33 @@
 # @protorians/animetric
 
+## 0.3.0
+
+### Minor Changes
+
+- Refactoring
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.6.0
+
+## 0.2.0
+
+### Minor Changes
+
+- Fix bugs and add features
+
+### Patch Changes
+
+- Updated dependencies
+  - @protorians/core@0.5.0
+
+## 0.1.8
+
+### Patch Changes
+
+- Add forwarding option to slimetric animations
+
 ## 0.1.7
 
 ### Patch Changes
