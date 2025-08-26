@@ -1,5 +1,11 @@
 # @protorians/widgets
 
+## 0.9.2
+
+### Patch Changes
+
+- Add `Conductor` Class and `createConductor`
+
 ## 0.9.1
 
 ### Patch Changes
