@@ -30,6 +30,13 @@ export class Conductor<T extends IConductorScheme> implements IConductor<T> {
         return this;
     }
 
+    toArray(): IState<T[keyof T]>[] {
+        const array: IState<T[keyof T]>[] = []
+        for (const key of Object.keys(this.schematic))
+            array.push(this.states[key as keyof T])
+        return array
+    }
+
     reset(): this {
         for (const entry of Object.values(this.states) as IState<T[keyof T]>[])
             entry.reset();

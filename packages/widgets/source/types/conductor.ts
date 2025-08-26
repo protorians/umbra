@@ -11,6 +11,8 @@ export interface IConductor<T extends IConductorScheme> {
 
     effect<K extends keyof T>(name: K, callable: IStateCallable<T[K] | undefined>): this;
 
+    toArray(): IState<T[keyof T]>[];
+
     reset(): this;
 }
 
