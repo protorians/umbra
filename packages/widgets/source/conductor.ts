@@ -11,7 +11,7 @@ export class Conductor<T extends IConductorScheme> implements IConductor<T> {
     protected initializeStates(): IConductorState<T> {
         const states = {} as IConductorState<T>;
         for (const [key, value] of Object.entries(this.schematic))
-            this._states[key as keyof T] = createState(value);
+            states[key as keyof T] = createState(value);
         return states;
     }
 
