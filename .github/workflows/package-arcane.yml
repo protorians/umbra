@@ -2,7 +2,7 @@ name: arcane Package Workflow
 
 on:
   push:
-    branches: [ dev, main, stable ]
+    branches: [ dev, main, stable, publish-next ]
     paths:
       - 'packages/arcane/**'
       - '.github/workflows/package-arcane.yml'
@@ -35,5 +35,14 @@ jobs:
     with:
       package: arcane
       npm_tag: stable
+      build_env: prod
+    secrets: inherit
+
+  publish-next:
+    if: github.ref == 'refs/heads/next'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: arcane
+      npm_tag: next
       build_env: prod
     secrets: inherit

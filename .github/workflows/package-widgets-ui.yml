@@ -2,7 +2,7 @@ name: widgets-ui Package Workflow
 
 on:
   push:
-    branches: [ dev, main, stable ]
+    branches: [ dev, main, stable, publish-next ]
     paths:
       - 'packages/widgets-ui/**'
       - '.github/workflows/package-widgets-ui.yml'
@@ -35,5 +35,14 @@ jobs:
     with:
       package: widgets-ui
       npm_tag: stable
+      build_env: prod
+    secrets: inherit
+
+  publish-next:
+    if: github.ref == 'refs/heads/next'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: widgets-ui
+      npm_tag: next
       build_env: prod
     secrets: inherit

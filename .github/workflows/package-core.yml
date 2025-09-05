@@ -2,7 +2,7 @@ name: Core Package Workflow
 
 on:
   push:
-    branches: [ dev, main, stable ]
+    branches: [ dev, main, stable, publish-next ]
     paths:
       - 'packages/core/**'
       - '.github/workflows/package-core.yml'
@@ -40,5 +40,14 @@ jobs:
     with:
       package: core
       npm_tag: stable
+      build_env: prod
+    secrets: inherit
+
+  publish-next:
+    if: github.ref == 'refs/heads/next'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: core
+      npm_tag: next
       build_env: prod
     secrets: inherit
