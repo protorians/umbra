@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "git-hook:prepare-pre-push": "git config core.hooksPath .githooks && chmod +x .githooks/pre-push",
     "umbra:mode": "node bin/umbra mode",
     "umbra-build:dev": "node bin/umbra build dev",
     "umbra-build:prod": "node bin/umbra build prod",
