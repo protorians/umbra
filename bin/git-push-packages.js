@@ -22,7 +22,7 @@ function ensureRemoteExists(name, url) {
 
 function getLatestSplitCommit(subtreePath, branch) {
     console.log(`\n[split] Creating subtree split for: ${subtreePath}, ${branch}`);
-    return exec(`git subtree split --prefix=${subtreePath} main`);
+    return exec(`git subtree split --prefix=${subtreePath} ${branch}`);
 }
 
 function getRemoteHeadCommit(remoteName, branch) {
@@ -35,9 +35,33 @@ function getRemoteHeadCommit(remoteName, branch) {
 }
 
 function pushSubtree(remoteName, branch, commitHash) {
-    console.log(`[push] Pushing ${commitHash} → ${remoteName}/${branch}`);
-    exec(`git push ${remoteName} ${commitHash}:${branch} --force`);
-    console.log(`[done] ${remoteName} updated.`);
+    try {
+        console.log(`[push] Pushing ${commitHash} → ${remoteName}/${branch}`);
+        exec(`git push ${remoteName} ${commitHash}:${branch} --force`);
+        console.log(`[done] ${remoteName} updated.`);
+    } catch (e) {
+        console.log(e)
+
+    }
+}
+
+function createBranch(remoteName) {
+    exec(`git checkout -b ${remoteName}`);
+}
+
+function ensureSubtreeBranch(remote, prefix, branch) {
+  try {
+    execSync(`git ls-remote --exit-code --heads ${remote} ${branch}`, { stdio: "inherit" });
+    console.log(`✅ The branch '${branch}' already exists on ${remote}.`);
+  } catch {
+    console.log(`⚠️ The branch '${branch}' does not exist, creating...`);
+      pushSubtreeWithoutHook(remote, prefix, branch);
+  }
+}
+
+function pushSubtreeWithoutHook(remote, prefix, branch) {
+  const splitSha = execSync(`git subtree split --prefix=${prefix}`, { encoding: "utf8" }).trim();
+  execSync(`git push --no-verify ${remote} ${splitSha}:refs/heads/${branch}`, { stdio: "inherit" });
 }
 
 function run() {
@@ -52,6 +76,7 @@ function run() {
         const remoteUrl = `${REMOTE_BASE_URL}${name}.git`;
         const branch = REMOTE_BRANCH ?? getCurrentPackageBranch(name);
 
+        ensureSubtreeBranch(remoteName, subtreePath, branch)
         ensureRemoteExists(remoteName, remoteUrl);
 
         const splitCommit = getLatestSplitCommit(subtreePath, branch);
