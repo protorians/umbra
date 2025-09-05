@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #
 #echo "Protorians Automate!"
 #echo "Update workspace:* refs before pushing..."
@@ -17,4 +17,4 @@
 
 echo "Protorians Automate!"
 echo "Sync packages repositories..."
-node ./bin/git-push-packages
+node ./bin/git-push-packages.js
