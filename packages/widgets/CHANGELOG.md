@@ -1,5 +1,16 @@
 # @protorians/widgets
 
+## 0.9.3
+
+### Patch Changes
+
+- New publish worflow
+- Updated dependencies
+  - @protorians/core@0.6.2
+  - @protorians/animetric@0.3.2
+  - @protorians/colorimetric@0.3.2
+  - @protorians/spectra@0.2.2
+
 ## 0.9.2
 
 ### Patch Changes
