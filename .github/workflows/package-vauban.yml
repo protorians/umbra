@@ -1,0 +1,39 @@
+name: vauban Package Workflow
+
+on:
+  push:
+    branches: [ dev, main, stable ]
+    paths:
+      - 'packages/vauban/**'
+      - '.github/workflows/package-vauban.yml'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  workflow_dispatch:
+
+jobs:
+  publish-dev:
+    if: github.ref == 'refs/heads/dev'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: vauban
+      npm_tag: dev
+      build_env: prod
+    secrets: inherit
+
+  publish-release:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: vauban
+      npm_tag: latest
+      build_env: prod
+    secrets: inherit
+
+  publish-stable:
+    if: github.ref == 'refs/heads/stable'
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package: vauban
+      npm_tag: stable
+      build_env: prod
+    secrets: inherit
