@@ -42,7 +42,6 @@ export class TasksManager {
      * @returns {TasksManager}
      */
     run() {
-        console.warn('Tasks :', this.tasks.size)
         if (this.tasks.size === 0) return this;
 
         let x = 0;
@@ -56,6 +55,9 @@ export class TasksManager {
                 if (task.required) process.exit(1);
             }
         }
+
+        console.warn('Total tasks :', this.tasks.size)
+
         return this;
     }
 }
