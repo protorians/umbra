@@ -401,6 +401,12 @@ export class WidgetNode<E extends HTMLElement, A extends IAttributes> implements
         return this._reference || undefined;
     }
 
+    useReference(ref: IRef<E, A>): this {
+        this._reference = ref;
+        this._reference.attach(this);
+        return this;
+    }
+
     /**
      * Retrieves the locked state of the current object.
      * Indicates whether the object is in a locked state.

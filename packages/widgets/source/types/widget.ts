@@ -159,6 +159,8 @@ export interface IWidgetNode<E extends HTMLElement, A extends IAttributes> {
 
     useContext(context?: IContext<any, any>): this;
 
+    useReference(ref: IRef<E, A>): this
+
     construct(callback: ICallable<E, A, undefined>): this;
 
     clear(): this;
