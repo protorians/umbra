@@ -1,10 +1,11 @@
 import {execSync} from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import {getCurrentPackageBranch} from "../library/git.utilities.js";
 
 const SUBTREE_ROOT = './packages';
 const REMOTE_BASE_URL = 'https://github.com/protorians/';
-const REMOTE_BRANCH = process.argv[2] || 'main';
+const REMOTE_BRANCH = process.argv[2] || null;
 
 
 function exec(command) {
@@ -49,16 +50,17 @@ function run() {
         const subtreePath = path.join(SUBTREE_ROOT, name);
         const remoteName = name;
         const remoteUrl = `${REMOTE_BASE_URL}${name}.git`;
+        const branch = REMOTE_BRANCH ?? getCurrentPackageBranch(name);
 
         ensureRemoteExists(remoteName, remoteUrl);
 
-        const splitCommit = getLatestSplitCommit(subtreePath, REMOTE_BRANCH);
-        const remoteCommit = getRemoteHeadCommit(remoteName, REMOTE_BRANCH);
+        const splitCommit = getLatestSplitCommit(subtreePath, branch);
+        const remoteCommit = getRemoteHeadCommit(remoteName, branch);
 
         if (splitCommit === remoteCommit) {
             console.log(`[skip] No changes to push for ${name}.`);
         } else {
-            pushSubtree(remoteName, REMOTE_BRANCH, splitCommit);
+            pushSubtree(remoteName, branch, splitCommit);
         }
     }
 }
