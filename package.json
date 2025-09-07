@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "git-hook:prepare-pre-push": "git config core.hooksPath .githooks && chmod +x .githooks/pre-push",
     "umbra:mode": "node bin/umbra mode",
     "umbra-build:dev": "node bin/umbra build dev",
     "umbra-build:prod": "node bin/umbra build prod",
@@ -17,7 +18,12 @@
     "up:ts": "pnpm up -r typescript",
     "version": "pnpm changeset add && pnpm changeset version",
     "demo:all": "pnpm -r --filter labs/* run dev",
-    "demo:animetric": "pnpm --filter demo-animetric run start"
+    "demo:animetric": "pnpm --filter demo-animetric run start",
+    "pkg:push": "node bin/pkg push",
+    "pkg:pushes": "node bin/pkg pushes",
+    "pkg:add": "node bin/pkg add",
+    "pkg:pull": "node bin/pkg pull",
+    "pkg:pulls": "node bin/pkg pulls"
   },
   "exports": {
     "./*": "./packages/*"
@@ -33,21 +39,10 @@
     "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
     "tsx": "latest",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "vite": "^6.2.5"
   },
   "packageManager": "pnpm@10.6.5",
-  "pnpm": {
-    "overrides": {
-      "@types/jest": "^29.5.14",
-      "@types/node": "^22.14.0",
-      "jest": "^29.7.0",
-      "ts-jest": "^29.2.6",
-      "ts-node": "^10.9.2",
-      "typescript": "^5.8.3",
-      "vite": "^6.2.3"
-    }
-  },
   "dependencies": {
     "commander": "^13.1.0"
   }

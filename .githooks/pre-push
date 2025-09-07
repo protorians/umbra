@@ -1,20 +1,5 @@
-#!/bin/sh
-#
-#echo "Protorians Automate!"
-#echo "Update workspace:* refs before pushing..."
-#
-#node bin/umbra build prod
-#
-#if [[ `git status --porcelain` ]]; then
-#    echo "Update detected..."
-#    git add .
-#    git commit -m "Update internal dependencies"
-#fi
-#
-#echo "🚀 Pushing..."
-#git push
-
+#!/usr/bin/env sh
 
 echo "Protorians Automate!"
 echo "Sync packages repositories..."
-node ./bin/git-push-packages
+#node ./bin/git.pkg.push.js

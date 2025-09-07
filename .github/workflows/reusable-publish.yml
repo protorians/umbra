@@ -1,0 +1,100 @@
+name: Reusable Publish Package
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        description: Package directory name under packages/
+        required: true
+        type: string
+      npm_tag:
+        description: NPM dist-tag to use (e.g., dev, stable, latest)
+        required: false
+        type: string
+        default: latest
+      build_env:
+        description: Build environment to pass into bin/umbra (e.g., prod)
+        required: false
+        type: string
+        default: prod
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install `ts-add-js-extension`
+        run: npm i -g ts-add-js-extension
+
+      - name: Install `pnpm` globally
+        run: npm install -g pnpm
+
+      - name: Install dependencies (workspace)
+        run: pnpm -w -r i
+
+      - name: — "Prebuild Core"
+        run: |
+          cd ./packages/core 
+          pnpm i 
+          pnpm build 
+
+      - name: — "Prebuild Colorimetric"
+        run: |
+          cd ./packages/colorimetric
+          pnpm i
+          pnpm build
+
+      - name: — "Prebuild Animetric"
+        run: |
+          cd ./packages/animetric
+          pnpm i
+          pnpm build
+
+      - name: — "Prebuild ArcaneCore"
+        run: |
+          cd ./packages/arcane-core
+          pnpm i
+          pnpm build
+
+      - name: — "Prebuild Arcane"
+        run: |
+          cd ./packages/arcane
+          pnpm i
+          pnpm build
+
+      - name: Build dependencies matrix
+        run: pnpm -r build
+
+      - name: Stabilize build version
+        run: node bin/umbra build ${{ inputs.build_env }}
+
+      - name: Configure npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
+
+      - name: Build target package
+        working-directory: packages/${{ inputs.package }}
+        run: |
+          pnpm i
+          pnpm build
+
+      - name: Publish target package to NPM
+        working-directory: packages/${{ inputs.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ "${{ inputs.npm_tag }}" = "latest" ]; then
+            npm publish --access=public
+          else
+            npm publish --access=public --tag "${{ inputs.npm_tag }}"
+          fi

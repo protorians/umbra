@@ -193,6 +193,12 @@ export namespace ObjectUtility {
     }
 
 
+    export function previous<T>(array: T[], from?: T, loop: boolean = false): T | null {
+        return (from)
+            ? array[array.indexOf(from) - 1] || (loop ? array[0] || null : null)
+            : array[0] || null;
+    }
+
     export function next<T>(array: T[], from?: T, loop: boolean = false): T | null {
         return (from)
             ? array[array.indexOf(from) + 1] || (loop ? array[0] || null : null)

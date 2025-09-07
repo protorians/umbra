@@ -47,10 +47,10 @@ export function vitePlugin() {
             if (
                 source && (
                     id.endsWith(".ts") ||
-                    id.endsWith(".js") ||
-                    id.endsWith(".htm") ||
-                    id.endsWith(".html") ||
-                    id.endsWith(".svg")
+                    id.endsWith(".js")
+                    // id.endsWith(".htm") ||
+                    // id.endsWith(".html") ||
+                    // id.endsWith(".svg")
                 )
             ) {
                 const excavate = new Excavator(source, id);
