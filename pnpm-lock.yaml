@@ -86,6 +86,7 @@ importers:
         specifier: ^13.1.0
         version: 13.1.0
       ts-node:
+
         specifier: ^10.9.1
         version: 10.9.2(@types/node@22.15.32)(typescript@5.9.2)
       typescript:
@@ -134,6 +135,7 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7
       ts-node:
+
         specifier: ^10.9.1
         version: 10.9.2(@types/node@18.19.124)(typescript@5.9.2)
       typescript:
@@ -1217,9 +1219,6 @@ packages:
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-
-  '@types/node@18.19.124':
-    resolution: {integrity: sha512-hY4YWZFLs3ku6D2Gqo3RchTd9VRCcrjqp/I0mmohYeUVA5Y8eCXKJEasHxLAJVZRJuQogfd1GiJ9lgogBgKeuQ==}
 
   '@types/node@22.15.32':
     resolution: {integrity: sha512-3jigKqgSjsH6gYZv2nEsqdXfZqIFGAV36XYYjf9KGZ3PSG+IhLecqPnI310RvjutyMwifE2hhhNEklOUrvx/wA==}
@@ -2318,11 +2317,6 @@ packages:
     peerDependencies:
       '@types/node': '*'
       ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
 
   jest-diff@29.7.0:
     resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
@@ -4519,7 +4513,6 @@ snapshots:
       - babel-plugin-macros
       - supports-color
       - ts-node
-
   '@jest/core@29.7.0(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.9.2))':
     dependencies:
       '@jest/console': 29.7.0
