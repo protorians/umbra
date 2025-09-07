@@ -1,7 +1,7 @@
 import {execSync} from "child_process";
 
 /**
- * @typedef {{command: string, required: boolean}} ITaskOptions
+ * @typedef {{command: string|((TasksManager)=>void), required: boolean}} ITaskOptions
  */
 
 /**
@@ -49,7 +49,11 @@ export class TasksManager {
             x++;
             try {
                 console.warn(`Task :`, name, `[${x}/${this.tasks.size}]`);
-                execSync(`${task.command}`, {stdio: 'inherit'})
+
+                if (typeof task.command === 'function')
+                    task.command(this);
+                else
+                    execSync(`${task.command}`, {stdio: 'inherit'})
             } catch (e) {
                 console.error(e)
                 if (task.required) process.exit(1);
