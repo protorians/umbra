@@ -1,5 +1,3 @@
-import {IDynamicParameterBag, IStaticParameterBag} from "./parameter";
-
 export interface IWidgetElement {
     get context(): any;
 
@@ -27,14 +25,14 @@ export interface IWidgetElement {
 }
 
 
-export interface IStyleParameterBag extends IDynamicParameterBag<any> {
-}
-
-export interface IClassNameParameterBag extends IStaticParameterBag<any> {
-}
-
-export interface IDatasetAttributeParameterBag extends IDynamicParameterBag<any> {
-}
-
-export interface IAttributeParameterBag extends IDynamicParameterBag<any> {
-}
+// export interface IStyleParameterBag extends IDynamicParameterBag<any> {
+// }
+//
+// export interface IClassNameParameterBag extends IStaticParameterBag<any> {
+// }
+//
+// export interface IDatasetAttributeParameterBag extends IDynamicParameterBag<any> {
+// }
+//
+// export interface IAttributeParameterBag extends IDynamicParameterBag<any> {
+// }
