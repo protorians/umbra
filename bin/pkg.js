@@ -100,5 +100,35 @@ runner
         tasks.run();
     });
 
+runner
+    .command('rename')
+    .alias('rn')
+    .argument('<string>', 'Current name of the subtree (and git remote)')
+    .option('-t, --to <string>', 'New name for the subtree (and git remote)')
+    .option('-g, --git <string>', 'New Git URL for the remote')
+    .action((name, {to, git}) => {
+        const tasks = new TasksManager();
+
+        tasks
+            .add('pkg:stash.before', (tm) => stashBefore(tm))
+
+        if (to && to !== name) {
+            tasks
+                .add('pkg:rename.dir', `git mv packages/${name} packages/${to}`, true)
+                .add('pkg:rename.remote', `git remote rename ${name} ${to}`, false)
+                .add('pkg:commit.rename', `git add .`, false)
+                .add('pkg:commit.rename', `git commit -m "Rename subtree: ${name} -> ${to}" | true`, false);
+            name = to;
+        }
+
+        if (git) {
+            tasks.add('pkg:remote.ensure', () => ensureRemote(name, git));
+        }
+
+        tasks.add('pkg:stash.after', (tm) => stashAfter(tm));
+
+        tasks.run();
+    });
+
 
 runner.parse(process.argv);
