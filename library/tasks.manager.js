@@ -64,10 +64,11 @@ export class TasksManager {
                 else
                     execSync(`${task.command}`, {stdio: 'inherit'})
             } catch (e) {
-                console.error(e)
+                const hasFallback = typeof this.#onFallback === 'function';
+
+                if (!hasFallback) console.error(e);
                 if (task.required) process.exit(1);
-                if (typeof this.onFallback === 'function')
-                    this.#onFallback(name)
+                if (hasFallback) this.#onFallback(name);
             }
         }
 
