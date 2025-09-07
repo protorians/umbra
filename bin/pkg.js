@@ -21,7 +21,7 @@ runner
     .action((name, {git, branch, newer}) => {
         const tasks = (new TasksManager())
             .add('pkg:add.dir', `mkdir packages/${name}`)
-            .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
+            // .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | true`)
 
