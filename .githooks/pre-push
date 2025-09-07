@@ -2,4 +2,4 @@
 
 echo "Protorians Automate!"
 echo "Sync packages repositories..."
-node ./bin/git.pkg.push.js
+#node ./bin/git.pkg.push.js
