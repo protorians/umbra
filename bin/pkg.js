@@ -45,10 +45,7 @@ runner
     .command('pulls')
     .action(() => {
         (new TasksManager())
-            .add('pkg:pull.all', ()=>{
-                console.log('Hello')
-            })
-            // .add('pkg:pull.all', `node ./bin/git.pkg.pull.js`)
+            .add('pkg:pull.all', `node ./bin/git.pkg.pull.js`)
             .run()
     })
 
@@ -62,6 +59,25 @@ runner
             .add('pkg:pull.one', `node ./bin/git.pkg.pull.one.js ${name} ${branchArg}`)
             .run()
     })
+
+runner
+    .command('remove')
+    .alias('rm')
+    .argument("<string>", "Name of package")
+    .option("--keep-remote", "Keep the git remote (do not remove it)")
+    .action((name, opts) => {
+        const tasks = new TasksManager();
+        tasks
+            .add('pkg:remove.subtree.dir', `git rm -r --cached packages/${name}`, false)
+            .add('pkg:remove.subtree.dir.fs', `rm -rf packages/${name}`, false)
+            .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
+
+        if (!opts.keepRemote) {
+            tasks.add('pkg:remote.remove', `git remote remove ${name}`, false);
+        }
+
+        tasks.run();
+    });
 
 
 runner.parse(process.argv);

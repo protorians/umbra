@@ -45,16 +45,12 @@ function pushSubtree(remoteName, branch, commitHash) {
     }
 }
 
-function createBranch(remoteName) {
-    exec(`git checkout -b ${remoteName}`);
-}
-
 function ensureSubtreeBranch(remote, prefix, branch) {
   try {
     execSync(`git ls-remote --exit-code --heads ${remote} ${branch}`, { stdio: "inherit" });
-    console.log(`✅ The branch '${branch}' found on ${remote}.`);
+    console.log(`The branch '${branch}' found on ${remote}.`);
   } catch {
-    console.log(`⚠️ The branch '${branch}' does not exist, creating...`);
+    console.log(`The branch '${branch}' does not exist, creating...`);
       pushSubtreeWithoutHook(remote, prefix, branch);
   }
 }
