@@ -1,11 +1,14 @@
 import {Command} from "commander";
 import {TasksManager} from "../library/tasks.manager.js";
-import {getCurrentPackageBranch} from "../library/git.utilities.js";
-
-const GIT_BOILERPLATE_REPO_URL = "https://github.com/protorians/package-boilerplate.git";
+import {
+    ensureRemote,
+    getCurrentPackageBranch,
+    initNewerPackage, stashAfter,
+    stashBefore,
+    subtreeAddOrPull
+} from "../library/git.utilities.js";
 
 const runner = new Command()
-
 
 runner.name('package-manager')
     .description('Package manager');
@@ -15,23 +18,19 @@ runner
     .command('add')
     .alias('a')
     .argument("<string>", "Name of package",)
-    .option("-g, --git <string>", "Git URL",)
+    .option("-g, --git <string>", "Git URL", null)
     .option("-b, --branch <string>", "Branch name(main as default)", "main")
     .option("--newer", "Create a new package")
     .action((name, {git, branch, newer}) => {
-        const tasks = (new TasksManager())
-            .add('pkg:add.dir', `mkdir packages/${name}`)
-            // .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
-            .add('pkg:remote.git', `git remote add ${name} ${git}`)
-            .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | true`)
-
-        // if (!newer)
-        //     tasks.add('pkg:pull.subtree', `git subtree pull --prefix=packages/${name} ${name} ${branch} --squash | true`)
-
-        if (newer)
-            tasks.add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install`)
-
-        tasks.run()
+        const gitUrl = git || `https://github.com/protorians/${name}.git`;
+        (new TasksManager())
+            .add('pkg:add.dir.safe', `mkdir -p packages/${name}`)
+            .add('pkg:remote.ensure', () => ensureRemote(name, gitUrl))
+            .add('pkg:stash.before', (tm) => stashBefore(tm))
+            .add('pkg:subtree.add.or.pull', () => subtreeAddOrPull(name, branch))
+            .add('pkg:newer.init', () => initNewerPackage(newer))
+            .add('pkg:stash.after', (tm) => stashAfter(tm))
+            .run();
     })
 
 runner
