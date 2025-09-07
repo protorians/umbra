@@ -3,7 +3,7 @@ import {TasksManager} from "../library/tasks.manager.js";
 import {getCurrentPackageBranch} from "../library/git.utilities.js";
 
 const runner = new Command()
-const directory = process.cwd();
+// const directory = process.cwd();
 
 
 runner.name('package-manager')
@@ -28,9 +28,8 @@ runner
     .option("-b, --branch <string>", "Branch name(main as default)")
     .action((name, {branch}) => {
         branch = branch || getCurrentPackageBranch(name);
-        // console.log('TASK', `Pushing package ${name} to ${branch} branch...`)
         (new TasksManager())
-            .add('pkg:pushing', `git subtree push --prefix=packages/${name} ${name} ${branch}`)
+            .add('pkg:push.one', `git subtree push --prefix=packages/${name} ${name} ${branch}`)
             .run()
     })
 
@@ -38,7 +37,29 @@ runner
     .command('pushes')
     .action(() => {
         (new TasksManager())
-            .add('pkg:pushing', `node ./bin/git-push-packages.js`)
+            .add('pkg:push.all', `node ./bin/git.pkg.push.js`)
+            .run()
+    })
+
+runner
+    .command('pulls')
+    .action(() => {
+        (new TasksManager())
+            .add('pkg:pull.all', ()=>{
+                console.log('Hello')
+            })
+            // .add('pkg:pull.all', `node ./bin/git.pkg.pull.js`)
+            .run()
+    })
+
+runner
+    .command('pull')
+    .argument("<string>", "Name of package",)
+    .option("-b, --branch <string>", "Branch name(main as default)")
+    .action((name, {branch}) => {
+        const branchArg = branch ? ` ${branch}` : '';
+        (new TasksManager())
+            .add('pkg:pull.one', `node ./bin/git.pkg.pull.one.js ${name} ${branchArg}`)
             .run()
     })
 
