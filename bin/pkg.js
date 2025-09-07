@@ -21,9 +21,9 @@ runner
         (new TasksManager())
             .add('pkg:add.dir', `mkdir packages/${name}`)
             .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
+            .add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install && cd ../../`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | true`)
-            .add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install`)
             .run()
     })
 
