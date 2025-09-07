@@ -41,41 +41,11 @@ jobs:
       - name: Install dependencies (workspace)
         run: pnpm -w -r i
 
-      - name: Stabilize build version
-        run: node bin/umbra build ${{ inputs.build_env }}
-
-      - name: — "Prebuild Core"
-        run: |
-          cd ./packages/core 
-          pnpm i 
-          pnpm build 
-
-      - name: — "Prebuild Colorimetric"
-        run: |
-          cd ./packages/colorimetric
-          pnpm i
-          pnpm build
-
-      - name: — "Prebuild Animetric"
-        run: |
-          cd ./packages/animetric
-          pnpm i
-          pnpm build
-
-      - name: — "Prebuild ArcaneCore"
-        run: |
-          cd ./packages/arcane-core
-          pnpm i
-          pnpm build
-
-      - name: — "Prebuild Arcane"
-        run: |
-          cd ./packages/arcane
-          pnpm i
-          pnpm build
-
       - name: Build dependencies matrix
         run: pnpm -r build
+
+      - name: Stabilize build version
+        run: node bin/umbra build ${{ inputs.build_env }}
 
       - name: Configure npm auth
         run: |
