@@ -42,7 +42,7 @@ runner
     .action((name, {branch}) => {
         branch = branch || getCurrentPackageBranch(name);
         (new TasksManager())
-            .add('pkg:push.one', `git subtree push --prefix=packages/${name} ${name} ${branch}`)
+            .add('pkg:push.one', `git subtree push --prefix=packages/${name} ${name} ${branch}  true`)
             .run()
     })
 
