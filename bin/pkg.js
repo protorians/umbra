@@ -17,15 +17,21 @@ runner
     .argument("<string>", "Name of package",)
     .option("-g, --git <string>", "Git URL",)
     .option("-b, --branch <string>", "Branch name(main as default)", "main")
-    .action((name, {git, branch}) => {
-        (new TasksManager())
+    .option("--newer", "Create a new package")
+    .action((name, {git, branch, newer}) => {
+        const tasks = (new TasksManager())
             .add('pkg:add.dir', `mkdir packages/${name}`)
             .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
-            .add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install && cd ../../`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | true`)
-            .add('pkg:pull.subtree', `git subtree pull --prefix=packages/${name} ${name} ${branch} --squash | true`)
-            .run()
+
+        if (!newer)
+            tasks.add('pkg:pull.subtree', `git subtree pull --prefix=packages/${name} ${name} ${branch} --squash | true`)
+
+        if (newer)
+            tasks.add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install`)
+
+        tasks.run()
     })
 
 runner
