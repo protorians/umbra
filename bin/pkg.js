@@ -81,11 +81,15 @@ runner
         tasks
             .add('pkg:remove.subtree.dir', `git rm -r --cached packages/${name} | true`, false)
             .add('pkg:remove.subtree.dir.fs', `rm -rf packages/${name} | true`, false)
-        .add('pkg:commit.removal', `git add .`, false)
-        .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
+            .add('pkg:commit.removal', `git add .`, false)
+            .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
 
         if (!opts.keepRemote) {
-            tasks.add('pkg:remote.remove', `git remote remove ${name}`, false);
+            tasks.add('pkg:remote.remove', `git remote remove ${name}`, false)
+                .fallback(() => {
+                    console.log(`Remote ${name} not found`)
+                })
+            ;
         }
 
         tasks.run();
