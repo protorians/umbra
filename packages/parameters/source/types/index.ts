@@ -28,13 +28,13 @@ export interface IParameterDynamicEvents<T extends IDynamicProps<T>> {
     dispatch<K extends keyof T>(key: K): this;
 }
 
-export interface IParameterStaticEvents<T extends IDynamicProps<T>> {
-    listen<K extends keyof T>(callback: IParameterCallable<T[K]>): this;
+export interface IParameterStaticEvents<T extends IStaticProps<T>> {
+    effect(callback: IParameterCallable<T>): this;
 
-    dispatch<K extends keyof T>(key: K): this;
+    dispatch(): this;
 }
 
-export interface IDynamicParameters<T extends IDynamicProps<T>> extends IParameterStack<T>, IParameterDynamicEvents<T> {
+export interface IDynamicParametersBag<T extends IDynamicProps<T>> extends IParameterStack<T>, IParameterDynamicEvents<T> {
     readonly initial: IDynamicProps<T>;
     readonly stack: IParametersMap<T>;
 
@@ -56,7 +56,7 @@ export interface IDynamicParameters<T extends IDynamicProps<T>> extends IParamet
     remove<K extends keyof T>(key: K): this;
 }
 
-export interface IStaticParameters<T extends IStaticProps<T>> extends IParameterStack<T> {
+export interface IStaticParametersBag<T extends IStaticProps<T>> extends IParameterStack<T>, IParameterStaticEvents<T> {
     readonly initial: IStaticProps<T>;
     readonly stack: IParametersSet<T>;
 
