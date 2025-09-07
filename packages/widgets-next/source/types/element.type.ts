@@ -22,6 +22,9 @@ export interface IWidgetElement {
     destroy(): void;
 
     render(): this;
+
+    clone(): this;
+
 }
 
 
