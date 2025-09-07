@@ -31,7 +31,7 @@ export class StaticParameterBag<T extends IStaticProps<T>> implements IStaticPar
 
     add(value: T): this {
         this.stack.add(value);
-        return this;
+        return this.dispatch();
     }
 
     has(key: T): boolean {
@@ -40,16 +40,16 @@ export class StaticParameterBag<T extends IStaticProps<T>> implements IStaticPar
 
     remove(key: T): this {
         this.stack.delete(key);
-        return this;
+        return this.dispatch();
     }
 
     reset(): this {
-        return this.clear().initialize();
+        return this.clear().initialize().dispatch();
     }
 
     clear(): this {
         this.stack.clear();
-        return this;
+        return this.dispatch();
     }
 
     clone(): this {
