@@ -22,7 +22,13 @@ function ensureRemoteExists(name, url) {
 
 function getLatestSplitCommit(subtreePath, branch) {
     console.log(`\n[split] Creating subtree split for: ${subtreePath}, ${branch}`);
-    return exec(`git subtree split --prefix=${subtreePath} ${branch}`);
+    try {
+        return exec(`git subtree split --prefix=${subtreePath} ${branch}`);
+    } catch (e) {
+        // Fallback to HEAD if the provided branch is missing or invalid
+        console.warn(`[warn] Subtree split failed on branch '${branch}'. Falling back to HEAD. Error: ${e.message || e}`);
+        return exec(`git subtree split --prefix=${subtreePath} HEAD`);
+    }
 }
 
 function getRemoteHeadCommit(remoteName, branch) {
