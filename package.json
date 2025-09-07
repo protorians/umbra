@@ -24,7 +24,8 @@
     "pkg:add": "node bin/pkg add",
     "pkg:pull": "node bin/pkg pull",
     "pkg:pulls": "node bin/pkg pulls",
-    "pkg:rm": "node bin/pkg remove"
+    "pkg:rm": "node bin/pkg remove",
+    "pkg:rename": "node bin/pkg rename"
   },
   "exports": {
     "./*": "./packages/*"
