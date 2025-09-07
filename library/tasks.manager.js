@@ -22,7 +22,7 @@ export class TasksManager {
     /**
      *
      * @param {string} name
-     * @param {string} command
+     * @param {function(): void} command
      * @param {?boolean} required
      * @returns {TasksManager}
      */
