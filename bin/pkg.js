@@ -71,6 +71,7 @@ runner
         tasks
             .add('pkg:remove.subtree.dir', `git rm -r --cached packages/${name}`, false)
             .add('pkg:remove.subtree.dir.fs', `rm -rf packages/${name}`, false)
+            .add('pkg:commit.removal', `git add .`, false)
             .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
 
         if (!opts.keepRemote) {
