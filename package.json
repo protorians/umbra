@@ -19,8 +19,11 @@
     "version": "pnpm changeset add && pnpm changeset version",
     "demo:all": "pnpm -r --filter labs/* run dev",
     "demo:animetric": "pnpm --filter demo-animetric run start",
-    "pkg:push": "node bin/pkg pushes",
-    "pkg:add": "node bin/pkg add"
+    "pkg:push": "node bin/pkg push",
+    "pkg:pushes": "node bin/pkg pushes",
+    "pkg:add": "node bin/pkg add",
+    "pkg:pull": "node bin/pkg pull",
+    "pkg:pulls": "node bin/pkg pulls"
   },
   "exports": {
     "./*": "./packages/*"
