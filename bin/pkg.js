@@ -24,6 +24,7 @@ runner
             .add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install && cd ../../`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | true`)
+            .add('pkg:pull.subtree', `git subtree pull --prefix=packages/${name} ${name} ${branch} --squash | true`)
             .run()
     })
 
