@@ -2,8 +2,9 @@ import {Command} from "commander";
 import {TasksManager} from "../library/tasks.manager.js";
 import {getCurrentPackageBranch} from "../library/git.utilities.js";
 
+const GIT_BOILERPLATE_REPO_URL = "https://github.com/protorians/package-boilerplate.git";
+
 const runner = new Command()
-// const directory = process.cwd();
 
 
 runner.name('package-manager')
@@ -22,6 +23,7 @@ runner
             .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash | git remote set-url ${name} ${git}`)
+            .add('pkg:initialization', `cd packages/${name} && git clone ${GIT_BOILERPLATE_REPO_URL} . && pnpm install`)
             .run()
     })
 
