@@ -64,6 +64,7 @@ runner
     .command('remove')
     .alias('rm')
     .argument("<string>", "Name of package")
+    .option("-b, --branch <string>", "Branch name(main as default)")
     .option("--keep-remote", "Keep the git remote (do not remove it)")
     .action((name, opts) => {
         const tasks = new TasksManager();
