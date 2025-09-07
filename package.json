@@ -23,7 +23,8 @@
     "pkg:pushes": "node bin/pkg pushes",
     "pkg:add": "node bin/pkg add",
     "pkg:pull": "node bin/pkg pull",
-    "pkg:pulls": "node bin/pkg pulls"
+    "pkg:pulls": "node bin/pkg pulls",
+    "pkg:rm": "node bin/pkg remove"
   },
   "exports": {
     "./*": "./packages/*"

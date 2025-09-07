@@ -13,7 +13,11 @@ export class TasksManager {
      * @type {Map<string, ITaskOptions>}
      */
     tasks = new Map();
-
+    /**
+     *
+     * @type {(name: string)=>void}
+     */
+    #onFallback = null;
 
     /**
      *
@@ -37,6 +41,11 @@ export class TasksManager {
         return this;
     }
 
+    fallback(fallback) {
+        this.#onFallback = fallback;
+        return this;
+    }
+
     /**
      *
      * @returns {TasksManager}
@@ -57,6 +66,8 @@ export class TasksManager {
             } catch (e) {
                 console.error(e)
                 if (task.required) process.exit(1);
+                if (typeof this.onFallback === 'function')
+                    this.#onFallback(name)
             }
         }
 
