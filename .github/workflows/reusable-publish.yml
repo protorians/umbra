@@ -41,6 +41,35 @@ jobs:
       - name: Install dependencies (workspace)
         run: pnpm -w -r i
 
+      - name: Build Requirements
+        run: |
+          cd ./packages/core
+          pnpm i
+          pnpm build
+          cd ../../
+          cd ./packages/arcane-core
+          pnpm i
+          pnpm build
+          cd ../../
+          cd ./packages/arcane
+          pnpm i
+          pnpm build
+          cd ../../
+          cd ./packages/colorimetric
+          pnpm i
+          pnpm build
+          cd ../../
+          cd ./packages/animetric
+          pnpm i
+          pnpm build
+          cd ../../
+
+      - name: Build target package
+        run: |
+          cd ./packages/${{ inputs.package }}
+          pnpm i
+          pnpm build
+
       - name: Stabilize build version
         run: node bin/umbra build ${{ inputs.build_env }}
 
@@ -48,13 +77,6 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           echo "@protorians:registry=https://registry.npmjs.org/" >> ~/.npmrc
-
-      - name: Build target package
-#        working-directory: packages/${{ inputs.package }}
-        run: |
-          cd ./packages/${{ inputs.package }}
-          pnpm i
-          pnpm build
 
       - name: Publish target package to NPM
         working-directory: packages/${{ inputs.package }}
