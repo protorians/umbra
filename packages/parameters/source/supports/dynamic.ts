@@ -1,5 +1,5 @@
 import type {
-    IDynamicParameters,
+    IDynamicParametersBag,
     IDynamicProps,
     IParameter, IParameterCallable, IParameterCallableSet,
     IParametersCallableMap,
@@ -7,7 +7,7 @@ import type {
 } from "@/types";
 
 
-export class DynamicParameter<T extends IDynamicProps<T>> implements IDynamicParameters<T> {
+export class DynamicParameterBag<T extends IDynamicProps<T>> implements IDynamicParametersBag<T> {
     public readonly signal: IParametersCallableMap<T> = new Map();
 
     public readonly stack: IParametersMap<T>;
