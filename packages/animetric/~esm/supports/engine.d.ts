@@ -1,0 +1,55 @@
+import { type ISignalStack } from "@protorians/core";
+import type { IAnimetric, IAnimetricBaseOptions, IAnimetricCallable, IAnimetricEasing, IAnimetricSignalMap, IAnimetricGroup, IAnimetricGroupOptions, IAnimetricOptions, IAnimetricPayload } from "../types/index.js";
+export declare class AnimetricEngine implements IAnimetric {
+    protected _ready: boolean;
+    protected _state: IAnimetricPayload;
+    protected _options: IAnimetricOptions;
+    protected _status: boolean | null;
+    protected _begin: number;
+    protected _snap: number;
+    protected _elapsed: number;
+    protected _percent: number;
+    signal: ISignalStack<IAnimetricSignalMap>;
+    get ready(): boolean;
+    get status(): boolean | null;
+    get percent(): number;
+    get state(): Readonly<IAnimetricPayload>;
+    get options(): Readonly<IAnimetricOptions>;
+    get completed(): boolean;
+    get waves(): boolean[];
+    get gaps(): number[];
+    constructor();
+    from(...value: number[]): this;
+    to(...value: number[]): this;
+    duration(millisecondes: number): this;
+    delay(millisecondes: number): this;
+    decimal(decimal: number): this;
+    infinite(infinite: boolean): this;
+    ease(ease: IAnimetricEasing | undefined): this;
+    callable(callback: IAnimetricCallable): this;
+    initialize(): this;
+    yield(timestamp: number): this;
+    protected _playNow(): this;
+    play(): this;
+    pause(): this;
+    resume(): this;
+    stop(): this;
+}
+export declare class AnimetricGroup implements IAnimetricGroup {
+    readonly timelines: IAnimetric[];
+    readonly options?: (Partial<IAnimetricBaseOptions> & IAnimetricGroupOptions) | undefined;
+    protected _index: number | undefined;
+    signal: ISignalStack<IAnimetricSignalMap>;
+    constructor(timelines: IAnimetric[], options?: (Partial<IAnimetricBaseOptions> & IAnimetricGroupOptions) | undefined);
+    protected initialize(): this;
+    play(): this;
+    pause(): this;
+    resume(): this;
+    stop(): this;
+    replay(delay?: number): this;
+    next(): IAnimetric | undefined;
+    previous(): IAnimetric | undefined;
+    go(index: number): IAnimetric | undefined;
+}
+export declare function createAnimetric(options?: Partial<IAnimetricOptions>): AnimetricEngine;
+export declare function createAnimetricGroup(timelines: IAnimetric[], options?: Partial<IAnimetricBaseOptions>): AnimetricGroup;

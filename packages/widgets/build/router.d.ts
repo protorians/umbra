@@ -1,0 +1,31 @@
+import type { IRouter, IRouterBaseRoute, IRouterBaseScheme, IRouterConfig, IRouterRoute, IRouterScheme, IRouterSignalMap } from "./types/index.js";
+import { type ISignalStack } from "@protorians/core";
+export declare class ClientRouter<Scheme extends IRouterBaseScheme> implements IRouter<Scheme> {
+    readonly config: IRouterConfig<Scheme>;
+    static current: IRouter<any> | undefined;
+    protected _route: (IRouterRoute<any, keyof any> & IRouterBaseRoute) | undefined;
+    protected _routes: IRouterScheme<Scheme>;
+    protected _error_status: boolean;
+    signal: ISignalStack<IRouterSignalMap<Scheme>>;
+    constructor(config: IRouterConfig<Scheme>);
+    get route(): (IRouterRoute<any, keyof any> & IRouterBaseRoute) | undefined;
+    get url(): URL;
+    get uri(): string;
+    get host(): string;
+    get port(): string;
+    get protocol(): string;
+    get secured(): boolean;
+    get routes(): IRouterScheme<Scheme>;
+    query<K extends keyof Scheme>(): Scheme[K];
+    use<K extends keyof Scheme>(route: IRouterRoute<Scheme, K>): this;
+    navigate(to: string, props?: Scheme[keyof Scheme]): this;
+    open<K extends keyof Scheme>(to: K, props?: Scheme[K]): this;
+    resolve<K extends keyof Scheme>(uri: string, props?: Scheme[K]): IRouterRoute<Scheme, keyof Scheme> & IRouterBaseRoute;
+    parses(uri: string): IRouterBaseRoute;
+    match(uri: string, regex: string): RegExpMatchArray | null;
+    excavation(paramList: string[], match: RegExpMatchArray): Scheme[keyof Scheme];
+    run(): this;
+}
+export declare function useRouter<Scheme extends IRouterBaseScheme>(config: IRouterConfig<Scheme>): ClientRouter<Scheme>;
+export declare function router<Scheme extends IRouterBaseScheme>(): IRouter<Scheme> | undefined;
+export declare function route<Scheme extends IRouterBaseScheme>(): (IRouterRoute<Scheme, keyof Scheme> & IRouterBaseRoute) | undefined;

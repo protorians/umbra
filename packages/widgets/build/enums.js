@@ -1,0 +1,365 @@
+export var HttpMethod;
+(function (HttpMethod) {
+    HttpMethod["POST"] = "POST";
+    HttpMethod["GET"] = "GET";
+    HttpMethod["PUT"] = "PUT";
+    HttpMethod["PATCH"] = "PATCH";
+    HttpMethod["DELETE"] = "DELETE";
+    HttpMethod["OPTION"] = "OPTION";
+})(HttpMethod || (HttpMethod = {}));
+export var ColorSchemeType;
+(function (ColorSchemeType) {
+    ColorSchemeType["Light"] = "light";
+    ColorSchemeType["Dark"] = "dark";
+})(ColorSchemeType || (ColorSchemeType = {}));
+export var ColorimetricType;
+(function (ColorimetricType) {
+    ColorimetricType["Hex"] = "hex";
+    ColorimetricType["Oklch"] = "oklch";
+})(ColorimetricType || (ColorimetricType = {}));
+export var IntersectionDetector;
+(function (IntersectionDetector) {
+    IntersectionDetector["Ratio"] = "ratio";
+    IntersectionDetector["Intersecting"] = "intersecting";
+})(IntersectionDetector || (IntersectionDetector = {}));
+export var Axis2D;
+(function (Axis2D) {
+    Axis2D["X"] = "x";
+    Axis2D["Y"] = "y";
+})(Axis2D || (Axis2D = {}));
+export var Axis3D;
+(function (Axis3D) {
+    Axis3D["X"] = "x";
+    Axis3D["Y"] = "y";
+    Axis3D["Z"] = "z";
+})(Axis3D || (Axis3D = {}));
+export var FloatPosition;
+(function (FloatPosition) {
+    FloatPosition["Top"] = "top";
+    FloatPosition["Right"] = "right";
+    FloatPosition["Bottom"] = "bottom";
+    FloatPosition["Left"] = "left";
+})(FloatPosition || (FloatPosition = {}));
+export var Position;
+(function (Position) {
+    Position["Top"] = "top";
+    Position["Right"] = "right";
+    Position["Bottom"] = "bottom";
+    Position["Left"] = "left";
+    Position["Center"] = "center";
+})(Position || (Position = {}));
+export var PositionX;
+(function (PositionX) {
+    PositionX["Right"] = "right";
+    PositionX["Left"] = "left";
+    PositionX["Center"] = "center";
+})(PositionX || (PositionX = {}));
+export var PositionY;
+(function (PositionY) {
+    PositionY["Top"] = "top";
+    PositionY["Bottom"] = "bottom";
+    PositionY["Center"] = "center";
+})(PositionY || (PositionY = {}));
+export var InsertionPosition;
+(function (InsertionPosition) {
+    InsertionPosition["BeforeBegin"] = "BeforeBegin";
+    InsertionPosition["BeforeEnd"] = "BeforeEnd";
+    InsertionPosition["AfterBegin"] = "AfterBegin";
+    InsertionPosition["AfterEnd"] = "AfterEnd";
+})(InsertionPosition || (InsertionPosition = {}));
+export var InsertionSiblingPosition;
+(function (InsertionSiblingPosition) {
+    InsertionSiblingPosition["Before"] = "before";
+    InsertionSiblingPosition["After"] = "After";
+})(InsertionSiblingPosition || (InsertionSiblingPosition = {}));
+export var EdgePosition;
+(function (EdgePosition) {
+    EdgePosition["Start"] = "start";
+    EdgePosition["Center"] = "center";
+    EdgePosition["End"] = "end";
+})(EdgePosition || (EdgePosition = {}));
+export var AligningDirection;
+(function (AligningDirection) {
+    AligningDirection["Row"] = "row";
+    AligningDirection["RowReverse"] = "row-reverse";
+    AligningDirection["Column"] = "column";
+    AligningDirection["ColumnReverse"] = "column-reverse";
+})(AligningDirection || (AligningDirection = {}));
+export var AligningProperty;
+(function (AligningProperty) {
+    AligningProperty["JustifyContent"] = "justify-content";
+    AligningProperty["AlignItems"] = "align-items";
+    AligningProperty["AlignSelf"] = "align-self";
+    AligningProperty["AlignContent"] = "align-content";
+})(AligningProperty || (AligningProperty = {}));
+export var Aligning;
+(function (Aligning) {
+    Aligning["Start"] = "start";
+    Aligning["Center"] = "center";
+    Aligning["End"] = "end";
+    Aligning["Left"] = "left";
+    Aligning["Right"] = "right";
+    Aligning["FlexStart"] = "flex-start";
+    Aligning["FlexEnd"] = "flex-end";
+    Aligning["SpaceBetween"] = "space-between";
+    Aligning["SpaceAround"] = "space-around";
+    Aligning["SpaceEvenly"] = "space-evenly";
+    Aligning["Normal"] = "normal";
+    Aligning["Stretch"] = "stretch";
+    Aligning["SafeCenter"] = "safe center";
+    Aligning["UnsafeCenter"] = "unsafe center";
+    Aligning["First"] = "first";
+    Aligning["FirstBaseline"] = "first baseline";
+    Aligning["Last"] = "last";
+    Aligning["LastBaseline"] = "last baseline";
+    Aligning["Inherit"] = "inherit";
+    Aligning["Initial"] = "initial";
+    Aligning["Unset"] = "unset";
+})(Aligning || (Aligning = {}));
+export var TransitionMode;
+(function (TransitionMode) {
+    TransitionMode["Entry"] = "entry";
+    TransitionMode["Out"] = "out";
+})(TransitionMode || (TransitionMode = {}));
+export var ToggleOption;
+(function (ToggleOption) {
+    ToggleOption["Visibility"] = "visibility";
+    ToggleOption["Activity"] = "activity";
+    ToggleOption["Interactivity"] = "interactivity";
+    ToggleOption["Stase"] = "stase";
+})(ToggleOption || (ToggleOption = {}));
+export var TextAligning;
+(function (TextAligning) {
+    TextAligning["Left"] = "left";
+    TextAligning["Center"] = "center";
+    TextAligning["Right"] = "right";
+    TextAligning["Justify"] = "justify";
+})(TextAligning || (TextAligning = {}));
+export var AbsoluteUnit;
+(function (AbsoluteUnit) {
+    AbsoluteUnit["Cm"] = "cm";
+    AbsoluteUnit["Mm"] = "mm";
+    AbsoluteUnit["In"] = "in";
+    AbsoluteUnit["Px"] = "px";
+    AbsoluteUnit["Pt"] = "pt";
+    AbsoluteUnit["Pc"] = "pc";
+})(AbsoluteUnit || (AbsoluteUnit = {}));
+export var RelativeUnit;
+(function (RelativeUnit) {
+    RelativeUnit["Em"] = "em";
+    RelativeUnit["Ex"] = "ex";
+    RelativeUnit["Ch"] = "ch";
+    RelativeUnit["Rem"] = "rem";
+    RelativeUnit["Vw"] = "vw";
+    RelativeUnit["Vh"] = "vh";
+    RelativeUnit["VMin"] = "vmin";
+    RelativeUnit["VMax"] = "vmax";
+    RelativeUnit["Percent"] = "%";
+})(RelativeUnit || (RelativeUnit = {}));
+export var ObjectFit;
+(function (ObjectFit) {
+    ObjectFit["Cover"] = "cover";
+    ObjectFit["Contain"] = "contain";
+    ObjectFit["Fill"] = "fill";
+    ObjectFit["ScaleDown"] = "scale-down";
+    ObjectFit["None"] = "none";
+})(ObjectFit || (ObjectFit = {}));
+export var SizeExpression;
+(function (SizeExpression) {
+    SizeExpression["xxs"] = "2xs";
+    SizeExpression["xs"] = "xs";
+    SizeExpression["sm"] = "sm";
+    SizeExpression["md"] = "md";
+    SizeExpression["lg"] = "lg";
+    SizeExpression["xl"] = "xl";
+    SizeExpression["xxl"] = "2xl";
+    SizeExpression["xxxl"] = "3xl";
+    SizeExpression["full"] = "full";
+})(SizeExpression || (SizeExpression = {}));
+export var ObjectSize;
+(function (ObjectSize) {
+    ObjectSize["ExtraSmall"] = "x-small";
+    ObjectSize["Small"] = "small";
+    ObjectSize["Medium"] = "medium";
+    ObjectSize["Large"] = "large";
+    ObjectSize["ExtraLarge"] = "x-large";
+    ObjectSize["Full"] = "full";
+})(ObjectSize || (ObjectSize = {}));
+export var ObjectSizeScale;
+(function (ObjectSizeScale) {
+    ObjectSizeScale[ObjectSizeScale["Icon"] = 1] = "Icon";
+    ObjectSizeScale[ObjectSizeScale["Heading"] = 2] = "Heading";
+    ObjectSizeScale[ObjectSizeScale["Box"] = 4] = "Box";
+    ObjectSizeScale[ObjectSizeScale["Screen"] = 20] = "Screen";
+})(ObjectSizeScale || (ObjectSizeScale = {}));
+export var ObjectRounded;
+(function (ObjectRounded) {
+    ObjectRounded["None"] = "none";
+    ObjectRounded["Small"] = "small";
+    ObjectRounded["Medium"] = "medium";
+    ObjectRounded["Large"] = "large";
+    ObjectRounded["Full"] = "full";
+})(ObjectRounded || (ObjectRounded = {}));
+export var ObjectElevation;
+(function (ObjectElevation) {
+    ObjectElevation[ObjectElevation["None"] = 0] = "None";
+    ObjectElevation[ObjectElevation["Base"] = 9] = "Base";
+    ObjectElevation[ObjectElevation["Standard"] = 49] = "Standard";
+    ObjectElevation[ObjectElevation["Float"] = 99] = "Float";
+    ObjectElevation[ObjectElevation["Overlay"] = 999] = "Overlay";
+    ObjectElevation[ObjectElevation["Critical"] = 9999] = "Critical";
+})(ObjectElevation || (ObjectElevation = {}));
+export var PopupType;
+(function (PopupType) {
+    PopupType["Menu"] = "menu";
+    PopupType["Listbox"] = "listbox";
+    PopupType["Tree"] = "tree";
+    PopupType["Grid"] = "grid";
+    PopupType["Dialog"] = "dialog";
+    PopupType["Custom"] = "custom";
+})(PopupType || (PopupType = {}));
+export var AriaLayoutRole;
+(function (AriaLayoutRole) {
+    AriaLayoutRole["Banner"] = "banner";
+    AriaLayoutRole["Complementary"] = "complementary";
+    AriaLayoutRole["ContentInfo"] = "contentinfo";
+    AriaLayoutRole["Form"] = "form";
+    AriaLayoutRole["Main"] = "main";
+    AriaLayoutRole["Navigation"] = "navigation";
+    AriaLayoutRole["Region"] = "region";
+    AriaLayoutRole["Search"] = "search";
+})(AriaLayoutRole || (AriaLayoutRole = {}));
+export var AriaWidgetRole;
+(function (AriaWidgetRole) {
+    AriaWidgetRole["Alert"] = "alert";
+    AriaWidgetRole["AlertDialog"] = "alertdialog";
+    AriaWidgetRole["Button"] = "button";
+    AriaWidgetRole["Checkbox"] = "checkbox";
+    AriaWidgetRole["Dialog"] = "dialog";
+    AriaWidgetRole["Grid"] = "grid";
+    AriaWidgetRole["GridCell"] = "gridcell";
+    AriaWidgetRole["Link"] = "link";
+    AriaWidgetRole["Log"] = "log";
+    AriaWidgetRole["Marquee"] = "marquee";
+    AriaWidgetRole["Menu"] = "menu";
+    AriaWidgetRole["MenuBar"] = "menubar";
+    AriaWidgetRole["MenuItem"] = "menuitem";
+    AriaWidgetRole["MenuItemCheckbox"] = "menuitemcheckbox";
+    AriaWidgetRole["MenuItemRadio"] = "menuitemradio";
+    AriaWidgetRole["Option"] = "option";
+    AriaWidgetRole["ProgressBar"] = "progressbar";
+    AriaWidgetRole["Radio"] = "radio";
+    AriaWidgetRole["RadioGroup"] = "radiogroup";
+    AriaWidgetRole["Scrollbar"] = "scrollbar";
+    AriaWidgetRole["Slider"] = "slider";
+    AriaWidgetRole["SpinButton"] = "spinbutton";
+    AriaWidgetRole["Status"] = "status";
+    AriaWidgetRole["Switch"] = "switch";
+    AriaWidgetRole["Tab"] = "tab";
+    AriaWidgetRole["TabList"] = "tablist";
+    AriaWidgetRole["TabPanel"] = "tabpanel";
+    AriaWidgetRole["TextBox"] = "textbox";
+    AriaWidgetRole["Timer"] = "timer";
+    AriaWidgetRole["Tooltip"] = "tooltip";
+    AriaWidgetRole["Tree"] = "tree";
+    AriaWidgetRole["TreeItem"] = "treeitem";
+})(AriaWidgetRole || (AriaWidgetRole = {}));
+export var AriaContainerRole;
+(function (AriaContainerRole) {
+    AriaContainerRole["Application"] = "application";
+    AriaContainerRole["Article"] = "article";
+    AriaContainerRole["Cell"] = "cell";
+    AriaContainerRole["ColumnHeader"] = "columnheader";
+    AriaContainerRole["Definition"] = "definition";
+    AriaContainerRole["Directory"] = "directory";
+    AriaContainerRole["Document"] = "document";
+    AriaContainerRole["Feed"] = "feed";
+    AriaContainerRole["Figure"] = "figure";
+    AriaContainerRole["Group"] = "group";
+    AriaContainerRole["Heading"] = "heading";
+    AriaContainerRole["Img"] = "img";
+    AriaContainerRole["List"] = "list";
+    AriaContainerRole["ListBox"] = "listbox";
+    AriaContainerRole["ListItem"] = "listitem";
+    AriaContainerRole["Math"] = "math";
+    AriaContainerRole["None"] = "none";
+    AriaContainerRole["Presentation"] = "presentation";
+    AriaContainerRole["Row"] = "row";
+    AriaContainerRole["RowGroup"] = "rowgroup";
+    AriaContainerRole["RowHeader"] = "rowheader";
+    AriaContainerRole["Separator"] = "separator";
+    AriaContainerRole["Table"] = "table";
+    AriaContainerRole["Term"] = "term";
+    AriaContainerRole["Toolbar"] = "toolbar";
+})(AriaContainerRole || (AriaContainerRole = {}));
+export var AriaLiveRegionRole;
+(function (AriaLiveRegionRole) {
+    AriaLiveRegionRole["Alert"] = "alert";
+    AriaLiveRegionRole["Log"] = "log";
+    AriaLiveRegionRole["Marquee"] = "marquee";
+    AriaLiveRegionRole["Status"] = "status";
+    AriaLiveRegionRole["Timer"] = "timer";
+})(AriaLiveRegionRole || (AriaLiveRegionRole = {}));
+export var Displaying;
+(function (Displaying) {
+    Displaying["Block"] = "block";
+    Displaying["Inline"] = "inline";
+    Displaying["InlineBlock"] = "inline-block";
+    Displaying["Flex"] = "flex";
+    Displaying["InlineFlex"] = "inline-flex";
+    Displaying["Grid"] = "grid";
+    Displaying["InlineGrid"] = "inline-grid";
+    Displaying["FlowRoot"] = "flow-root";
+    Displaying["None"] = "none";
+    Displaying["Contents"] = "contents";
+    Displaying["BlockFlex"] = "block flex";
+    Displaying["BlockFlow"] = "block flow";
+    Displaying["BlockFlowRoot"] = "block flow-root";
+    Displaying["BlockGrid"] = "block grid";
+    Displaying["InlineFlexMulti"] = "inline flex";
+    Displaying["InlineFlow"] = "inline flow";
+    Displaying["InlineFlowRoot"] = "inline flow-root";
+    Displaying["InlineGridMulti"] = "inline grid";
+    Displaying["Table"] = "table";
+    Displaying["TableRow"] = "table-row";
+    Displaying["ListItem"] = "list-item";
+    Displaying["Inherit"] = "inherit";
+    Displaying["Initial"] = "initial";
+    Displaying["Revert"] = "revert";
+    Displaying["RevertLayer"] = "revert-layer";
+    Displaying["Unset"] = "unset";
+})(Displaying || (Displaying = {}));
+export var WidgetsNativeProperty;
+(function (WidgetsNativeProperty) {
+    WidgetsNativeProperty["Signal"] = "signal";
+    WidgetsNativeProperty["Stase"] = "stase";
+    WidgetsNativeProperty["Ref"] = "ref";
+    WidgetsNativeProperty["Children"] = "children";
+    WidgetsNativeProperty["Style"] = "style";
+    WidgetsNativeProperty["ClassName"] = "className";
+    WidgetsNativeProperty["Data"] = "data";
+    WidgetsNativeProperty["Nsa"] = "nsa";
+    WidgetsNativeProperty["On"] = "on";
+    WidgetsNativeProperty["Listen"] = "listen";
+    WidgetsNativeProperty["Features"] = "features";
+    WidgetsNativeProperty["Elevate"] = "elevate";
+})(WidgetsNativeProperty || (WidgetsNativeProperty = {}));
+export var GestureType;
+(function (GestureType) {
+    GestureType["SlideLeft"] = "slideleft";
+    GestureType["SlideRight"] = "slideright";
+    GestureType["SlideTop"] = "slidetop";
+    GestureType["SlideBottom"] = "slidebottom";
+    GestureType["SlideTopLeft"] = "slidetopleft";
+    GestureType["SlideTopRight"] = "slidetopright";
+    GestureType["SlideBottomLeft"] = "slidebottomleft";
+    GestureType["SlideBottomRight"] = "slidebottomright";
+    GestureType["SlideX"] = "slidex";
+    GestureType["SlideY"] = "slidey";
+    GestureType["Swipe"] = "swipe";
+    GestureType["Swing"] = "swing";
+    GestureType["ZoomIn"] = "zoomin";
+    GestureType["ZoomOut"] = "zoomout";
+    GestureType["DoubleTap"] = "doubletap";
+    GestureType["LongPress"] = "longpress";
+})(GestureType || (GestureType = {}));

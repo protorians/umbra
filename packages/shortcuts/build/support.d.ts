@@ -1,0 +1,35 @@
+import { IShortcutSequence, IShortcutTrigger, IShortcutSignalMap, IShortcut, IShortcutOptions } from "./types.js";
+import { ISignalStack, IUiTarget } from "@protorians/core";
+import { ShortcutScope } from "./enum.js";
+export declare class Shortcut<T extends HTMLElement> implements IShortcut<T> {
+    readonly options: IShortcutOptions;
+    protected _shortcuts: IShortcutSequence[];
+    protected actives: Set<string>;
+    protected buffer: string[];
+    protected timeout: number;
+    protected timer?: number;
+    protected enabled: boolean;
+    readonly targets: T[];
+    signal: ISignalStack<IShortcutSignalMap>;
+    get shortcuts(): IShortcutSequence[];
+    get focused(): boolean;
+    constructor(target?: IUiTarget<T>, options?: IShortcutOptions);
+    static Ctrl(keys: string): string;
+    static Shift(keys: string): string;
+    static Meta(keys: string): string;
+    static Alt(keys: string): string;
+    static Command(keys: string): string;
+    static Option(keys: string): string;
+    protected down(event: KeyboardEvent): void;
+    protected up(event: KeyboardEvent): void;
+    protected key(event: KeyboardEvent): string;
+    protected matches(sequence: string[]): boolean;
+    enable(): this;
+    disable(): this;
+    resolveScope(target: T, scope: ShortcutScope | undefined): T | HTMLElement | undefined;
+    mount(sequence: string[], trigger: IShortcutTrigger): this;
+    unmount(keys: string[]): this;
+    clear(): this;
+    destroy(): void;
+}
+export declare function createShortcut<T extends HTMLElement>(keys: string[] | string, features: IShortcutTrigger | IShortcutOptions, target?: IUiTarget<T>): IShortcut<T>;

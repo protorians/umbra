@@ -1,0 +1,33 @@
+import type { ISpectraElement, ISpectraAttributes, ISpectraAttributesBlueprint, ISpectraBlueprint, ISpectraChildren, ISpectraClassListBlueprint, ISpectraRawChildren, ISpectraStyleBlueprint, ISpectraStyleValues } from "./types.js";
+export declare class SpectraElement implements ISpectraElement {
+    readonly tagName: string;
+    private _blueprint;
+    private _tree;
+    private _removed;
+    constructor(tagName: string);
+    get blueprint(): ISpectraBlueprint;
+    get tree(): ISpectraRawChildren[];
+    get removed(): boolean;
+    get attributes(): ISpectraAttributes;
+    get dataset(): ISpectraAttributes;
+    get textContent(): string;
+    set textContent(children: string | null | undefined);
+    get value(): string;
+    set value(children: string | null | undefined);
+    children(children: ISpectraChildren): this;
+    classname(classname: string | string[]): this;
+    style(styles: ISpectraStyleValues): this;
+    attribute(attributes: ISpectraAttributes): this;
+    data(dataset: ISpectraAttributes): this;
+    prepend(children: ISpectraChildren): this;
+    append(children: ISpectraChildren): this;
+    appendChild(child: ISpectraElement): this;
+    remove(): void;
+    render(): Promise<string>;
+}
+export declare function spectraRender(instance: ISpectraElement): Promise<string>;
+export declare function spectraAttributesRender(attributes: ISpectraAttributesBlueprint): Promise<string>;
+export declare function spectraStyleRender(attributes: ISpectraStyleBlueprint): Promise<string>;
+export declare function spectraClassnameRender(classList: ISpectraClassListBlueprint): Promise<string>;
+export declare function spectraTreeRender(tree: ISpectraRawChildren[]): Promise<string>;
+export declare function spectraChildrenRender(children: ISpectraChildren): Promise<string>;

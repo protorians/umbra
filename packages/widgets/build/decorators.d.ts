@@ -1,0 +1,10 @@
+import { IViewCollection, IEncapsulatorOptions, IWidgetCollection } from "./types/index.js";
+export declare function Composable(collection?: IWidgetCollection | IViewCollection, collectionKey?: string): (target: any) => void;
+export declare function Mountable(): (target: any) => void;
+export declare function Structurable(target: any, name: string): void;
+export declare function Property(): (target: any, name: string) => void;
+export declare function State(): (target: any, name: string) => void;
+export declare function Optionator(options: IEncapsulatorOptions): (target: any) => void;
+export declare function Override(): (target: any, name: string) => void;
+export declare function Bootstrapper(): (target: any, name: string) => void;
+export declare function Defuser(): (target: any, name: string) => void;

@@ -1,4 +1,7 @@
 ### Node template
+build
+~cjs
+~esm
 # Logs
 logs
 *.log
@@ -7,7 +10,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-pnpm-lock.yaml
 .DS_store
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

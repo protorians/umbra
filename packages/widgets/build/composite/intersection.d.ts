@@ -1,0 +1,2 @@
+import { type IAttributes, type ICommonAttributes, type IWidgetDeclaration, type IntersectionProps } from "../types/index.js";
+export declare function Intersection<E extends HTMLElement, A extends IAttributes>(declaration: IWidgetDeclaration<HTMLElement, IntersectionProps<E, A> & ICommonAttributes>): (import("../types/widget.js").IWidgetNode<E, A> & object) | (import("../types/widget.js").IWidgetNode<E, A> & import("../types/widget.js").IWidgetNode<any, any>);

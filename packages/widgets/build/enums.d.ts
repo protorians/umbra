@@ -1,0 +1,330 @@
+export declare enum HttpMethod {
+    POST = "POST",
+    GET = "GET",
+    PUT = "PUT",
+    PATCH = "PATCH",
+    DELETE = "DELETE",
+    OPTION = "OPTION"
+}
+export declare enum ColorSchemeType {
+    Light = "light",
+    Dark = "dark"
+}
+export declare enum ColorimetricType {
+    Hex = "hex",
+    Oklch = "oklch"
+}
+export declare enum IntersectionDetector {
+    Ratio = "ratio",
+    Intersecting = "intersecting"
+}
+export declare enum Axis2D {
+    X = "x",
+    Y = "y"
+}
+export declare enum Axis3D {
+    X = "x",
+    Y = "y",
+    Z = "z"
+}
+export declare enum FloatPosition {
+    Top = "top",
+    Right = "right",
+    Bottom = "bottom",
+    Left = "left"
+}
+export declare enum Position {
+    Top = "top",
+    Right = "right",
+    Bottom = "bottom",
+    Left = "left",
+    Center = "center"
+}
+export declare enum PositionX {
+    Right = "right",
+    Left = "left",
+    Center = "center"
+}
+export declare enum PositionY {
+    Top = "top",
+    Bottom = "bottom",
+    Center = "center"
+}
+export declare enum InsertionPosition {
+    BeforeBegin = "BeforeBegin",
+    BeforeEnd = "BeforeEnd",
+    AfterBegin = "AfterBegin",
+    AfterEnd = "AfterEnd"
+}
+export declare enum InsertionSiblingPosition {
+    Before = "before",
+    After = "After"
+}
+export declare enum EdgePosition {
+    Start = "start",
+    Center = "center",
+    End = "end"
+}
+export declare enum AligningDirection {
+    Row = "row",
+    RowReverse = "row-reverse",
+    Column = "column",
+    ColumnReverse = "column-reverse"
+}
+export declare enum AligningProperty {
+    JustifyContent = "justify-content",
+    AlignItems = "align-items",
+    AlignSelf = "align-self",
+    AlignContent = "align-content"
+}
+export declare enum Aligning {
+    Start = "start",
+    Center = "center",
+    End = "end",
+    Left = "left",
+    Right = "right",
+    FlexStart = "flex-start",
+    FlexEnd = "flex-end",
+    SpaceBetween = "space-between",
+    SpaceAround = "space-around",
+    SpaceEvenly = "space-evenly",
+    Normal = "normal",
+    Stretch = "stretch",
+    SafeCenter = "safe center",
+    UnsafeCenter = "unsafe center",
+    First = "first",
+    FirstBaseline = "first baseline",
+    Last = "last",
+    LastBaseline = "last baseline",
+    Inherit = "inherit",
+    Initial = "initial",
+    Unset = "unset"
+}
+export declare enum TransitionMode {
+    Entry = "entry",
+    Out = "out"
+}
+export declare enum ToggleOption {
+    Visibility = "visibility",
+    Activity = "activity",
+    Interactivity = "interactivity",
+    Stase = "stase"
+}
+export declare enum TextAligning {
+    Left = "left",
+    Center = "center",
+    Right = "right",
+    Justify = "justify"
+}
+export declare enum AbsoluteUnit {
+    Cm = "cm",
+    Mm = "mm",
+    In = "in",
+    Px = "px",
+    Pt = "pt",
+    Pc = "pc"
+}
+export declare enum RelativeUnit {
+    Em = "em",
+    Ex = "ex",
+    Ch = "ch",
+    Rem = "rem",
+    Vw = "vw",
+    Vh = "vh",
+    VMin = "vmin",
+    VMax = "vmax",
+    Percent = "%"
+}
+export declare enum ObjectFit {
+    Cover = "cover",
+    Contain = "contain",
+    Fill = "fill",
+    ScaleDown = "scale-down",
+    None = "none"
+}
+export declare enum SizeExpression {
+    xxs = "2xs",
+    xs = "xs",
+    sm = "sm",
+    md = "md",
+    lg = "lg",
+    xl = "xl",
+    xxl = "2xl",
+    xxxl = "3xl",
+    full = "full"
+}
+export declare enum ObjectSize {
+    ExtraSmall = "x-small",
+    Small = "small",
+    Medium = "medium",
+    Large = "large",
+    ExtraLarge = "x-large",
+    Full = "full"
+}
+export declare enum ObjectSizeScale {
+    Icon = 1,
+    Heading = 2,
+    Box = 4,
+    Screen = 20
+}
+export declare enum ObjectRounded {
+    None = "none",
+    Small = "small",
+    Medium = "medium",
+    Large = "large",
+    Full = "full"
+}
+export declare enum ObjectElevation {
+    None = 0,
+    Base = 9,
+    Standard = 49,
+    Float = 99,
+    Overlay = 999,
+    Critical = 9999
+}
+export declare enum PopupType {
+    Menu = "menu",
+    Listbox = "listbox",
+    Tree = "tree",
+    Grid = "grid",
+    Dialog = "dialog",
+    Custom = "custom"
+}
+export declare enum AriaLayoutRole {
+    Banner = "banner",
+    Complementary = "complementary",
+    ContentInfo = "contentinfo",
+    Form = "form",
+    Main = "main",
+    Navigation = "navigation",
+    Region = "region",
+    Search = "search"
+}
+export declare enum AriaWidgetRole {
+    Alert = "alert",
+    AlertDialog = "alertdialog",
+    Button = "button",
+    Checkbox = "checkbox",
+    Dialog = "dialog",
+    Grid = "grid",
+    GridCell = "gridcell",
+    Link = "link",
+    Log = "log",
+    Marquee = "marquee",
+    Menu = "menu",
+    MenuBar = "menubar",
+    MenuItem = "menuitem",
+    MenuItemCheckbox = "menuitemcheckbox",
+    MenuItemRadio = "menuitemradio",
+    Option = "option",
+    ProgressBar = "progressbar",
+    Radio = "radio",
+    RadioGroup = "radiogroup",
+    Scrollbar = "scrollbar",
+    Slider = "slider",
+    SpinButton = "spinbutton",
+    Status = "status",
+    Switch = "switch",
+    Tab = "tab",
+    TabList = "tablist",
+    TabPanel = "tabpanel",
+    TextBox = "textbox",
+    Timer = "timer",
+    Tooltip = "tooltip",
+    Tree = "tree",
+    TreeItem = "treeitem"
+}
+export declare enum AriaContainerRole {
+    Application = "application",
+    Article = "article",
+    Cell = "cell",
+    ColumnHeader = "columnheader",
+    Definition = "definition",
+    Directory = "directory",
+    Document = "document",
+    Feed = "feed",
+    Figure = "figure",
+    Group = "group",
+    Heading = "heading",
+    Img = "img",
+    List = "list",
+    ListBox = "listbox",
+    ListItem = "listitem",
+    Math = "math",
+    None = "none",
+    Presentation = "presentation",
+    Row = "row",
+    RowGroup = "rowgroup",
+    RowHeader = "rowheader",
+    Separator = "separator",
+    Table = "table",
+    Term = "term",
+    Toolbar = "toolbar"
+}
+export declare enum AriaLiveRegionRole {
+    Alert = "alert",
+    Log = "log",
+    Marquee = "marquee",
+    Status = "status",
+    Timer = "timer"
+}
+export declare enum Displaying {
+    Block = "block",
+    Inline = "inline",
+    InlineBlock = "inline-block",
+    Flex = "flex",
+    InlineFlex = "inline-flex",
+    Grid = "grid",
+    InlineGrid = "inline-grid",
+    FlowRoot = "flow-root",
+    None = "none",
+    Contents = "contents",
+    BlockFlex = "block flex",
+    BlockFlow = "block flow",
+    BlockFlowRoot = "block flow-root",
+    BlockGrid = "block grid",
+    InlineFlexMulti = "inline flex",
+    InlineFlow = "inline flow",
+    InlineFlowRoot = "inline flow-root",
+    InlineGridMulti = "inline grid",
+    Table = "table",
+    TableRow = "table-row",
+    ListItem = "list-item",
+    Inherit = "inherit",
+    Initial = "initial",
+    Revert = "revert",
+    RevertLayer = "revert-layer",
+    Unset = "unset"
+}
+export declare enum WidgetsNativeProperty {
+    Signal = "signal",
+    Stase = "stase",
+    Ref = "ref",
+    Children = "children",
+    Style = "style",
+    ClassName = "className",
+    Data = "data",
+    Nsa = "nsa",
+    On = "on",
+    Listen = "listen",
+    Features = "features",
+    Elevate = "elevate"
+}
+export declare enum GestureType {
+    SlideLeft = "slideleft",
+    SlideRight = "slideright",
+    SlideTop = "slidetop",
+    SlideBottom = "slidebottom",
+    SlideTopLeft = "slidetopleft",
+    SlideTopRight = "slidetopright",
+    SlideBottomLeft = "slidebottomleft",
+    SlideBottomRight = "slidebottomright",
+    SlideX = "slidex",
+    SlideY = "slidey",
+    Swipe = "swipe",
+    Swing = "swing",
+    ZoomIn = "zoomin",
+    ZoomOut = "zoomout",
+    DoubleTap = "doubletap",
+    LongPress = "longpress"
+}

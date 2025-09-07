@@ -1,0 +1,39 @@
+import { declarationExplodes, EdgePosition, FloatPosition, PopupType } from "@protorians/widgets";
+import { ModalKit } from "../../kits/index.js";
+import { convertToArrayPosition } from "../../utilities/index.js";
+export function ThemeSheet(declarations) {
+    const { extended } = declarationExplodes(declarations, [
+        'scoped',
+        'trigger',
+        'children',
+        'locked',
+        'blurred',
+        'animateIn',
+        'animateOut',
+        'ariaTitle',
+        'ariaDescription',
+        'position',
+        'alignment',
+        'type',
+        'styles',
+        'reference',
+    ]);
+    return ModalKit.callable((modal) => {
+        const styles = extended.styles || {};
+        return {
+            children: (extended.children && typeof extended.children == 'function') ? extended.children(modal) : extended.children,
+            trigger: extended.trigger,
+            scoped: extended.scoped,
+            locked: extended.locked,
+            blurred: extended.blurred,
+            animateIn: extended.animateIn,
+            animateOut: extended.animateOut,
+            ariaTitle: extended.ariaTitle,
+            reference: extended.reference,
+            ariaDescription: extended.ariaDescription,
+            type: PopupType.Menu,
+            position: convertToArrayPosition(extended.position || FloatPosition.Bottom, extended.alignment || EdgePosition.Center),
+            styles
+        };
+    });
+}
