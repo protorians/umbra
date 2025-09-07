@@ -12,11 +12,14 @@ runner.name('package-manager')
 
 runner
     .command('add')
-    .option("-n, --name <string>", "Name of package",)
+    .alias('a')
+    .argument("<string>", "Name of package",)
     .option("-g, --git <string>", "Git URL",)
     .option("-b, --branch <string>", "Branch name(main as default)", "main")
-    .action(({name, git, branch}) => {
+    .action((name, {git, branch}) => {
         (new TasksManager())
+            .add('pkg:add.dir', `mkdir packages/${name}`)
+            .add('pkg:add.dir.fs', `mkdir -p packages/${name}`)
             .add('pkg:remote.git', `git remote add ${name} ${git}`)
             .add('pkg:add.subtree', `git subtree add --prefix=packages/${name} ${name} ${branch} --squash`)
             .run()
@@ -25,6 +28,7 @@ runner
 runner
     .command('push')
     .argument("<string>", "Name of package",)
+    .alias('ps')
     .option("-b, --branch <string>", "Branch name(main as default)")
     .action((name, {branch}) => {
         branch = branch || getCurrentPackageBranch(name);
@@ -35,6 +39,7 @@ runner
 
 runner
     .command('pushes')
+    .alias('psh')
     .action(() => {
         (new TasksManager())
             .add('pkg:push.all', `node ./bin/git.pkg.push.js`)
@@ -43,6 +48,7 @@ runner
 
 runner
     .command('pulls')
+    .alias('pls')
     .action(() => {
         (new TasksManager())
             .add('pkg:pull.all', `node ./bin/git.pkg.pull.js`)
@@ -51,6 +57,7 @@ runner
 
 runner
     .command('pull')
+    .alias('pl')
     .argument("<string>", "Name of package",)
     .option("-b, --branch <string>", "Branch name(main as default)")
     .action((name, {branch}) => {
@@ -71,8 +78,8 @@ runner
         tasks
             .add('pkg:remove.subtree.dir', `git rm -r --cached packages/${name} | true`, false)
             .add('pkg:remove.subtree.dir.fs', `rm -rf packages/${name} | true`, false)
-            // .add('pkg:commit.removal', `git add .`, false)
-            // .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
+        // .add('pkg:commit.removal', `git add .`, false)
+        // .add('pkg:commit.removal', `git commit -m "Remove subtree package: ${name}"`, false);
 
         if (!opts.keepRemote) {
             tasks.add('pkg:remote.remove', `git remote remove ${name}`, false);
