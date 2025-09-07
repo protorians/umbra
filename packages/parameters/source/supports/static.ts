@@ -1,9 +1,11 @@
-import type {IParametersSet, IStaticParameters, IStaticProps} from "@/types";
+import type {IParameterCallable, IParametersSet, IStaticParametersBag, IStaticProps} from "@/types";
 
 
-export class StaticParameter<T extends IStaticProps<T>> implements IStaticParameters<T> {
+export class StaticParameterBag<T extends IStaticProps<T>> implements IStaticParametersBag<T> {
 
     stack: IParametersSet<T>;
+
+    protected _effects: Set<IParameterCallable<T>> = new Set();
 
     constructor(
         public readonly initial: IStaticProps<T>,
@@ -53,4 +55,17 @@ export class StaticParameter<T extends IStaticProps<T>> implements IStaticParame
     clone(): this {
         return new (this.constructor as any)([...this.initial]);
     }
+
+    effect(callback: IParameterCallable<T>): this {
+        this._effects.add(callback);
+        return this;
+    }
+
+    dispatch(): this {
+        for (const entry of this.entries())
+            for (const callback of this._effects)
+                callback(entry);
+        return this;
+    }
+
 }
