@@ -7,12 +7,12 @@ import type {
 } from "@/types";
 
 
-export class DynamicParameterBag<T extends IDynamicProps<T>> implements IDynamicParametersBag<T> {
+export class DynamicParameterBag<T> implements IDynamicParametersBag<T> {
     public readonly signal: IParametersCallableMap<T> = new Map();
 
     public readonly stack: IParametersMap<T>;
 
-    constructor(public readonly initial: IDynamicProps<T>,) {
+    constructor(public readonly initial: Partial<IDynamicProps<T>>,) {
         this.stack = new Map();
         this.initialize();
     }
