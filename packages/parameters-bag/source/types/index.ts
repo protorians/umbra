@@ -14,7 +14,7 @@ export type IParametersCallableMap<T> = Map<keyof T, IParameterCallableSet<T>>;
 export type IParameterCallableSet<T> = Set<IParameterCallable<T[keyof T]>>;
 export type IParameterCallable<V> = (payload: V) => void;
 
-export interface IParameterStack<T extends (IDynamicProps<T> | IStaticProps<T>)> {
+export interface IParameterStack {
     reset(): this;
 
     clear(): this;
@@ -22,20 +22,20 @@ export interface IParameterStack<T extends (IDynamicProps<T> | IStaticProps<T>)>
     clone(): this;
 }
 
-export interface IParameterDynamicEvents<T extends IDynamicProps<T>> {
+export interface IParameterDynamicEvents<T> {
     listen<K extends keyof T>(key: K, callback: IParameterCallable<T[K]>): this;
 
     dispatch<K extends keyof T>(key: K): this;
 }
 
-export interface IParameterStaticEvents<T extends IStaticProps<T>> {
+export interface IParameterStaticEvents<T> {
     effect(callback: IParameterCallable<T>): this;
 
     dispatch(): this;
 }
 
-export interface IDynamicParametersBag<T extends IDynamicProps<T>> extends IParameterStack<T>, IParameterDynamicEvents<T> {
-    readonly initial: IDynamicProps<T>;
+export interface IDynamicParametersBag<T> extends IParameterStack, IParameterDynamicEvents<T> {
+    readonly initial: Partial<IDynamicProps<T>>;
     readonly stack: IParametersMap<T>;
 
     get entries(): T;
@@ -56,7 +56,7 @@ export interface IDynamicParametersBag<T extends IDynamicProps<T>> extends IPara
     remove<K extends keyof T>(key: K): this;
 }
 
-export interface IStaticParametersBag<T extends IStaticProps<T>> extends IParameterStack<T>, IParameterStaticEvents<T> {
+export interface IStaticParametersBag<T> extends IParameterStack, IParameterStaticEvents<T> {
     readonly initial: IStaticProps<T>;
     readonly stack: IParametersSet<T>;
 
