@@ -1,1 +1,2 @@
-export * from './widget.element';
+export * from './element';
+export * from './style';
