@@ -1,3 +1,5 @@
+import type {IDynamicParametersBag, IStaticParametersBag} from "@protorians/parameters-bag";
+
 export interface IWidgetElement {
     get context(): any;
 
@@ -24,18 +26,13 @@ export interface IWidgetElement {
     render(): this;
 
     clone(): this;
-
 }
 
+export interface IClassNameParameterBag extends IStaticParametersBag<any> {
+}
 
-// export interface IStyleParameterBag extends IDynamicParameterBag<any> {
-// }
-//
-// export interface IClassNameParameterBag extends IStaticParameterBag<any> {
-// }
-//
-// export interface IDatasetAttributeParameterBag extends IDynamicParameterBag<any> {
-// }
-//
-// export interface IAttributeParameterBag extends IDynamicParameterBag<any> {
-// }
+export interface IDatasetAttributeParameterBag extends IDynamicParametersBag<any> {
+}
+
+export interface IAttributeParameterBag extends IDynamicParametersBag<any> {
+}
