@@ -12,6 +12,7 @@
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@protorians/core": "workspace:",
-    "@protorians/spectra": "workspace:"
+    "@protorians/spectra": "workspace:",
+    "@protorians/parameters-bag": "workspace:"
   }
 }
