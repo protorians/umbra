@@ -209,15 +209,6 @@ importers:
         specifier: ^5.8.3
         version: 5.9.2
 
-  packages/parameters:
-    devDependencies:
-      tsup:
-        specifier: ^8.2.4
-        version: 8.5.0(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.2
-
   packages/parameters-bag:
     devDependencies:
       tsup:
@@ -365,6 +356,9 @@ importers:
       '@protorians/core':
         specifier: 'workspace:'
         version: link:../core
+      '@protorians/parameters-bag':
+        specifier: 'workspace:'
+        version: link:../parameters-bag
       '@protorians/spectra':
         specifier: 'workspace:'
         version: link:../spectra
