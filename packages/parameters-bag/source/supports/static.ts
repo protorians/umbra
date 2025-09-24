@@ -1,7 +1,7 @@
 import type {IParameterCallable, IParametersSet, IStaticParametersBag, IStaticProps} from "@/types";
 
 
-export class StaticParameterBag<T extends IStaticProps<T>> implements IStaticParametersBag<T> {
+export class StaticParameterBag<T> implements IStaticParametersBag<T> {
 
     stack: IParametersSet<T>;
 
